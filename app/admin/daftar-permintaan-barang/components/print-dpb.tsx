@@ -1,0 +1,146 @@
+import axios from "axios";
+import React, { forwardRef } from "react";
+import useSWR from "swr";
+
+interface Dpb {
+    id: number;
+    nodpb: string;
+    tanggal: string;
+    barang: Barang[];
+}
+
+interface Barang {
+    id: number;
+    nama_barang: string;
+    satuan_barang: string;
+    qty: number;
+    nama_jenis: string;
+    nama_kategori: string;
+    nama_merek: string;
+    stok: number;
+}
+
+interface TtdLap {
+    ttdlap: {
+        header: string;
+        nama_paraf: string;
+        jabatan: string;
+        isid: number;
+    }[];
+    kota: {
+        headerlap1: string;
+        headerlap2: string;
+        footerkota: string;
+    };
+}
+
+const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
+
+const PrintDPB = forwardRef<HTMLDivElement, { data: Dpb }>(({ data }, ref) => {
+    const { data: ttdLap, error: errorTtdLap, isLoading: isLoadingTtdLap } = useSWR<TtdLap>('/api/ttd-lap?tipe=DPB', fetcher);
+
+    if (isLoadingTtdLap || !ttdLap) {
+        return <div>Loading tanda tangan...</div>;
+    }
+
+    if (errorTtdLap) {
+        return <div>Gagal memuat data tanda tangan.</div>;
+    }
+
+    // Format tanggal ke Indonesia
+    const formatTanggal = new Intl.DateTimeFormat('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    }).format(new Date());
+
+    const ttdFilter = ttdLap.ttdlap.filter((e) => e.isid === 1);
+
+    return (
+        <div ref={ref} className="text-sm font-sans mx-auto w-full px-10 relative">
+            {/* Header */}
+            <div className="flex items-center space-x-2 mb-5">
+                <img className="w-16" src={'/logo.png'} alt="Logo" />
+                <div className="text-green-800 items-start">
+                    <p>{ttdLap.kota?.headerlap1}</p>
+                    <p>{ttdLap.kota?.headerlap2}</p>
+                </div>
+            </div>
+
+            <div className="flex justify-end items-center mb-2">
+                <span>DPB No. {data.nodpb}</span>
+            </div>
+            <hr className="border-black" />
+
+            {/* Judul */}
+            <h2 className="text-center font-bold mt-2">
+                DAFTAR PERMINTAAN BARANG ( DPB )
+            </h2>
+
+            {/* Info Permintaan */}
+            <p className="mt-2">
+                Kepada Yth. <strong>URUSAN / PELAKSANA PEMBELIAN</strong> <br />
+                Mohon dipesankan barang-barang seperti tersebut <br /> di bawah ini untuk disampaikan kepada:
+                <span className="inline-block w-[100px] border-b border-black border-dotted"></span> <br />
+                Barang - barang tersebut dibutuhkan segera dalam waktu
+                <span className="inline-block w-[50px] border-b border-black border-dotted"></span> hari
+            </p>
+
+            {/* Table Barang */}
+
+
+
+            <div>
+                <table className="w-full mt-4">
+                    <thead >
+                        <tr>
+                            <th className="border-[1px] border-solid border-black px-2 py-0 w-1/12 text-center">NO.</th>
+                            <th className="border-[1px] border-solid border-black px-2 py-0 w-1/12 text-center">QTY</th>
+                            <th className="border-[1px] border-solid border-black px-2 py-0 w-2/12 text-center">SATUAN</th>
+                            <th className="border-[1px] border-solid border-black px-2 py-0 w-5/12 text-center">JENIS BARANG</th>
+                            <th className="border-[1px] border-solid border-black px-2 py-0 w-1/12 text-center">STOCK</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.barang.map((item, index) => (
+                            <tr key={index}>
+                                <td className="border-[1px] border-solid border-black px-2 py-0 text-center w-1/12">{index + 1}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-0 text-right w-1/12">{item.qty}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-0 w-1/12">{item.satuan_barang}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-0 w-6/12">{item.nama_barang}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-0 text-right w-1/12">{item.stok}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                {/* Tanda Tangan */}
+                <div className="break-inside-avoid mt-4">
+                    <div className="flex flex-wrap">
+                        <div className="w-1/3" />
+                        <div className="w-1/3" />
+                        <div className="w-1/3">
+                            <p className="text-center">{`${ttdLap.kota?.footerkota}, ${formatTanggal}`}</p>
+                        </div>
+                    </div>
+
+                    <div className={`flex flex-wrap ${ttdFilter.length > 2 ? 'justify-center' : 'justify-between'}`}>
+                        {ttdFilter.map((items, index) => (
+                            <div key={index} className="text-center w-1/3 mb-8">
+                                <p>{items.header}</p>
+                                <strong>{items.jabatan}</strong>
+                                <br /><br /><br />
+                                <strong>{items.nama_paraf}</strong>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    );
+});
+
+PrintDPB.displayName = 'PrintDPB';
+
+export default PrintDPB;
