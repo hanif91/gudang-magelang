@@ -25,16 +25,7 @@ export function generateSessionToken(): string {
 	return token;
 }
 
-export async function getUserFromGoogleLogin(email : string){
-	const [data] : any = await db.query(
-		"SELECT a.id, a.email,a.nama,a.image FROM web_admin_user a WHERE a.email = ?",
-		email
-	);
-	if (data.length === 0){
-		return null
-	}
-	return data[0];
-}
+
 
 
 export async function createSession(token: string, userId: number): Promise<Session> {
