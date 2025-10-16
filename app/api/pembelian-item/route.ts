@@ -275,7 +275,7 @@ export async function POST(request: NextRequest) {
 		const requiredFields = [
 			"dpb_id",
 			"no_pembelian",
-			"no_voucher",
+			// "no_voucher",
 			// "qty",
 			// "harga_beli",
 			"tanggal",
@@ -296,7 +296,7 @@ export async function POST(request: NextRequest) {
 
 		// Ekstrak data dari formData
 		const no_pembelian = formData.get("no_pembelian") as string
-		const no_voucher = formData.get("no_voucher") as string
+		// const no_voucher = formData.get("no_voucher") as string
 		const supplier_id = Number(formData.get("supplier_id"))
 		const keterangan = formData.get("keterangan") as string
 		const tanggal = formData.get("tanggal") as string
@@ -328,9 +328,9 @@ export async function POST(request: NextRequest) {
 		// Insert data ke tabel `pembelian`
 		const [pembelianResult] = await db.execute<RowDataPacket[]>(
 			`INSERT INTO pembelian 
-					(no_pembelian, tanggal, keterangan, no_voucher, suplier_id, user_id) 
+					(no_pembelian, tanggal, keterangan, suplier_id, user_id) 
 				VALUES (?, ? , ?, ?, ?, ?)`,
-			[no_pembelian, tanggal, keterangan, no_voucher, supplier_id, user.id]
+			[no_pembelian, tanggal, keterangan, supplier_id, user.id]
 		);
 
 		const pembelianId = (pembelianResult as any).insertId;

@@ -104,7 +104,7 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
     defaultValues: {
       dpb_id: pembelian?.dpb_id ? pembelian.dpb_id : "",
       no_pembelian: pembelian?.no_pembelian ?? "",
-      no_voucher: pembelian?.no_voucher ?? "",
+      // no_voucher: pembelian?.no_voucher ?? "",
       supplier_id: pembelian?.supplier_id ?? "",
       tanggal: pembelian?.tanggal ? new Date(pembelian.tanggal).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
       // user_id: pembelian?.user_id ?? "",
@@ -178,10 +178,10 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
             </div>
 
             {/* Skeleton untuk No Voucher */}
-            <div className='space-y-2'>
+            {/* <div className='space-y-2'>
               <Skeleton className='h-4 w-1/4 rounded-md' />
               <Skeleton className='h-10 w-full rounded-md' />
-            </div>
+            </div> */}
 
             {/* Skeleton untuk Supplier */}
             <div className='space-y-2'>
@@ -325,7 +325,7 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
         />
 
         {/* Input No Voucher */}
-        <FormField
+        {/* <FormField
           control={form.control}
           name='no_voucher'
           render={({ field }) => (
@@ -341,7 +341,7 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         {/* Combobox Supplier */}
         <FormField

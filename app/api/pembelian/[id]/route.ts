@@ -18,11 +18,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
         const formData = await request.formData();
 
-        const { no_pembelian, tanggal, keterangan, no_voucher, dpb_id, supplier_id, user_id } = {
+        const { no_pembelian, tanggal, keterangan, dpb_id, supplier_id, user_id } = {
             no_pembelian: formData.get("no_pembelian") as string,
             tanggal: new Date(formData.get("tanggal") as string),
             keterangan: formData.get("keterangan") as string,
-            no_voucher: formData.get("no_voucher") as string,
             dpb_id: Number(formData.get("dpb_id")),
             supplier_id: Number(formData.get("supplier_id")),
             user_id: Number(formData.get("user_id"))
@@ -39,7 +38,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
             }, { status: 422 })
         }
 
-        const [rows] = await db.execute<RowDataPacket[]>('UPDATE pembelian set no_pembelian=?,tanggal=?,keterangan=?,no_voucher=?,dpb_id=?,supplier_id=?,user_id=? where id=?', [no_pembelian, tanggal, keterangan, no_voucher, dpb_id, supplier_id, user_id, id]);
+        const [rows] = await db.execute<RowDataPacket[]>('UPDATE pembelian set no_pembelian=?,tanggal=?,keterangan=?,dpb_id=?,supplier_id=?,user_id=? where id=?', [no_pembelian, tanggal, keterangan, dpb_id, supplier_id, user_id, id]);
 
         return NextResponse.json({
             success: true,

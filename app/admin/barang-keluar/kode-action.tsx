@@ -33,6 +33,7 @@ import { updateStatus } from "@/lib/actions/actBarangKeluar"
 interface KodeKeperluan {
     id: number;
     kode: string;
+    nama: string;
 }
 
 const fetcher = (url: string) =>
@@ -126,7 +127,7 @@ export default function KodeAction({ id_barang_keluar, kodekeper, id_kodekeper }
                                                     emptyText={isLoading ? "Loading" : "Tidak ada data"}
                                                     options={data.map((kode) => ({
                                                         value: kode.id.toString(),
-                                                        label: kode.kode,
+                                                        label: kode.kode + " - " + kode.nama,
                                                     }))}
                                                     value={field.value}
                                                     onChange={(value) => field.onChange(value)}

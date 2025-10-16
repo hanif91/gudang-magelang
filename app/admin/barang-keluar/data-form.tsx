@@ -168,6 +168,7 @@ export default function BarangKeluarForm({
   const handleAddDpbk = (dpbkId: number) => {
     setSelectedDpbks([]);
     const selectedDpbk = data?.data?.find((dpbk: any) => dpbk.id === dpbkId);
+    form.setValue("keterangan", selectedDpbk?.keterangan ?? ""); // Reset form barang setiap kali DPBK diubah
     if (selectedDpbk) {
       setSelectedDpbks((prev) => [...prev, selectedDpbk]);
     }
@@ -486,19 +487,7 @@ export default function BarangKeluarForm({
           /> */}
         </div>
 
-        <FormField
-          control={form.control}
-          name="keterangan"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Keterangan</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Keterangan" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
 
         <FormField
           control={form.control}
@@ -620,7 +609,19 @@ export default function BarangKeluarForm({
             </Table>
           </div>
         </div>
-
+        <FormField
+          control={form.control}
+          name="keterangan"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Keterangan</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Keterangan" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {/* Tombol Submit */}
         <div className="flex justify-end">
           <Button type="submit" disabled={isPending}>
