@@ -28,7 +28,7 @@ import { mutate } from "swr"
 import { deleteBarangKeluar } from "@/lib/actions/actBarangKeluar"
 
 
-export default function Actions({ id }: { id: string; }) {
+export default function Actions({ id, mutate: externalMutate }: { id: string; mutate?: () => void; }) {
   const { toast } = useToast()
   const [openDelete, setOpenDelete] = useState(false)
   const [isPending, startTransition] = useTransition()
@@ -52,7 +52,14 @@ export default function Actions({ id }: { id: string; }) {
           ),
         })
 
-        router.refresh()
+        // Use external mutate if available, otherwise use router.refresh and SWR mutate
+        if (externalMutate) {
+          externalMutate();
+        } else {
+          mutate('/api/barang-keluar');
+          router.refresh();
+        }
+        setOpenDelete(false)
       } else {
         toast({
           variant: "destructive",

@@ -65,7 +65,7 @@ interface BarangKeluar {
   barang_keluar_items: BarangKeluarItems[];
 }
 
-export default function DetailActions({ data }: { data: BarangKeluar }) {
+export default function DetailActions({ data, mutate: externalMutate }: { data: BarangKeluar; mutate?: () => void }) {
   const [openDetail, setOpenDetail] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedDeleteId, setSelectedDeleteId] = useState<number | null>(null);
@@ -92,7 +92,14 @@ export default function DetailActions({ data }: { data: BarangKeluar }) {
             </div>
           ),
         });
-        router.refresh;
+        
+        // Use external mutate if available, otherwise use SWR mutate and router.refresh
+        if (externalMutate) {
+          externalMutate();
+        } else {
+          mutate('/api/barang-keluar');
+          router.refresh();
+        }
       } else {
         toast({
           variant: "destructive",

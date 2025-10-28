@@ -12,7 +12,7 @@ export async function GET(request: Request) {
 				message: 'Unauthorize'
 			}, { status: 403 })
 		}
-		const [data] = await db.query<RowDataPacket[]>('SELECT * FROM kodekeper ORDER BY nama ASC', []);
+		const [data] = await db.query<RowDataPacket[]>('SELECT * FROM kodekeper ORDER BY kode ASC', []);
 
 		// // await db.end();
 		// console.log(data);

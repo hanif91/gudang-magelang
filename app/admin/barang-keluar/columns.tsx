@@ -177,9 +177,9 @@ export const createColumns = (mutate?: () => void): ColumnDef<BarangKeluar>[] =>
         
         <CetakAction data={row.original} /> */}
         {/* <Actions id={row.original.nobpp} /> */}
-        <DetailActions data={row.original} />
+        <DetailActions data={row.original} mutate={mutate} />
         <CetakAction data={row.original} />
-        <Actions id={row.original.id.toString()} />
+        <Actions id={row.original.id.toString()} mutate={mutate} />
       </div>
     ),
   },
