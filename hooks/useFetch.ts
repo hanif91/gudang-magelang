@@ -28,12 +28,12 @@ export default function useFetch(url : any, params : any = {}) {
   }, {});
   const string_params = new URLSearchParams(filteredParams).toString();
   const req_url = string_params ? `${url}?${string_params}` : url;
-  const { data, error, isLoading, mutate } = useSWR(req_url, fetcher, {
+  const { data, error, isLoading, mutate } = useSWR(req_url, () => fetcher(req_url), {
     revalidateOnFocus: false,
   });
 
   return {
-    data,
+    data: data??[],
     isLoading,
     error,
     mutate,

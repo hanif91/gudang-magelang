@@ -42,7 +42,7 @@ interface BarangKeluar {
   nama_bagminta: string;
   barang_keluar_items: BarangKeluarItems[];
 }
-export const columns: ColumnDef<BarangKeluar>[] = [
+export const createColumns = (mutate?: () => void): ColumnDef<BarangKeluar>[] => [
   {
     id: "index",
     header: ({ column }) => (
@@ -117,6 +117,7 @@ export const columns: ColumnDef<BarangKeluar>[] = [
             kodekeper={row.original.kodekeper}
             id_kodekeper={id_kodekeper}
             id_barang_keluar={row.original.id.toString()}
+            mutate={mutate}
           />
         </div>
       );
@@ -183,3 +184,6 @@ export const columns: ColumnDef<BarangKeluar>[] = [
     ),
   },
 ];
+
+// Untuk backward compatibility
+export const columns: ColumnDef<BarangKeluar>[] = createColumns();

@@ -9,7 +9,7 @@ import { AlertCircle, Plus } from 'lucide-react'
 import React from 'react'
 import useSWR from 'swr'
 import { DataTable } from "./data-table"
-import { columns } from "./columns"
+import { createColumns } from "./columns"
 import { useSearchParams } from "next/navigation"
 import useFetch from "@/hooks/useFetch"
 import { Label } from "@/components/ui/label"
@@ -31,10 +31,15 @@ export default  function DataTabelFilter(props: Props) {
 	// const { data, error, isLoading } = useSWR(`/api/barang-keluar?fromTanggal=${pertama}&toTanggal=${akhir}`, fetcher)
 
 	// const { data, error, isLoading } = useSWR(`/api/barang-keluar`, fetcher)
-	const { data, error, isLoading } = useFetch('/api/barang-keluar',props)
-	const { data: jenisBarang, error: errorJenisBarang, isLoading: isLoadingJenisBarang } = useSWR('/api/jenis-bk', fetcher)
-	const { data: jenisAsset, error: errorJenisAsset, isLoading: isLoadingJenisAsset } = useSWR('/api/asset-perpipaan', fetcher)
+	const { data, error, isLoading, mutate } = useFetch('/api/barang-keluar',props)
+	const { data: jenisBarang, error: errorJenisBarang, isLoading: isLoadingJenisBarang, mutate: mutateJenisBarang } = useSWR('/api/jenis-bk', fetcher)
+	const { data: jenisAsset, error: errorJenisAsset, isLoading: isLoadingJenisAsset, mutate: mutateJenisAsset } = useSWR('/api/asset-perpipaan', fetcher)
 	
+	// Create columns with mutate function
+	const columns = createColumns(mutate)
+	
+	console.log("data tabel barang keluar:",data);
+	console.log("props data tabel barang keluar:",isLoading);
 
 	if (error || errorJenisBarang || errorJenisAsset) return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">

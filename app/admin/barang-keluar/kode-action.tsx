@@ -43,7 +43,7 @@ const formSchema = z.object({
     id_kodekeper: z.string().min(1, "Kode Keperluan harus diisi"),
 });
 
-export default function KodeAction({ id_barang_keluar, kodekeper, id_kodekeper }: { id_barang_keluar: string; kodekeper: string; id_kodekeper: string; }) {
+export default function KodeAction({ id_barang_keluar, kodekeper, id_kodekeper, mutate: externalMutate }: { id_barang_keluar: string; kodekeper: string; id_kodekeper: string; mutate?: () => void; }) {
     const [openDetail, setOpenDetail] = useState(false);
     const [isPending, startTransition] = useTransition()
     const { data, isLoading, error } = useSWR<KodeKeperluan[]>("/api/kodekeper", fetcher);
@@ -69,7 +69,12 @@ export default function KodeAction({ id_barang_keluar, kodekeper, id_kodekeper }
                     description: "Data Barang Keluar berhasil disimpan!",
                 });
                 setOpenDetail(false)
-                mutate('/api/barang-keluar')
+                // Use external mutate if available, otherwise use SWR mutate
+                if (externalMutate) {
+                    externalMutate();
+                } else {
+                    mutate('/api/barang-keluar');
+                }
             } else {
                 toast({
                     variant: "destructive",
