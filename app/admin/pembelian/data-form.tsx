@@ -73,7 +73,7 @@ const fetcher = (url: any) =>
 const formSchema = z.object({
   dpb_id: z.coerce.number().min(1, "Id DPB is required"),
   no_pembelian: z.string().min(1, "No Pembelian is required"),
-  no_voucher: z.string().min(1, "No Voucher is required"),
+  // no_voucher: z.string().min(1, "No Voucher is required"),
   supplier_id: z.coerce.number().min(1, "Supplier is required"),
   // tanggal : z.string().min("Tanggal required")
   // user_id: z.coerce.number().min(1, "User is required"),
@@ -147,19 +147,26 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
     return () => subscription.unsubscribe()
   }, [form, selectedDpb])
 
-  if (error || errorSupplier) return (
-    <main className="flex flex-col gap-5 justify-center content-center p-5">
-      <Card className="w-full">
-        <CardHeader />
-        <CardContent>
-          <p className="text-red-500">Gagal memuat data. Silakan coba lagi.</p>
-        </CardContent>
-        <CardFooter />
-      </Card>
-    </main>
-  );
+  if (error || errorSupplier) {
+    console.log('Error loading data:', { error, errorSupplier });
+    return (
+      <main className="flex flex-col gap-5 justify-center content-center p-5">
+        <Card className="w-full">
+          <CardHeader />
+          <CardContent>
+            <p className="text-red-500">Gagal memuat data. Silakan coba lagi.</p>
+            <p className="text-sm text-gray-500 mt-2">
+              Error: {error?.message || errorSupplier?.message}
+            </p>
+          </CardContent>
+          <CardFooter />
+        </Card>
+      </main>
+    );
+  }
 
-  if (isLoading || isLoadingSupplier)
+  if (isLoading || isLoadingSupplier || !data || !listSupplier) {
+    console.log('Loading state:', { isLoading, isLoadingSupplier, hasData: !!data, hasSupplier: !!listSupplier });
     return (
       <main className='flex flex-col gap-5 justify-center content-center p-5'>
         <Card className='w-full'>
@@ -233,6 +240,7 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
         </Card>
       </main>
     );
+  }
 
   const handleNoDPBChange = (dpbId: string) => {
     const selected = data?.find((dpb: any) => dpb.id === Number(dpbId));
@@ -257,24 +265,40 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log('onSubmit called with values:', values);
+    
     startTransition(async () => {
-      const formData = serialize(values);
-      const dataResponse = pembelian
-        ? await editPembelianItem(pembelian.id, formData)
-        : await createPembelianItem(formData);
+      try {
+        console.log('Before serialize values:', values);
+        const formData = serialize(values);
+        console.log('After serialize formData:', formData);
+        
+        console.log('Calling API - pembelian exists:', !!pembelian);
+        const dataResponse = pembelian
+          ? await editPembelianItem(pembelian.id, formData)
+          : await createPembelianItem(formData);
 
-      if (dataResponse.success) {
-        toast({
-          variant: 'default',
-          description: 'Data Pembelian berhasil disimpan!',
-        });
-        const tanggal = form.getValues('tanggal');
-        router.push(`/admin/pembelian?start=${tanggal}&end=${tanggal}`);
-        router.refresh();
-      } else {
+        console.log('API Response:', dataResponse);
+        
+        if (dataResponse.success) {
+          toast({
+            variant: 'default',
+            description: 'Data Pembelian berhasil disimpan!',
+          });
+          const tanggal = form.getValues('tanggal');
+          router.push(`/admin/pembelian?start=${tanggal}&end=${tanggal}`);
+          router.refresh();
+        } else {
+          toast({
+            variant: 'destructive',
+            description: dataResponse.message || 'Terjadi kesalahan saat menyimpan data',
+          });
+        }
+      } catch (error) {
+        console.error('Error in onSubmit:', error);
         toast({
           variant: 'destructive',
-          description: dataResponse.message,
+          description: 'Terjadi kesalahan sistem. Silakan coba lagi.',
         });
       }
     });
@@ -499,8 +523,16 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
 
         {/* Tombol Submit */}
         <div className='flex justify-end'>
-          <Button type='submit' disabled={isPending}>
-            Submit
+          <Button 
+            type='submit' 
+            disabled={isPending}
+            onClick={() => {
+              console.log('Submit button clicked');
+              console.log('Form errors:', form.formState.errors);
+              console.log('Form values:', form.getValues());
+            }}
+          >
+            {isPending ? 'Menyimpan...' : 'Submit'}
           </Button>
         </div>
       </form>

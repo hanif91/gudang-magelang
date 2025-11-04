@@ -310,6 +310,8 @@ export async function POST(request: NextRequest) {
 
 		// console.log(tanggal)
 
+		console.log('tes');
+
 		if (barangIds.length === 0 || hargaBelis.length === 0) {
 			return NextResponse.json(
 				{ success: false, message: "Barang field is required" },
@@ -329,7 +331,7 @@ export async function POST(request: NextRequest) {
 		const [pembelianResult] = await db.execute<RowDataPacket[]>(
 			`INSERT INTO pembelian 
 					(no_pembelian, tanggal, keterangan, suplier_id, user_id) 
-				VALUES (?, ? , ?, ?, ?, ?)`,
+				VALUES (? , ?, ?, ?, ?)`,
 			[no_pembelian, tanggal, keterangan, supplier_id, user.id]
 		);
 
