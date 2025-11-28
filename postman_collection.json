@@ -1,0 +1,2241 @@
+{
+  "info": {
+    "_postman_id": "32217f0d-0694-451b-883c-8c82d8880961",
+    "name": "Gudang Takalar API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "asset-lokasi",
+      "item": [
+        {
+          "name": "GET asset-lokasi",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-lokasi",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-lokasi"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST asset-lokasi",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-lokasi",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-lokasi"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-lokasi/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-lokasi",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-lokasi/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-lokasi",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-lokasi/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-lokasi",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "asset-perpipaan",
+      "item": [
+        {
+          "name": "GET asset-perpipaan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-perpipaan",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-perpipaan"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST asset-perpipaan",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-perpipaan",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-perpipaan"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-perpipaan/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-perpipaan",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-perpipaan/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-perpipaan",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-perpipaan/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-perpipaan",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "asset-wilayah",
+      "item": [
+        {
+          "name": "GET asset-wilayah",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-wilayah",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-wilayah"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST asset-wilayah",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-wilayah",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-wilayah"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "nama",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "aktif",
+                  "value": "",
+                  "type": "text"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-wilayah/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-wilayah",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-wilayah/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-wilayah",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/asset-wilayah/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "asset-wilayah",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "bagminta",
+      "item": [
+        {
+          "name": "GET bagminta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bagminta",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bagminta"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST bagminta",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bagminta",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bagminta"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bagminta/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bagminta",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bagminta/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bagminta",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bagminta/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bagminta",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "barang-all",
+      "item": [
+        {
+          "name": "GET barang-all",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-all",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-all"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST barang-all",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-all",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-all"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-all/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-all",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-all/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-all",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-all/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-all",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "barang-keluar",
+      "item": [
+        {
+          "name": "GET barang-keluar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-keluar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-keluar"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST barang-keluar",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-keluar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-keluar"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-keluar/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-keluar",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-keluar/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-keluar",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-keluar/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-keluar",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE barang/:id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-keluar/barang/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-keluar",
+                "barang",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT komentar/:id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang-keluar/komentar/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang-keluar",
+                "komentar",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "barang",
+      "item": [
+        {
+          "name": "GET barang",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST barang",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/barang/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "barang",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "item": [
+        {
+          "name": "GET dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dashboard",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dashboard"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "dpb",
+      "item": [
+        {
+          "name": "GET dpb",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpb",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpb"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST dpb",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpb",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpb"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpb/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpb",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpb/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpb",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpb/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpb",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET non-rekanan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpb/non-rekanan",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpb",
+                "non-rekanan"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET rekanan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpb/rekanan",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpb",
+                "rekanan"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "dpbk",
+      "item": [
+        {
+          "name": "GET dpbk",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpbk",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpbk"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST dpbk",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpbk",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpbk"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpbk/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpbk",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpbk/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpbk",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dpbk/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dpbk",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "jenis-aduan",
+      "item": [
+        {
+          "name": "GET jenis-aduan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis-aduan",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis-aduan"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "jenis-bk",
+      "item": [
+        {
+          "name": "GET jenis-bk",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis-bk",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis-bk"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST jenis-bk",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis-bk",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis-bk"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis-bk/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis-bk",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis-bk/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis-bk",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis-bk/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis-bk",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "jenis",
+      "item": [
+        {
+          "name": "GET jenis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST jenis",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/jenis/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jenis",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "kartu-stok-barang",
+      "item": [
+        {
+          "name": "GET kartu-stok-barang",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kartu-stok-barang",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kartu-stok-barang"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "kategori",
+      "item": [
+        {
+          "name": "GET kategori",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kategori",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kategori"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST kategori",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kategori",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kategori"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kategori/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kategori",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kategori/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kategori",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kategori/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kategori",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "kodekeper",
+      "item": [
+        {
+          "name": "GET kodekeper",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kodekeper",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kodekeper"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST kodekeper",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kodekeper",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kodekeper"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kodekeper/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kodekeper",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kodekeper/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kodekeper",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kodekeper/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "kodekeper",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "laporan-persediaan",
+      "item": [
+        {
+          "name": "GET laporan-persediaan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/laporan-persediaan",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "laporan-persediaan"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "laporan-stok",
+      "item": [
+        {
+          "name": "GET laporan-stok",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/laporan-stok",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "laporan-stok"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "merek",
+      "item": [
+        {
+          "name": "GET merek",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/merek",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "merek"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST merek",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/merek",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "merek"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/merek/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "merek",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/merek/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "merek",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/merek/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "merek",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "paket",
+      "item": [
+        {
+          "name": "GET paket",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/paket",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "paket"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST paket",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/paket",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "paket"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/paket/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "paket",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/paket/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "paket",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/paket/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "paket",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET merge",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/paket/merge",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "paket",
+                "merge"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "pembelian-item",
+      "item": [
+        {
+          "name": "GET pembelian-item",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian-item",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian-item"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST pembelian-item",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian-item",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian-item"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian-item/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian-item",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian-item/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian-item",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian-item/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian-item",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "pembelian",
+      "item": [
+        {
+          "name": "GET pembelian",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST pembelian",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pembelian",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "stock",
+      "item": [
+        {
+          "name": "GET stock",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/stock",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stock"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST stock",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/stock",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stock"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/stock/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stock",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/stock/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stock",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/stock/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stock",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "supplier",
+      "item": [
+        {
+          "name": "GET supplier",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/supplier",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "supplier"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST supplier",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/supplier",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "supplier"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/supplier/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "supplier",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/supplier/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "supplier",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/supplier/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "supplier",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "ttd-lap",
+      "item": [
+        {
+          "name": "GET ttd-lap",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ttd-lap",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ttd-lap"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ttd-lap/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ttd-lap",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ttd-lap/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ttd-lap",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ttd-lap/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ttd-lap",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "unit",
+      "item": [
+        {
+          "name": "GET unit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/unit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "unit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST unit",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/unit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "unit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/unit/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "unit",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/unit/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "unit",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/unit/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "unit",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "user-paraf",
+      "item": [
+        {
+          "name": "GET user-paraf",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/user-paraf",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user-paraf"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST user-paraf",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/user-paraf",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user-paraf"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/user-paraf/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user-paraf",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/user-paraf/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user-paraf",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE :id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/user-paraf/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user-paraf",
+                ":id"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "GET users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST users",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET :id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST :id",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT :id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET validation-session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/validation-session",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "validation-session"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

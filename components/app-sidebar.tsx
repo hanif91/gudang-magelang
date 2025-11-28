@@ -23,6 +23,7 @@ import {
   Book,
   BookUp,
   BookDown,
+  LucideIcon,
 } from "lucide-react";
 
 import { NavProjectsHome } from "@/components/nav-projects-home";
@@ -36,8 +37,32 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavMainMenuTransaksi } from "./nav-main-menu-transaksi";
-import { NavProjectsMasterData } from "./nav-projects-master-data";
-import { NavProjectsMenuLaporan } from "./nav-projects-menu-laporan";
+import axios from "axios";
+
+// Map string icon names to Lucide components
+const iconMap: Record<string, LucideIcon> = {
+  AudioWaveform,
+  BookOpen,
+  Bot,
+  Command,
+  Frame,
+  GalleryVerticalEnd,
+  Map,
+  PieChart,
+  Settings2,
+  SquareTerminal,
+  User,
+  Box,
+  Boxes,
+  List,
+  User2,
+  ShoppingCart,
+  ShoppingBag,
+  Archive,
+  Book,
+  BookUp,
+  BookDown,
+};
 
 const data = {
   teams: [
@@ -54,125 +79,53 @@ const data = {
       icon: SquareTerminal,
     },
   ],
-  NavMainMenuTransaksi: [
-    {
-      title: "Barang Masuk",
-      icon: BookUp,
-      url: "#",
-      items: [
-        {
-          title: "Daftar Permintaan Barang",
-          url: "/admin/daftar-permintaan-barang",
-        },
-        {
-          title: "Pembelian",
-          url: "/admin/pembelian",
-        },
-      ],
-    },
-    {
-      title: "Barang Keluar",
-      icon: BookDown,
-      url: "#",
-      items: [
-        {
-          title: "Request Barang Keluar",
-          url: "/admin/daftar-permintaan-barang-keluar",
-        },
-        {
-          title: "Barang Keluar",
-          url: "/admin/barang-keluar",
-        },
-      ],
-    },
-  ],
-  NavProjectsMasterData: [
-    {
-      name: "Barang",
-      url: "/admin/barang",
-      icon: Box,
-      items: [
-        {
-          title: "Jenis",
-          url: "/admin/jenis",
-        },
-        {
-          title: "Kategori",
-          url: "/admin/kategori",
-        },
-        {
-          title: "Merek",
-          url: "/admin/merek",
-        },
-        {
-          title: "Stock",
-          url: "/admin/stock",
-        },
-        {
-          title: "Users",
-          url: "/admin/users",
-        },
-        {
-          title: "Supplier",
-          url: "/admin/supplier",
-        },
-        {
-          title: "Unit",
-          url: "/admin/unit",
-        },
-        {
-          title: "Paket",
-          url: "/admin/paket",
-        },
-        {
-          title: "Kode Keperluan",
-          url: "/admin/kodekeper",
-        },
-        {
-          title: "Jenis Barang Keluar",
-          url: "/admin/jenis-barang-keluar",
-        },
-        {
-          title: "Bagian Minta",
-          url: "/admin/bagian-minta",
-        },
-        {
-          title: "Asset Wilayah",
-          url: "/admin/asset-wilayah",
-        },
-        {
-          title: "Asset Perpipaan",
-          url: "/admin/asset-perpipaan",
-        },
-        {
-          title: "Asset Lokasi",
-          url: "/admin/asset-lokasi",
-        },
-
-      ],
-    },
-  ],
-  NavProjectsMenuLaporan: [
-    {
-      name: "Laporan Persedian",
-      url: "/admin/laporan-persediaan",
-      icon: Book,
-    },
-    {
-      name: "Laporan Stok",
-      url: "/admin/laporan-stok",
-      icon: Book,
-    },
-    {
-      name: "Kartu Stok Barang",
-      url: "/admin/kartu-stok-barang",
-      icon: Book,
-    },
-  ],
 };
+
+interface MenuData {
+  group_name: string;
+  group_link: string;
+  menus: {
+    id: number;
+    icon: string;
+    link: string;
+    menu_name: string;
+    permission: string[];
+  }[];
+}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
+  const [transaksiMenu, setTransaksiMenu] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const response = await axios.get("https://backend-mrk-js.vercel.app/api/gudang/hak-akses", {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzY0MzEzOTAyMjg3LCJ1c2VybmFtZSI6ImFkbWluIiwibmFtYSI6ImFkbWluIiwiamFiYXRhbiI6IkFkbWluaXN0cmF0b3IiLCJyb2xlUG9ydGFsIjoiU1VQRVIgQURNSU4iLCJyb2xlSWQiOjEsImlzQWN0aXZlIjp0cnVlLCJpc1VzZXJQcG9iIjpmYWxzZSwiaXNVc2VyVGltdGFnaWgiOmZhbHNlLCJub0hwIjoiMDg1MTU3MzA4NTMzIiwiZXhwIjoxNzY0MzE2NDk0Mjg3fQ.8KfuNN4LTm84tD_2YsWfo6UBvpL06SDym0eJpTBt7Y8`,
+          },
+        });
+        const apiData: MenuData[] = response.data.data;
+
+        const formattedMenu = apiData.map((group) => ({
+          title: group.group_name,
+          icon: BookUp, // Default icon for group, or logic to choose one
+          url: "#",
+          items: group.menus.map((menu) => ({
+            title: menu.menu_name,
+            url: `/${group.group_link}/${menu.link}`,
+            icon: iconMap[menu.icon] || Book, // Use mapped icon or default
+          })),
+        }));
+
+        setTransaksiMenu(formattedMenu);
+      } catch (error) {
+        console.error("Failed to fetch menu:", error);
+      }
+    };
+
+    fetchMenu();
+  }, []);
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -186,17 +139,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         // setActiveItem={setActiveItem}
         />
         <NavMainMenuTransaksi
-          items={data.NavMainMenuTransaksi}
-        // activeItem={activeItem}
-        // setActiveItem={setActiveItem}
-        />
-        <NavProjectsMasterData
-          projects={data.NavProjectsMasterData}
-        // activeItem={activeItem}
-        // setActiveItem={setActiveItem}
-        />
-        <NavProjectsMenuLaporan
-          projects={data.NavProjectsMenuLaporan}
+          items={transaksiMenu}
         // activeItem={activeItem}
         // setActiveItem={setActiveItem}
         />
