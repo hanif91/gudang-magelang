@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import axios from 'axios'
+import AxiosClient from '@/lib/AxiosClient'
 import { AlertCircle, CalendarIcon, Plus } from 'lucide-react'
 import useSWR from 'swr'
 import { DataTable } from '../paket/data-table'
@@ -17,11 +17,11 @@ import { format } from "date-fns"
 import LapAduanReport from "./laporan-stok"
 import { useState } from "react"
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 
 export default function KartuStokBarang() {
-    const { data: listBarang, error: barangError, isLoading: loadingBarang } = useSWR('/api/barang-all?status=aktif', fetcher)
+    const { data: listBarang, error: barangError, isLoading: loadingBarang } = useSWR('/api/gudang/barang-all?status=aktif', fetcher)
     const [barang, setBarang] = useState('');
     const [dates] = useState<{ start: Date; end: Date }>({ start: new Date(), end: new Date() });
     const [selesaiDates, setSelesaiDates] = useState<{ start: Date; end: Date }>({ start: new Date(), end: new Date() });

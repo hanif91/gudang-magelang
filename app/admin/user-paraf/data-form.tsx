@@ -59,7 +59,7 @@ export default function UserParafForm({ userParaf }: { userParaf?: any }) {
           description: "Data User Paraf berhasil disimpan!",
         })
         router.push("/admin/user-paraf")
-        // mutate('/api/merek')
+        // mutate('/api/gudang/merek')
         router.refresh
 
       } else {

@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import axios from 'axios';
+import AxiosClient from '@/lib/AxiosClient';
 import { useRef } from 'react';
 import { useReactToPrint } from "react-to-print";
 import formatBulanIndonesia from '@/lib/format-bulan';
@@ -26,7 +26,7 @@ interface Props {
     isTampilkan: boolean,
 }
 
-const fetcher = (url: string) => axios.get(url).then(res => res.data);
+const fetcher = (url: string) => AxiosClient.get(url).then(res => res.data);
 
 export default function LapAduanReport(props: Props) {
     // Format dates consistently
@@ -37,11 +37,11 @@ export default function LapAduanReport(props: Props) {
 
     // Fetch data
     const { data: barang, isLoading, error } = useSWR(
-        `/api/kartu-stok-barang?id=${props.filter.barang}&firstDay=${firstDay}-01&fromTanggal=${fromTanggal}&toTanggal=${toTanggal}`,
+        `/api/gudang/kartu-stok-barang?id=${props.filter.barang}&firstDay=${firstDay}-01&fromTanggal=${fromTanggal}&toTanggal=${toTanggal}`,
         fetcher
     );
     const { data: formatLaporan, isLoading: formatLaporanLoading, error: formatLaporanError } = useSWR(
-        `/api/ttd-lap?tipe=KSB`,
+        `/api/gudang/ttd-lap?tipe=KSB`,
         fetcher
     );
 

@@ -56,7 +56,7 @@ export default function Actions({ id }: { id: string }) {
             </div>
           ),
         })
-        mutate('/api/dpb')
+        mutate('/api/gudang/dpb')
       } else {
         toast({
           variant: "destructive",

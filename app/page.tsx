@@ -4,9 +4,11 @@ import { redirect } from "next/navigation";
 export default async function Home() {
 	const { user } = await getCurrentSession();
 	if (user === null) {
-		console.log(user , "from page");
-		return redirect("/login");
-		
+		const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL;
+		if (portalUrl) {
+			return redirect(portalUrl);
+		}
+		return redirect("/login"); // Fallback if env is missing
 	}
 
 	return redirect("/admin");

@@ -58,7 +58,7 @@ export default function MerekForm({ merek }: { merek?: any }) {
           description: "Data Merek berhasil disimpan!",
         })
         router.push("/admin/merek")
-        // mutate('/api/merek')
+        // mutate('/api/gudang/merek')
         router.refresh
 
       } else {

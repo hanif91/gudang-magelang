@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 import { Fragment } from "react";
 import useSWR from "swr";
 import {
@@ -50,7 +50,7 @@ interface DashboardData {
 }
 
 // Fetcher untuk SWR
-const fetcher = (url: string) => axios.get(url).then((res) => res.data.data);
+const fetcher = (url: string) => AxiosClient.get(url).then((res) => res.data.data);
 
 // Data untuk card statistik
 const cardData = [
@@ -98,7 +98,7 @@ const cardData = [
 
 export default function Page() {
   const { data, error, isLoading } = useSWR<DashboardData>(
-    "/api/dashboard",
+    "/api/gudang/dashboard",
     fetcher
   );
 
@@ -209,11 +209,11 @@ export default function Page() {
                     {data?.card
                       ? card.valueKey === "saldo_persediaan"
                         ? formatHarga(data.card.saldo_persediaan, {
-                            shorten: true,
-                          })
+                          shorten: true,
+                        })
                         : data.card[
-                            card.valueKey as keyof DashboardData["card"]
-                          ]
+                        card.valueKey as keyof DashboardData["card"]
+                        ]
                       : "...."}
                   </p>
                 </CardContent>

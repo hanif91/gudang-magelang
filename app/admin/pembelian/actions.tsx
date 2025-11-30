@@ -67,7 +67,7 @@ export default function Actions({ id }: { id: string }) {
           ),
         })
 
-        mutate('/api/pembelian')
+        mutate('/api/gudang/pembelian')
       } else {
         toast({
           variant: "destructive",

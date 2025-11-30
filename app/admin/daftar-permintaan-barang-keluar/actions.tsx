@@ -52,7 +52,7 @@ export default function Actions({ id }: { id: string; }) {
           ),
         })
 
-        mutate('/api/dpbk')
+        mutate('/api/gudang/dpbk')
       } else {
         toast({
           variant: "destructive",

@@ -1,20 +1,11 @@
 "use server";
 
-// import { auth } from "@/auth"
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 import { axiosErrorHandler } from "@/lib/errorHandler";
-import { getCurrentSession, setSessionTokenCookie } from "../session";
-import { cookies } from "next/headers";
-
-const backendUrl = process.env.BASE_URL;
 
 export const getAllBarangKeluar = async () => {
   try {
-    const cookieStore = await cookies();
-
-    const response = await axios.get(`${backendUrl}/api/barang-keluar`, {
-      headers: { Cookie: cookieStore.toString() },
-    });
+    const response = await AxiosClient.get(`/api/gudang/barang-keluar`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -24,19 +15,9 @@ export const getAllBarangKeluar = async () => {
 
 export const createBarangKeluar = async (formData: FormData) => {
   try {
-    const cookieStore = await cookies();
-    // cookieStore.set("session", token || "" , {
-    //   httpOnly: true,
-    //   sameSite: "lax",
-    //   secure: process.env.NODE_ENV === "production",
-    //   path: "***/***"
-    // });
-    const response = await axios.post(
-      `${backendUrl}/api/barang-keluar`,
-      formData,
-      {
-        headers: { Cookie: cookieStore.toString() },
-      }
+    const response = await AxiosClient.post(
+      `/api/gudang/barang-keluar`,
+      formData
     );
     return response.data;
   } catch (error) {
@@ -46,10 +27,7 @@ export const createBarangKeluar = async (formData: FormData) => {
 
 export const getBarangKeluar = async (id: string | null) => {
   try {
-    const cookieStore = await cookies();
-    const response = await axios.get(`${backendUrl}/api/barang-keluar/${id}`, {
-      headers: { Cookie: cookieStore.toString() },
-    });
+    const response = await AxiosClient.get(`/api/gudang/barang-keluar/${id}`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -59,13 +37,9 @@ export const getBarangKeluar = async (id: string | null) => {
 
 export const updateStatus = async (id: number, formData: FormData) => {
   try {
-    const cookieStore = await cookies();
-    const response = await axios.put(
-      `${backendUrl}/api/barang-keluar/${id}`,
-      formData,
-      {
-        headers: { Cookie: cookieStore.toString() },
-      }
+    const response = await AxiosClient.put(
+      `/api/gudang/barang-keluar/${id}`,
+      formData
     );
     return response.data;
   } catch (error) {
@@ -75,13 +49,9 @@ export const updateStatus = async (id: number, formData: FormData) => {
 
 export const editKomentar = async (id: number, formData: FormData) => {
   try {
-    const cookieStore = await cookies();
-    const response = await axios.put(
-      `${backendUrl}/api/barang-keluar/komentar/${id}`,
-      formData,
-      {
-        headers: { Cookie: cookieStore.toString() },
-      }
+    const response = await AxiosClient.put(
+      `/api/gudang/barang-keluar/komentar/${id}`,
+      formData
     );
     return response.data;
   } catch (error) {
@@ -91,12 +61,8 @@ export const editKomentar = async (id: number, formData: FormData) => {
 
 export const deleteBarangKeluar = async (id: string | null) => {
   try {
-    const cookieStore = await cookies();
-    const response = await axios.delete(
-      `${backendUrl}/api/barang-keluar/${id}`,
-      {
-        headers: { Cookie: cookieStore.toString() },
-      }
+    const response = await AxiosClient.delete(
+      `/api/gudang/barang-keluar/${id}`
     );
     console.log(response.data);
     return response.data;
@@ -108,12 +74,8 @@ export const deleteBarangKeluar = async (id: string | null) => {
 
 export const deleteBarangKeluarItem = async (id: string | null) => {
   try {
-    const cookieStore = await cookies();
-    const response = await axios.delete(
-      `${backendUrl}/api/barang-keluar/barang/${id}`,
-      {
-        headers: { Cookie: cookieStore.toString() },
-      }
+    const response = await AxiosClient.delete(
+      `/api/gudang/barang-keluar/barang/${id}`
     );
     console.log(response.data);
     return response.data;

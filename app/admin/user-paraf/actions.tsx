@@ -55,7 +55,7 @@ export default function Actions({ id }: { id: string }) {
           ),
         })
 
-        mutate('/api/user-paraf')
+        mutate('/api/gudang/user-paraf')
       } else {
         toast({
           variant: "destructive",
@@ -79,7 +79,7 @@ export default function Actions({ id }: { id: string }) {
   console.log(encrypt(id), "rtres")
   return (
     <>
-     <DropdownMenu modal={false}>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Open menu</span>

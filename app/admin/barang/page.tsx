@@ -4,19 +4,19 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import axios from 'axios'
+import AxiosClient from '@/lib/AxiosClient'
 import { AlertCircle, Plus } from 'lucide-react'
 import React from 'react'
 import useSWR from 'swr'
 import { DataTable } from '../barang/data-table'
 import { columns } from '../barang/columns'
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 
 export default function Barang() {
-    const { data, error, isLoading } = useSWR('/api/barang', fetcher)
-    if (error) return (
+	const { data, error, isLoading } = useSWR('/api/gudang/barang', fetcher)
+	if (error) return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">
 			<Card className="w-full">
 				<CardHeader>

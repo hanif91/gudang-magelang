@@ -4,18 +4,18 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import axios from 'axios'
+import AxiosClient from '@/lib/AxiosClient'
 import { AlertCircle, Plus } from 'lucide-react'
 import React from 'react'
 import useSWR from 'swr'
 import { DataTable } from '../jenis/data-table'
 import { columns } from '../jenis/columns'
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 
 export default function Jenis() {
-	const { data, error, isLoading } = useSWR('/api/jenis', fetcher)
+	const { data, error, isLoading } = useSWR('/api/gudang/jenis', fetcher)
 	// console.log(data.data)
 	if (error) return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">

@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavMainMenuTransaksi } from "./nav-main-menu-transaksi";
 import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 
 // Map string icon names to Lucide components
 const iconMap: Record<string, LucideIcon> = {
@@ -67,7 +68,7 @@ const iconMap: Record<string, LucideIcon> = {
 const data = {
   teams: [
     {
-      name: "SIPAMIT - INVENTORY",
+      name: "GUDANG TAKALAR",
       logo: GalleryVerticalEnd,
       plan: "",
     },
@@ -100,11 +101,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   React.useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get("https://backend-mrk-js.vercel.app/api/gudang/hak-akses", {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzY0MzEzOTAyMjg3LCJ1c2VybmFtZSI6ImFkbWluIiwibmFtYSI6ImFkbWluIiwiamFiYXRhbiI6IkFkbWluaXN0cmF0b3IiLCJyb2xlUG9ydGFsIjoiU1VQRVIgQURNSU4iLCJyb2xlSWQiOjEsImlzQWN0aXZlIjp0cnVlLCJpc1VzZXJQcG9iIjpmYWxzZSwiaXNVc2VyVGltdGFnaWgiOmZhbHNlLCJub0hwIjoiMDg1MTU3MzA4NTMzIiwiZXhwIjoxNzY0MzE2NDk0Mjg3fQ.8KfuNN4LTm84tD_2YsWfo6UBvpL06SDym0eJpTBt7Y8`,
-          },
-        });
+        const response = await AxiosClient.get("/api/gudang/hak-akses");
         const apiData: MenuData[] = response.data.data;
 
         const formattedMenu = apiData.map((group) => ({

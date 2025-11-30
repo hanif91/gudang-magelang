@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { serialize } from "object-to-formdata"
 import { createPembelianItem, editPembelianItem } from "@/lib/actions/actPembelianItem"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import useSWR from "swr"
 import { Combobox } from "@/components/ui/combobox"
 import { Textarea } from "@/components/ui/textarea"
@@ -67,7 +67,7 @@ interface Barang {
 }
 
 const fetcher = (url: any) =>
-  axios.get(url).then((res) => res.data.data)
+  AxiosClient.get(url).then((res) => res.data.data)
 
 // Karena qty tidak akan diinput, schema hanya memerlukan harga_beli untuk tiap barang
 const formSchema = z.object({
@@ -93,9 +93,9 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
   const router = useRouter()
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const { data, isLoading } = useSWR<Dpb[]>("/api/dpb/non-rekanan", fetcher)
-  const { data: listSupplier, isLoading: isLoadingSupplier } = useSWR<Supplier[]>("/api/supplier", fetcher)
-  // const { data: listUsers } = useSWR<User[]>("/api/users", fetcher)
+  const { data, isLoading } = useSWR<Dpb[]>("/api/gudang/dpb/non-rekanan", fetcher)
+  const { data: listSupplier, isLoading: isLoadingSupplier } = useSWR<Supplier[]>("/api/gudang/supplier", fetcher)
+  // const { data: listUsers } = useSWR<User[]>("/api/gudang/users", fetcher)
   const [selectedDpb, setSelectedDpb] = useState<Dpb | null>(null)
   const [grandTotal, setGrandTotal] = useState(0)
 

@@ -53,7 +53,7 @@ export default function Actions({ id }: { id: string }) {
           ),
         })
 
-        mutate('/api/asset-perpipaan')
+        mutate('/api/gudang/asset-perpipaan')
       } else {
         toast({
           variant: "destructive",

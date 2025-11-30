@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { serialize } from "object-to-formdata";
 import useSWR from "swr";
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 import { Combobox } from "@/components/ui/combobox";
 import {
   Card,
@@ -30,7 +30,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { createDpbk, editDpbk } from "@/lib/actions/actDpbk";
 import { Textarea } from "@/components/ui/textarea";
 
-const fetcher = (url: any) => axios.get(url).then((res) => res.data.data);
+const fetcher = (url: any) => AxiosClient.get(url).then((res) => res.data.data);
 
 interface Barang {
   id: string;
@@ -70,19 +70,19 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
   const [isPending, startTransition] = useTransition();
   const [mode, setMode] = useState<"manual" | "paket">("manual");
   const { data, isLoading, error } = useSWR<Barang[]>(
-    "/api/barang?status=aktif",
+    "/api/gudang/barang?status=aktif",
     fetcher
   );
   const {
     data: listUnit,
     isLoading: isLoadingUnit,
     error: errorUnit,
-  } = useSWR<Unit[]>("/api/unit", fetcher);
+  } = useSWR<Unit[]>("/api/gudang/unit", fetcher);
   const {
     data: listPaket,
     isLoading: isLoadingPaket,
     error: errorPaket,
-  } = useSWR<Paket[]>("/api/paket?status=tersedia", fetcher);
+  } = useSWR<Paket[]>("/api/gudang/paket?status=tersedia", fetcher);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

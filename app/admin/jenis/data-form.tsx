@@ -28,7 +28,7 @@ import { serialize } from "object-to-formdata"
 import { createMerek, editMerek } from "@/lib/actions/actMerek"
 import useSWR, { mutate } from "swr"
 import { createJenis, editJenis } from "@/lib/actions/actJenis"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { Combobox } from "@/components/ui/combobox"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -39,7 +39,7 @@ interface Kategori {
   nama: string;
 }
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 
 
@@ -47,7 +47,7 @@ export default function JenisForm({ jenis }: { jenis?: any }) {
   const router = useRouter()
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const { data: listKategori, isLoading: isLoadingKategori, error: errorKategori } = useSWR('/api/kategori', fetcher)
+  const { data: listKategori, isLoading: isLoadingKategori, error: errorKategori } = useSWR('/api/gudang/kategori', fetcher)
 
 
   const formSchema = z.object({
@@ -76,7 +76,7 @@ export default function JenisForm({ jenis }: { jenis?: any }) {
           description: "Data Jenis berhasil disimpan!",
         })
         router.push("/admin/jenis")
-        // mutate('/api/merek')
+        // mutate('/api/gudang/merek')
         router.refresh
 
       } else {

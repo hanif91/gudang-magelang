@@ -61,7 +61,7 @@ export default function KategoriForm({ kategori }: { kategori?: any }) {
           description: "Data Kategori berhasil disimpan!",
         })
         router.push("/admin/kategori")
-        // mutate('/api/merek')
+        // mutate('/api/gudang/merek')
         router.refresh
 
       } else {
@@ -73,7 +73,7 @@ export default function KategoriForm({ kategori }: { kategori?: any }) {
     })
   }
 
-  
+
 
   return (
     <Form {...form}>

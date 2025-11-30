@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { serialize } from "object-to-formdata";
 import { createBarangKeluar } from "@/lib/actions/actBarangKeluar";
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 import useSWR from "swr";
 import { Combobox } from "@/components/ui/combobox";
 import { Textarea } from "@/components/ui/textarea";
@@ -81,7 +81,7 @@ interface Barang {
   nama_merek: string;
 }
 
-const fetcher = (url: any) => axios.get(url).then((res) => res.data);
+const fetcher = (url: any) => AxiosClient.get(url).then((res) => res.data);
 
 const formSchema = z.object({
   dpbk_id: z.coerce.number().min(1, "Id DPB is required"),
@@ -110,27 +110,27 @@ export default function BarangKeluarForm({
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const { data, isLoading, error } = useSWR("/api/dpbk", fetcher);
+  const { data, isLoading, error } = useSWR("/api/gudang/dpbk", fetcher);
   const {
     data: listJenisBk,
     isLoading: isLoadingJenisBk,
     error: errorJenisBk,
-  } = useSWR("/api/jenis-bk", fetcher);
+  } = useSWR("/api/gudang/jenis-bk", fetcher);
   const {
     data: listKodeKeper,
     isLoading: isLoadingKodeKeper,
     error: errorKodeKeper,
-  } = useSWR("/api/kodekeper", fetcher);
+  } = useSWR("/api/gudang/kodekeper", fetcher);
   const {
     data: listBagianMinta,
     isLoading: isLoadingBagianMinta,
     error: errorBagianMinta,
-  } = useSWR("/api/bagminta", fetcher);
+  } = useSWR("/api/gudang/bagminta", fetcher);
   const {
     data: listAssetPipa,
     isLoading: isLoadingAssetPipa,
     error: errorAssetPipa,
-  } = useSWR("/api/asset-perpipaan", fetcher);
+  } = useSWR("/api/gudang/asset-perpipaan", fetcher);
   const [selectedDpbks, setSelectedDpbks] = useState<Dpbk[]>([]); // State untuk menyimpan DPBK yang dipilih
   const [selectedBarang, setSelectedBarang] = useState<Barang[]>([]); // State untuk menyimpan barang yang dipilih
   const [grandTotal, setGrandTotal] = useState(0);
@@ -147,18 +147,18 @@ export default function BarangKeluarForm({
       jenis_bk_id: barangKeluar?.jenis_bk_id ?? "",
       barang: barangKeluar?.barang
         ? barangKeluar.barang.map(
-            (item: {
-              barang_id: number;
-              qty: number;
-              harga_beli: number;
-              dpb_id: number;
-            }) => ({
-              dpb_id: item.dpb_id,
-              barang_id: item.barang_id,
-              qty: item.qty,
-              harga_beli: item.harga_beli,
-            })
-          )
+          (item: {
+            barang_id: number;
+            qty: number;
+            harga_beli: number;
+            dpb_id: number;
+          }) => ({
+            dpb_id: item.dpb_id,
+            barang_id: item.barang_id,
+            qty: item.qty,
+            harga_beli: item.harga_beli,
+          })
+        )
         : [],
       keterangan: barangKeluar?.keterangan ?? "",
     },
@@ -277,8 +277,8 @@ export default function BarangKeluarForm({
   }
 
   async function onTesCliec() {
-            // router.refresh();
-        router.push("/admin/barang-keluar?start=2025-05-01&end=2025-05-30");
+    // router.refresh();
+    router.push("/admin/barang-keluar?start=2025-05-01&end=2025-05-30");
 
   }
 
@@ -628,7 +628,7 @@ export default function BarangKeluarForm({
             Submit
           </Button>
         </div>
-\
+        \
       </form>
     </Form>
   );

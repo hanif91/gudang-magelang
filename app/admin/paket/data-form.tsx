@@ -28,7 +28,7 @@ import { serialize } from "object-to-formdata";
 import { createMerek, editMerek } from "@/lib/actions/actMerek";
 import useSWR, { mutate } from "swr";
 import { createPaket, editPaket } from "@/lib/actions/actPaket";
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 import { Combobox } from "@/components/ui/combobox";
 import {
   Card,
@@ -43,14 +43,14 @@ interface Barang {
   nama: string;
 }
 
-const fetcher = (url: any) => axios.get(url).then((res) => res.data.data);
+const fetcher = (url: any) => AxiosClient.get(url).then((res) => res.data.data);
 
 export default function PaketForm({ paket }: { paket?: any }) {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const { data: listBarang, isLoading: isLoadingBarang } = useSWR<Barang[]>(
-    "/api/barang",
+    "/api/gudang/barang",
     fetcher
   );
 
@@ -92,7 +92,7 @@ export default function PaketForm({ paket }: { paket?: any }) {
           description: "Data Paket berhasil disimpan!",
         });
         router.push("/admin/paket");
-        // mutate('/api/merek')
+        // mutate('/api/gudang/merek')
         router.refresh;
       } else {
         toast({

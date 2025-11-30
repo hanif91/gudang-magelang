@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { serialize } from "object-to-formdata"
 import { createPembelianItem, editPembelianItem } from "@/lib/actions/actPembelianItem"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import useSWR from "swr"
 import { Combobox } from "@/components/ui/combobox"
 import { Textarea } from "@/components/ui/textarea"
@@ -67,7 +67,7 @@ interface Barang {
 }
 
 const fetcher = (url: any) =>
-  axios.get(url).then((res) => res.data.data)
+  AxiosClient.get(url).then((res) => res.data.data)
 
 // Karena qty tidak akan diinput, schema hanya memerlukan harga_beli untuk tiap barang
 const formSchema = z.object({
@@ -93,9 +93,9 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
   const router = useRouter()
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const { data, isLoading, error } = useSWR("/api/dpb/rekanan", fetcher)
-  const { data: listSupplier, isLoading: isLoadingSupplier, error: errorSupplier } = useSWR("/api/supplier", fetcher)
-  // const { data: listUsers } = useSWR<User[]>("/api/users", fetcher)
+  const { data, isLoading, error } = useSWR("/api/gudang/dpb/rekanan", fetcher)
+  const { data: listSupplier, isLoading: isLoadingSupplier, error: errorSupplier } = useSWR("/api/gudang/supplier", fetcher)
+  // const { data: listUsers } = useSWR<User[]>("/api/gudang/users", fetcher)
   const [selectedDpb, setSelectedDpb] = useState<Dpb | null>(null)
   const [grandTotal, setGrandTotal] = useState(0)
 
@@ -266,20 +266,20 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log('onSubmit called with values:', values);
-    
+
     startTransition(async () => {
       try {
         console.log('Before serialize values:', values);
         const formData = serialize(values);
         console.log('After serialize formData:', formData);
-        
+
         console.log('Calling API - pembelian exists:', !!pembelian);
         const dataResponse = pembelian
           ? await editPembelianItem(pembelian.id, formData)
           : await createPembelianItem(formData);
 
         console.log('API Response:', dataResponse);
-        
+
         if (dataResponse.success) {
           toast({
             variant: 'default',
@@ -523,8 +523,8 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
 
         {/* Tombol Submit */}
         <div className='flex justify-end'>
-          <Button 
-            type='submit' 
+          <Button
+            type='submit'
             disabled={isPending}
             onClick={() => {
               console.log('Submit button clicked');

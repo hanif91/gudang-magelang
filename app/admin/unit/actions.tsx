@@ -54,7 +54,7 @@ export default function Actions({ id }: { id: string }) {
           ),
         })
 
-        mutate('/api/unit')
+        mutate('/api/gudang/unit')
       } else {
         toast({
           variant: "destructive",
@@ -72,7 +72,7 @@ export default function Actions({ id }: { id: string }) {
       }
     })
   }
-  
+
 
 
   // console.log(id);

@@ -14,8 +14,8 @@ export default async function RootLayoutAdmin({
 	const { user } = await getCurrentSession();
 	if (user === null) {
 		console.log(user, "from page");
-		return redirect("/login");
-
+		const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL || "http://localhost:3000"; // Fallback
+		return redirect(portalUrl);
 	}
 
 

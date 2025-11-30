@@ -27,7 +27,7 @@ import { useToast } from "@/hooks/use-toast"
 import { serialize } from "object-to-formdata"
 import { createStock, editStock } from "@/lib/actions/actStock"
 import useSWR from "swr"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { Combobox } from "@/components/ui/combobox"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -37,13 +37,13 @@ interface Barang {
   nama: string;
 }
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data.data)
 
 export default function StockForm({ stock }: { stock?: any }) {
   const router = useRouter()
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const { data: listBarang, isLoading: isLoadingBarang } = useSWR<Barang[]>('/api/barang', fetcher)
+  const { data: listBarang, isLoading: isLoadingBarang } = useSWR<Barang[]>('/api/gudang/barang', fetcher)
 
   const formSchema = z.object({
     barang_id: z.coerce.number().min(1, "Kategori is required"),
@@ -102,25 +102,25 @@ export default function StockForm({ stock }: { stock?: any }) {
             <Skeleton className="h-4 w-1/4 rounded-md" />
             <Skeleton className="h-10 w-full rounded-md" />
           </div>
-  
+
           {/* Skeleton untuk Qty */}
           <div className="space-y-2">
             <Skeleton className="h-4 w-1/4 rounded-md" />
             <Skeleton className="h-10 w-full rounded-md" />
           </div>
-  
+
           {/* Skeleton untuk Tanggal Masuk */}
           <div className="space-y-2">
             <Skeleton className="h-4 w-1/4 rounded-md" />
             <Skeleton className="h-10 w-full rounded-md" />
           </div>
-  
+
           {/* Skeleton untuk Harga Masuk */}
           <div className="space-y-2">
             <Skeleton className="h-4 w-1/4 rounded-md" />
             <Skeleton className="h-10 w-full rounded-md" />
           </div>
-  
+
           {/* Skeleton untuk Tombol Submit */}
           <div className="flex justify-end">
             <Skeleton className="h-10 w-24 rounded-md" />

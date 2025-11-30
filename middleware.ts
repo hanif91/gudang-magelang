@@ -1,58 +1,32 @@
-import { type NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
+export function middleware(request: NextRequest) {
+	const { pathname } = request.nextUrl;
+	const hasToken = request.cookies.has('token');
 
-export async function middleware(request: NextRequest) : Promise<NextResponse> {
-	const token = request.cookies.get("session")?.value ?? null;
-	if (request.method === "GET") {
-		const response = NextResponse.next();
+	// Allow access to the receiver page without a token
+	if (pathname.startsWith("/authentication/receiver")) {
+		return NextResponse.next();
+	}
 
-		console.log(token,"from middleware GET");
-		if (token !== null) {
-			// Only extend cookie expiration on GET requests since we can be sure
-			// a new session wasn't set when handling the request.
-			response.cookies.set("session", token, {
-				path: "/",
-				maxAge: 60 * 60 * 24 * 30,
-				sameSite: "lax",
-				httpOnly: true,
-				secure: process.env.NODE_ENV === "production"
-			});
-
-			return response;
+	// If no token, redirect to Portal
+	if (!hasToken) {
+		const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL;
+		if (portalUrl) {
+			return NextResponse.redirect(new URL(portalUrl));
+		} else {
+			// Fallback if env is missing (though it should be there)
+			// Maybe redirect to a generic error page or keep on current page but it will fail
+			return NextResponse.next();
 		}
-
-		return NextResponse.redirect(new URL('/', request.url))
-
-
 	}
-
-	const originHeader = request.headers.get("Origin");
-	// NOTE: You may need to use `X-Forwarded-Host` instead
-	const hostHeader = request.headers.get("Host");
-	if (originHeader === null || hostHeader === null) {
-		return new NextResponse(null, {
-			status: 403
-		});
-	}
-	let origin: URL;
-	try {
-		origin = new URL(originHeader);
-	} catch {
-		return new NextResponse(null, {
-			status: 403
-		});
-	}
-	if (origin.host !== hostHeader) {
-		return new NextResponse(null, {
-			status: 403
-		});
-	}
-
 
 	return NextResponse.next();
 }
 
 export const config = {
-  matcher: '/admin/:path*',
-}
+	matcher: [
+		'/((?!api|_next/static|_next/image|favicon.ico).*)',
+	],
+};

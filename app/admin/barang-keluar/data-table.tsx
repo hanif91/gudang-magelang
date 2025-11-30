@@ -34,7 +34,7 @@ import { Combobox } from "@/components/ui/combobox"
 import { DatePickerWithRange } from "@/components/ui/date-picker"
 import { DateRange } from "react-day-picker"
 import useSWR, { mutate } from "swr"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -57,7 +57,7 @@ interface DataTableProps<TData, TValue> {
   jenis_asset: JenisAsset[]
 }
 
-const fetcher = (url: string) => axios.get(url).then(res => res.data.data) // Akses `res.data.data`
+const fetcher = (url: string) => AxiosClient.get(url).then(res => res.data.data) // Akses `res.data.data`
 const tanggal = {
   from: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0],
   to: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0]

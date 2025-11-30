@@ -32,18 +32,18 @@ import { useRouter } from "next/navigation";
 
 interface BarangKeluarItems {
   id_fifo: number;
-	id_barang_keluar: number;
-	id_barang: number;
-	nama_barang: string;
-	qty: number;
-	qty_minta: number;
-	id_dpbk: number;
-	harga: number;
-	total : number;
-	nodpb: string;
-	nodpbk: string;
-	stock: number;
-	satuan: string;
+  id_barang_keluar: number;
+  id_barang: number;
+  nama_barang: string;
+  qty: number;
+  qty_minta: number;
+  id_dpbk: number;
+  harga: number;
+  total: number;
+  nodpb: string;
+  nodpbk: string;
+  stock: number;
+  satuan: string;
 }
 
 
@@ -92,12 +92,12 @@ export default function DetailActions({ data, mutate: externalMutate }: { data: 
             </div>
           ),
         });
-        
+
         // Use external mutate if available, otherwise use SWR mutate and router.refresh
         if (externalMutate) {
           externalMutate();
         } else {
-          mutate('/api/barang-keluar');
+          mutate('/api/gudang/barang-keluar');
           router.refresh();
         }
       } else {
@@ -172,68 +172,68 @@ export default function DetailActions({ data, mutate: externalMutate }: { data: 
 
             </div>
           </CardHeader>
-          <CardContent  className="max-h-80 overflow-y-auto">
+          <CardContent className="max-h-80 overflow-y-auto">
             <CardTitle className="text-left text-lg font-semibold"> Daftar Barang</CardTitle>
 
-                <div className="">
-                  <Table>
-                    
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>No.</TableHead>
-                        <TableHead>No DPB</TableHead>
-                        <TableHead>Nama Barang</TableHead>
-                        <TableHead>Qty</TableHead>
-                        <TableHead>Harga</TableHead>
-                        <TableHead>Total</TableHead>
-                        <TableHead>Aksi</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {data.barang_keluar_items.map((barang, index) => (
-                        <TableRow key={index}>
-                          <TableCell className="text-center py-1">{index + 1}</TableCell>
-                          {/* <TableCell className="text-center py-1">{barang.id_fifo}</TableCell> */}
-                          <TableCell className="text-left py-1">{barang.nodpbk}</TableCell>
-                          <TableCell className="text-left py-1">{barang.nama_barang}</TableCell>
-                          <TableCell className="text-center py-1">{barang.qty}</TableCell>
-                          <TableCell className="text-right py-1">
-                            {new Intl.NumberFormat("id-ID", {
-                              style: "currency",
-                              currency: "IDR",
-                              minimumFractionDigits: 0,
-                            }).format(barang.harga)}
-                          </TableCell>
-                          <TableCell className="text-right py-1">
-                            {new Intl.NumberFormat("id-ID", {
-                              style: "currency",
-                              currency: "IDR",
-                              minimumFractionDigits: 0,
-                            }).format(barang.total)}
-                          </TableCell>
-                          <TableCell  className="text-center py-1">
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              disabled={data.barang_keluar_items.length <= 1}
-                              onClick={() => {
-                                // console.log("id",barang.id_barang_keluar)
-                                setSelectedDeleteId(barang.id_fifo);
-                                // console.log("id",selectedDeleteId)
-                                setOpenDelete(true);
-                              }}
-                            >
-                              Hapus
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
+            <div className="">
+              <Table>
 
-                  </Table>
-                </div>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>No.</TableHead>
+                    <TableHead>No DPB</TableHead>
+                    <TableHead>Nama Barang</TableHead>
+                    <TableHead>Qty</TableHead>
+                    <TableHead>Harga</TableHead>
+                    <TableHead>Total</TableHead>
+                    <TableHead>Aksi</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {data.barang_keluar_items.map((barang, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="text-center py-1">{index + 1}</TableCell>
+                      {/* <TableCell className="text-center py-1">{barang.id_fifo}</TableCell> */}
+                      <TableCell className="text-left py-1">{barang.nodpbk}</TableCell>
+                      <TableCell className="text-left py-1">{barang.nama_barang}</TableCell>
+                      <TableCell className="text-center py-1">{barang.qty}</TableCell>
+                      <TableCell className="text-right py-1">
+                        {new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                          minimumFractionDigits: 0,
+                        }).format(barang.harga)}
+                      </TableCell>
+                      <TableCell className="text-right py-1">
+                        {new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                          minimumFractionDigits: 0,
+                        }).format(barang.total)}
+                      </TableCell>
+                      <TableCell className="text-center py-1">
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          disabled={data.barang_keluar_items.length <= 1}
+                          onClick={() => {
+                            // console.log("id",barang.id_barang_keluar)
+                            setSelectedDeleteId(barang.id_fifo);
+                            // console.log("id",selectedDeleteId)
+                            setOpenDelete(true);
+                          }}
+                        >
+                          Hapus
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
 
-          </CardContent> 
+              </Table>
+            </div>
+
+          </CardContent>
           <CardFooter className="flex justify-end">
             <Table>
               <TableFooter>
@@ -248,9 +248,9 @@ export default function DetailActions({ data, mutate: externalMutate }: { data: 
                   </TableCell>
                   <TableCell></TableCell>
                 </TableRow>
-            </TableFooter>
-          </Table>
-        
+              </TableFooter>
+            </Table>
+
           </CardFooter>
         </Card>
       </CustomModal>

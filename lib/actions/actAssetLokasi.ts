@@ -1,16 +1,11 @@
 "use server"
 
-// import { auth } from "@/auth"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "@/lib/errorHandler"
-import { getCurrentSession, setSessionTokenCookie } from "../session"
-import { cookies } from "next/headers"
-
-const backendUrl = process.env.BASE_URL
 
 export const getAllAssetLokasi = async () => {
     try {
-        const response = await axios.get(`/api/asset-lokasi`)
+        const response = await AxiosClient.get(`/api/gudang/asset-lokasi`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -21,16 +16,7 @@ export const getAllAssetLokasi = async () => {
 
 export const createAssetLokasi = async (formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        // cookieStore.set("session", token || "" , {
-        //   httpOnly: true,
-        //   sameSite: "lax",
-        //   secure: process.env.NODE_ENV === "production",
-        //   path: "***/***"
-        // });
-        const response = await axios.post(`${backendUrl}/api/asset-lokasi`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.post(`/api/gudang/asset-lokasi`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -39,10 +25,7 @@ export const createAssetLokasi = async (formData: FormData) => {
 
 export const getAssetLokasi = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.get(`${backendUrl}/api/asset-lokasi/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.get(`/api/gudang/asset-lokasi/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {
@@ -53,10 +36,7 @@ export const getAssetLokasi = async (id: string | null) => {
 
 export const editAssetLokasi = async (id: number, formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.put(`${backendUrl}/api/asset-lokasi/${id}`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.put(`/api/gudang/asset-lokasi/${id}`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -65,10 +45,7 @@ export const editAssetLokasi = async (id: number, formData: FormData) => {
 
 export const deleteAssetLokasi = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.delete(`${backendUrl}/api/asset-lokasi/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.delete(`/api/gudang/asset-lokasi/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {

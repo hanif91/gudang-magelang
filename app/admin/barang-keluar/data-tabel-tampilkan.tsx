@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import axios from 'axios'
+import AxiosClient from '@/lib/AxiosClient'
 import { AlertCircle, Plus } from 'lucide-react'
 import React from 'react'
 import useSWR from 'swr'
@@ -14,32 +14,32 @@ import { useSearchParams } from "next/navigation"
 import useFetch from "@/hooks/useFetch"
 import { Label } from "@/components/ui/label"
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 interface Props {
-    start: Date;
-    end: Date;
-    isTampilkan: boolean,
-		periode : String
+	start: Date;
+	end: Date;
+	isTampilkan: boolean,
+	periode: String
 }
 
 
 
-export default  function DataTabelFilter(props: Props) {
+export default function DataTabelFilter(props: Props) {
 
 
-	// const { data, error, isLoading } = useSWR(`/api/barang-keluar?fromTanggal=${pertama}&toTanggal=${akhir}`, fetcher)
+	// const { data, error, isLoading } = useSWR(`/api/gudang/barang-keluar?fromTanggal=${pertama}&toTanggal=${akhir}`, fetcher)
 
-	// const { data, error, isLoading } = useSWR(`/api/barang-keluar`, fetcher)
-	const { data, error, isLoading, mutate } = useFetch('/api/barang-keluar',props)
-	const { data: jenisBarang, error: errorJenisBarang, isLoading: isLoadingJenisBarang, mutate: mutateJenisBarang } = useSWR('/api/jenis-bk', fetcher)
-	const { data: jenisAsset, error: errorJenisAsset, isLoading: isLoadingJenisAsset, mutate: mutateJenisAsset } = useSWR('/api/asset-perpipaan', fetcher)
-	
+	// const { data, error, isLoading } = useSWR(`/api/gudang/barang-keluar`, fetcher)
+	const { data, error, isLoading, mutate } = useFetch('/api/gudang/barang-keluar', props)
+	const { data: jenisBarang, error: errorJenisBarang, isLoading: isLoadingJenisBarang, mutate: mutateJenisBarang } = useSWR('/api/gudang/jenis-bk', fetcher)
+	const { data: jenisAsset, error: errorJenisAsset, isLoading: isLoadingJenisAsset, mutate: mutateJenisAsset } = useSWR('/api/gudang/asset-perpipaan', fetcher)
+
 	// Create columns with mutate function
 	const columns = createColumns(mutate)
-	
-	console.log("data tabel barang keluar:",data);
-	console.log("props data tabel barang keluar:",isLoading);
+
+	console.log("data tabel barang keluar:", data);
+	console.log("props data tabel barang keluar:", isLoading);
 
 	if (error || errorJenisBarang || errorJenisAsset) return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">
@@ -132,7 +132,7 @@ export default  function DataTabelFilter(props: Props) {
 				<CardContent className="p-2">
 					<DataTable jenis_asset={jenisAsset.data ?? []} jenis_barang={jenisBarang.data ?? []} columns={columns} data={data.data} />
 					<div className="flex flex-row items-center justify-center space-x-5 space-y-2 p-2">
-						<Label className="text-center text-lg">Total Transaksi Barang Keluar Periode {props.periode} : {data.data ? data.data.reduce((acc: number, item: any) => acc + item.total, 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits : 0 }) : "Rp. 0"}</Label>
+						<Label className="text-center text-lg">Total Transaksi Barang Keluar Periode {props.periode} : {data.data ? data.data.reduce((acc: number, item: any) => acc + item.total, 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }) : "Rp. 0"}</Label>
 					</div>
 				</CardContent>
 				<CardFooter />

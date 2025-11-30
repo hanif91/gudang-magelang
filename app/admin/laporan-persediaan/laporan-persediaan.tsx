@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import axios from 'axios';
+import AxiosClient from '@/lib/AxiosClient';
 import React, { useRef } from 'react';
 import { useReactToPrint } from "react-to-print";
 import formatHarga from '@/lib/format-harga';
@@ -26,18 +26,18 @@ interface Props {
     isTampilkan: boolean,
 }
 
-const fetcher = (url: string) => axios.get(url).then(res => res.data);
+const fetcher = (url: string) => AxiosClient.get(url).then(res => res.data);
 
 export default function LapAduanReport(props: Props) {
     const month = format(props.filter.month, "yyyyMM");
     const periodeText = formatBulanIndonesia(props.filter.month);
 
     const { data: barang, isLoading: barangLoading, error: barangError } = useSWR(
-        `/api/laporan-persediaan?month=${month}`,
+        `/api/gudang/laporan-persediaan?month=${month}`,
         fetcher
     );
     const { data: formatLaporan, isLoading: formatLaporanLoading, error: formatLaporanError } = useSWR(
-        `/api/ttd-lap?tipe=LPPER`,
+        `/api/gudang/ttd-lap?tipe=LPPER`,
         fetcher
     );
 

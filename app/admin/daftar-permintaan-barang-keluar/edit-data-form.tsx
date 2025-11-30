@@ -27,11 +27,11 @@ import { useToast } from "@/hooks/use-toast"
 import { serialize } from "object-to-formdata"
 import { createBarang, editBarang } from "@/lib/actions/actBarang"
 import useSWR from "swr"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { createDpb, editDpb } from "@/lib/actions/actDpb"
 
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data.data)
 
 interface Barang {
     id: string;
@@ -47,8 +47,8 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
     const router = useRouter()
     const { toast } = useToast()
     const [isPending, startTransition] = useTransition()
-    const { data: listBarang } = useSWR<Barang[]>('/api/barang', fetcher)
-    const { data: listUser } = useSWR<User[]>('/api/users', fetcher)
+    const { data: listBarang } = useSWR<Barang[]>('/api/gudang/barang', fetcher)
+    const { data: listUser } = useSWR<User[]>('/api/gudang/users', fetcher)
 
 
     const formSchema = z.object({

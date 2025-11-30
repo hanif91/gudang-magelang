@@ -27,10 +27,10 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 
 const fetcher = async (url: string) =>
-  await axios.get(url).then((res) => res.data.data);
+  await AxiosClient.get(url).then((res) => res.data.data);
 
 interface JenisBk {
   id: string;
@@ -59,7 +59,7 @@ export default function EditingKomentarForm({ data }: { data?: any }) {
     error: errorJenisBk,
   } = useQuery<JenisBk[]>({
     queryKey: ["jenis-bk"],
-    queryFn: () => fetcher("/api/jenis-bk"),
+    queryFn: () => fetcher("/api/gudang/jenis-bk"),
   });
 
   const {
@@ -68,7 +68,7 @@ export default function EditingKomentarForm({ data }: { data?: any }) {
     error: errorListAsset,
   } = useQuery<Asset[]>({
     queryKey: ["asset-perpipaan"],
-    queryFn: () => fetcher("/api/asset-perpipaan"),
+    queryFn: () => fetcher("/api/gudang/asset-perpipaan"),
   });
 
   const {
@@ -77,7 +77,7 @@ export default function EditingKomentarForm({ data }: { data?: any }) {
     error: errorListBagMinta,
   } = useQuery<BagMinta[]>({
     queryKey: ["bagminta"],
-    queryFn: () => fetcher("/api/bagminta"),
+    queryFn: () => fetcher("/api/gudang/bagminta"),
   });
 
   const formSchema = z.object({

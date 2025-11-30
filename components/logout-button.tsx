@@ -1,17 +1,18 @@
 "use client";
 
-import { logoutAction } from "@/lib/actions/actLogout";
-// import { useFormState } from "react-dom";
 import { Button } from "./ui/button";
-import { useActionState } from "react";
 import { LogOut } from "lucide-react";
 
-const initialState = {
-	message: ""
-};
-
 export function LogoutButton() {
-	const [, action] = useActionState(logoutAction, initialState);
+	const action = async () => {
+		const response = await fetch("/api/auth/signout", {
+			method: "POST",
+		});
+		if (!response.ok) {
+			throw new Error("Failed to sign out");
+		}
+		window.location.href = "/";
+	};	
 	return (
 		<form className="grow" action={action}>
 			{/* <div className="flex justify-start w-full"> */}

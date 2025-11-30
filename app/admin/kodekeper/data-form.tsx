@@ -27,7 +27,7 @@ import { useToast } from "@/hooks/use-toast"
 import { serialize } from "object-to-formdata"
 import { createStock, editStock } from "@/lib/actions/actStock"
 import useSWR from "swr"
-import axios from "axios"
+import useSWR from "swr"
 import { createKodekeper, editKodekeper } from "@/lib/actions/actKodekeper"
 import { Combobox } from "@/components/ui/combobox"
 
@@ -40,7 +40,7 @@ export default function KodekeperForm({ kodekeper }: { kodekeper?: any }) {
   const formSchema = z.object({
     nama: z.string().min(1, "Date is required"),
     kode: z.string().min(1, "Date is required"),
-  
+
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -95,7 +95,7 @@ export default function KodekeperForm({ kodekeper }: { kodekeper?: any }) {
           </FormItem>
         )} />
 
-    
+
         <div className="flex justify-end">
           <Button type="submit" disabled={isPending}  >{isPending ? "Menyimpan..." : "Submit"}</Button>
         </div>

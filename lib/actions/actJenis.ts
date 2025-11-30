@@ -1,17 +1,13 @@
 "use server"
 
 // import { auth } from "@/auth"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "@/lib/errorHandler"
-import { getCurrentSession, setSessionTokenCookie } from "../session"
-import { cookies } from "next/headers"
-
-const backendUrl = process.env.BASE_URL
 
 export const getAllJenis = async () => {
     console.log("testt")
     try {
-        const response = await axios.get(`${backendUrl}/api/jenis`)
+        const response = await AxiosClient.get(`/api/gudang/jenis`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -22,16 +18,7 @@ export const getAllJenis = async () => {
 
 export const createJenis = async (formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        // cookieStore.set("session", token || "" , {
-        //   httpOnly: true,
-        //   sameSite: "lax",
-        //   secure: process.env.NODE_ENV === "production",
-        //   path: "***/***"
-        // });
-        const response = await axios.post(`${backendUrl}/api/jenis`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.post(`/api/gudang/jenis`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -40,10 +27,7 @@ export const createJenis = async (formData: FormData) => {
 
 export const getJenis = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.get(`${backendUrl}/api/jenis/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.get(`/api/gudang/jenis/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {
@@ -54,10 +38,7 @@ export const getJenis = async (id: string | null) => {
 
 export const editJenis = async (id: number, formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.put(`${backendUrl}/api/jenis/${id}`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.put(`/api/gudang/jenis/${id}`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -66,10 +47,7 @@ export const editJenis = async (id: number, formData: FormData) => {
 
 export const deleteJenis = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.delete(`${backendUrl}/api/jenis/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.delete(`/api/gudang/jenis/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {

@@ -37,7 +37,7 @@ export default function Actions({ id }: { id: string }) {
   const deleteAction = (id: string) => {
     startTransition(async () => {
       const data = await deleteKategori(id)
-  
+
       if (data.success) {
         toast({
           variant: "default",
@@ -53,8 +53,8 @@ export default function Actions({ id }: { id: string }) {
             </div>
           ),
         })
-  
-        mutate('/api/kategori')
+
+        mutate('/api/gudang/kategori')
       } else {
         toast({
           variant: "destructive",
@@ -72,13 +72,13 @@ export default function Actions({ id }: { id: string }) {
       }
     })
   }
-  
+
 
   console.log(id);
-  console.log(encrypt(id),"rtres")
+  console.log(encrypt(id), "rtres")
   return (
     <>
-     <DropdownMenu modal={false}>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Open menu</span>

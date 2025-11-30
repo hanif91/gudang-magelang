@@ -17,17 +17,17 @@ import { getUsers } from "@/lib/actions/usersAction"
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
 import useSWR, { Fetcher } from 'swr'
-import axios from 'axios'
+import AxiosClient from '@/lib/AxiosClient'
 import { Skeleton } from "@/components/ui/skeleton"
 
 // export const metadata: Metadata = {
 //   title: "Users",
 // }
-const fetcher = (url: any) => axios.get(url).then(res => res.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 export default function Users() {
 
-	const { data, error, isLoading } = useSWR('/api/users', fetcher)
+	const { data, error, isLoading } = useSWR('/api/gudang/users', fetcher)
 	if (error) return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">
 			<Card className="w-full">

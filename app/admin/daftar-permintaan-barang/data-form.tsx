@@ -19,12 +19,12 @@ import { useToast } from "@/hooks/use-toast";
 import { serialize } from "object-to-formdata";
 import { createDpb, editDpb } from "@/lib/actions/actDpb";
 import useSWR from "swr";
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 import { Combobox } from "@/components/ui/combobox";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data);
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data);
 
 interface Barang {
   id: string;
@@ -47,7 +47,7 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const { data, isLoading, error } = useSWR('/api/barang', fetcher);
+  const { data, isLoading, error } = useSWR('/api/gudang/barang', fetcher);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

@@ -1,36 +1,22 @@
 "use server"
 
-// import { auth } from "@/auth"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "@/lib/errorHandler"
-import { getCurrentSession, setSessionTokenCookie } from "../session"
-import { cookies } from "next/headers"
-
-const backendUrl = process.env.BASE_URL
 
 export const getUsers = async () => {
   try {
 
-    const response = await axios.get(`/api/users`)
+    const response = await AxiosClient.get(`/api/gudang/users`)
     return response.data
   } catch (error) {
-		console.log(error)
+    console.log(error)
     return axiosErrorHandler(error)
   }
 }
 
 export const createUser = async (formData: FormData) => {
   try {
-    const cookieStore = await cookies();
-    // cookieStore.set("session", token || "" , {
-    //   httpOnly: true,
-    //   sameSite: "lax",
-    //   secure: process.env.NODE_ENV === "production",
-    //   path: "***/***"
-    // });
-    const response = await axios.post(`${backendUrl}/api/users`, formData , {
-      headers : { Cookie: cookieStore.toString() }
-    })
+    const response = await AxiosClient.post(`/api/gudang/users`, formData)
     return response.data
   } catch (error) {
     return axiosErrorHandler(error)
@@ -39,10 +25,7 @@ export const createUser = async (formData: FormData) => {
 
 export const getUser = async (id: string | null) => {
   try {
-    const cookieStore = await cookies();
-    const response = await axios.get(`${backendUrl}/api/users/${id}`, {
-      headers: { Cookie: cookieStore.toString() },
-    })
+    const response = await AxiosClient.get(`/api/gudang/users/${id}`)
     console.log(response.data)
     return response.data
   } catch (error) {
@@ -52,10 +35,7 @@ export const getUser = async (id: string | null) => {
 
 export const editUser = async (id: number, formData: FormData) => {
   try {
-    const cookieStore = await cookies();
-    const response = await axios.put(`${backendUrl}/api/users/${id}`, formData, {
-      headers : { Cookie: cookieStore.toString() }
-    })
+    const response = await AxiosClient.put(`/api/gudang/users/${id}`, formData)
     return response.data
   } catch (error) {
     return axiosErrorHandler(error)

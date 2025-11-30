@@ -27,7 +27,7 @@ import { useToast } from "@/hooks/use-toast"
 import { serialize } from "object-to-formdata"
 import { createStock, editStock } from "@/lib/actions/actStock"
 import useSWR from "swr"
-import axios from "axios"
+import useSWR from "swr"
 import { createSupplier, editSupplier } from "@/lib/actions/actSupplier"
 import { Combobox } from "@/components/ui/combobox"
 

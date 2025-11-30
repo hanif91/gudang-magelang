@@ -30,28 +30,27 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import useSWR, { Fetcher } from 'swr' 
-import axios from 'axios'
+import useSWR, { Fetcher } from 'swr'
 import { Skeleton } from "@/components/ui/skeleton"
-import type { SessionValidationResult } from '@/lib/session'
+import AxiosClient from '@/lib/AxiosClient'
 import { LogoutButton } from './logout-button'
-const fetcher  = (url : any) => axios.get<SessionValidationResult>(url).then(res => res.data)
+const fetcher = (url: string) => AxiosClient.get(url).then((res) => res.data.data);
 
 export function NavUser(
-	
+
 ) {
-	const { data, error , isLoading } = useSWR('/api/users/validation-session', fetcher)
+  const { data, error, isLoading } = useSWR('/api/auth/validate-token', fetcher)
   const { isMobile } = useSidebar()
-	if (error) return <div>failed to load</div>;
-	if (isLoading) return (
-		<Skeleton className="w-[100px] h-[20px] rounded-full" />
-	)
-	const user = data?.user; 
-	// console.log(user);
+  if (error) return <div>failed to load</div>;
+  if (isLoading) return (
+    <Skeleton className="w-[100px] h-[20px] rounded-full" />
+  )
+  const user = data?.user;
+  // console.log(user);
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-       <DropdownMenu modal={false}>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
@@ -89,20 +88,20 @@ export function NavUser(
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck className='' size={24}/>
-                 <p className='ml-4'>Profile</p>
+                <BadgeCheck className='' size={24} />
+                <p className='ml-4'>Profile</p>
               </DropdownMenuItem>
-   
+
 
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="inline-flex w-full p-0"> 
-							{/* <div className="flex justify-start w-full">
+            <DropdownMenuItem className="inline-flex w-full p-0">
+              {/* <div className="flex justify-start w-full">
 								<LogOut size={26} className='my-1'/> */}
-								<LogoutButton/>
-							{/* </div> */}
+              <LogoutButton />
+              {/* </div> */}
 
-           
+
               {/* Log out */}
             </DropdownMenuItem>
           </DropdownMenuContent>

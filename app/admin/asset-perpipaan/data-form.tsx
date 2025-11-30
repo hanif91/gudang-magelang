@@ -28,7 +28,7 @@ import { serialize } from "object-to-formdata"
 import { createMerek, editMerek } from "@/lib/actions/actMerek"
 import useSWR, { mutate } from "swr"
 import { createAssetPerpipaan, editAssetPerpipaan } from "@/lib/actions/actAssetPerpipaan"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { Combobox } from "@/components/ui/combobox"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -39,7 +39,7 @@ interface Lokasi {
   nama: string;
 }
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data.data)
 
 
 
@@ -47,7 +47,7 @@ export default function AssetPerpipaanForm({ asset_perpipaan }: { asset_perpipaa
   const router = useRouter()
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const { data: listLokasi, isLoading: isLoadingLokasi } = useSWR<Lokasi[]>('/api/asset-lokasi', fetcher)
+  const { data: listLokasi, isLoading: isLoadingLokasi } = useSWR<Lokasi[]>('/api/gudang/asset-lokasi', fetcher)
 
 
   const formSchema = z.object({
@@ -82,7 +82,7 @@ export default function AssetPerpipaanForm({ asset_perpipaan }: { asset_perpipaa
           description: "Data Asset Perpipaan berhasil disimpan!",
         })
         router.push("/admin/asset-perpipaan")
-        // mutate('/api/merek')
+        // mutate('/api/gudang/merek')
         router.refresh
 
       } else {

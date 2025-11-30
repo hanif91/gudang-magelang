@@ -27,13 +27,13 @@ import { useToast } from "@/hooks/use-toast"
 import { serialize } from "object-to-formdata"
 import { createBarang, editBarang } from "@/lib/actions/actBarang"
 import useSWR from "swr"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { Combobox } from "@/components/ui/combobox"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data.data)
 
 interface Jenis {
   id: string;
@@ -49,8 +49,8 @@ export default function BarangForm({ barang }: { barang?: any }) {
   const router = useRouter()
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const { data: listJenis, isLoading: isLoadingJenis } = useSWR<Jenis[]>('/api/jenis', fetcher)
-  const { data: listMerek, isLoading: isLoadingMerek } = useSWR<Merek[]>('/api/merek', fetcher)
+  const { data: listJenis, isLoading: isLoadingJenis } = useSWR<Jenis[]>('/api/gudang/jenis', fetcher)
+  const { data: listMerek, isLoading: isLoadingMerek } = useSWR<Merek[]>('/api/gudang/merek', fetcher)
 
 
   const formSchema = z.object({
@@ -88,7 +88,7 @@ export default function BarangForm({ barang }: { barang?: any }) {
         form.setValue("nama", selectedJenis.jenis_nama);
       }
     }
-  }, [barang,listJenis,form]); // Jalankan efek ini setiap kali nilai jenis berubah
+  }, [barang, listJenis, form]); // Jalankan efek ini setiap kali nilai jenis berubah
 
 
 

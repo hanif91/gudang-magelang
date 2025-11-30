@@ -1,4 +1,4 @@
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 import React, { forwardRef } from "react";
 import useSWR from "swr";
 
@@ -34,10 +34,10 @@ interface TtdLap {
     };
 }
 
-const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
+const fetcher = (url: string) => AxiosClient.get(url).then(res => res.data.data);
 
 const PrintDPB = forwardRef<HTMLDivElement, { data: Dpb }>(({ data }, ref) => {
-    const { data: ttdLap, error: errorTtdLap, isLoading: isLoadingTtdLap } = useSWR<TtdLap>('/api/ttd-lap?tipe=DPB', fetcher);
+    const { data: ttdLap, error: errorTtdLap, isLoading: isLoadingTtdLap } = useSWR<TtdLap>('/api/gudang/ttd-lap?tipe=DPB', fetcher);
 
     if (isLoadingTtdLap || !ttdLap) {
         return <div>Loading tanda tangan...</div>;

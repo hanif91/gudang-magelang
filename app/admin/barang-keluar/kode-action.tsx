@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/table"
 import { CardTitle } from "@/components/ui/card"
 import CustomModal from "./custom-modal"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { z } from "zod"
 import useSWR, { mutate } from "swr"
 import { useForm } from "react-hook-form"
@@ -37,7 +37,7 @@ interface KodeKeperluan {
 }
 
 const fetcher = (url: string) =>
-    axios.get(url).then((res) => res.data.data);
+    AxiosClient.get(url).then((res) => res.data.data);
 
 const formSchema = z.object({
     id_kodekeper: z.string().min(1, "Kode Keperluan harus diisi"),
@@ -46,7 +46,7 @@ const formSchema = z.object({
 export default function KodeAction({ id_barang_keluar, kodekeper, id_kodekeper, mutate: externalMutate }: { id_barang_keluar: string; kodekeper: string; id_kodekeper: string; mutate?: () => void; }) {
     const [openDetail, setOpenDetail] = useState(false);
     const [isPending, startTransition] = useTransition()
-    const { data, isLoading, error } = useSWR<KodeKeperluan[]>("/api/kodekeper", fetcher);
+    const { data, isLoading, error } = useSWR<KodeKeperluan[]>("/api/gudang/kodekeper", fetcher);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -73,7 +73,7 @@ export default function KodeAction({ id_barang_keluar, kodekeper, id_kodekeper, 
                 if (externalMutate) {
                     externalMutate();
                 } else {
-                    mutate('/api/barang-keluar');
+                    mutate('/api/gudang/barang-keluar');
                 }
             } else {
                 toast({

@@ -56,7 +56,7 @@ export default function Actions({ id, mutate: externalMutate }: { id: string; mu
         if (externalMutate) {
           externalMutate();
         } else {
-          mutate('/api/barang-keluar');
+          mutate('/api/gudang/barang-keluar');
           router.refresh();
         }
         setOpenDelete(false)

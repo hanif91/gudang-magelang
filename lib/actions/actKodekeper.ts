@@ -1,16 +1,12 @@
 "use server"
 
 // import { auth } from "@/auth"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "@/lib/errorHandler"
-import { getCurrentSession, setSessionTokenCookie } from "../session"
-import { cookies } from "next/headers"
-
-const backendUrl = process.env.BASE_URL
 
 export const getAllKodekeper = async () => {
     try {
-        const response = await axios.get(`/api/kodekeper`)
+        const response = await AxiosClient.get(`/api/gudang/kodekeper`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -21,16 +17,7 @@ export const getAllKodekeper = async () => {
 
 export const createKodekeper = async (formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        // cookieStore.set("session", token || "" , {
-        //   httpOnly: true,
-        //   sameSite: "lax",
-        //   secure: process.env.NODE_ENV === "production",
-        //   path: "***/***"
-        // });
-        const response = await axios.post(`${backendUrl}/api/kodekeper`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.post(`/api/gudang/kodekeper`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -39,10 +26,7 @@ export const createKodekeper = async (formData: FormData) => {
 
 export const getKodekeper = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.get(`${backendUrl}/api/kodekeper/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.get(`/api/gudang/kodekeper/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {
@@ -53,10 +37,7 @@ export const getKodekeper = async (id: string | null) => {
 
 export const editKodekeper = async (id: number, formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.put(`${backendUrl}/api/kodekeper/${id}`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.put(`/api/gudang/kodekeper/${id}`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -65,10 +46,7 @@ export const editKodekeper = async (id: number, formData: FormData) => {
 
 export const deleteKodekeper = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.delete(`${backendUrl}/api/kodekeper/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.delete(`/api/gudang/kodekeper/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {

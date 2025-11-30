@@ -1,16 +1,11 @@
 "use server"
 
-// import { auth } from "@/auth"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "@/lib/errorHandler"
-import { getCurrentSession, setSessionTokenCookie } from "../session"
-import { cookies } from "next/headers"
-
-const backendUrl = process.env.BASE_URL
 
 export const getAllAssetWilayah = async () => {
     try {
-        const response = await axios.get(`/api/asset-wilayah`)
+        const response = await AxiosClient.get(`/api/gudang/asset-wilayah`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -21,16 +16,7 @@ export const getAllAssetWilayah = async () => {
 
 export const createAssetWilayah = async (formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        // cookieStore.set("session", token || "" , {
-        //   httpOnly: true,
-        //   sameSite: "lax",
-        //   secure: process.env.NODE_ENV === "production",
-        //   path: "***/***"
-        // });
-        const response = await axios.post(`${backendUrl}/api/asset-wilayah`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.post(`/api/gudang/asset-wilayah`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -39,10 +25,7 @@ export const createAssetWilayah = async (formData: FormData) => {
 
 export const getAssetWilayah = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.get(`${backendUrl}/api/asset-wilayah/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.get(`/api/gudang/asset-wilayah/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {
@@ -53,10 +36,7 @@ export const getAssetWilayah = async (id: string | null) => {
 
 export const editAssetWilayah = async (id: number, formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.put(`${backendUrl}/api/asset-wilayah/${id}`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.put(`/api/gudang/asset-wilayah/${id}`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -65,10 +45,7 @@ export const editAssetWilayah = async (id: number, formData: FormData) => {
 
 export const deleteAssetWilayah = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.delete(`${backendUrl}/api/asset-wilayah/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.delete(`/api/gudang/asset-wilayah/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {

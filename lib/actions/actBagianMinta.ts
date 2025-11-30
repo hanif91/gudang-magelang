@@ -1,16 +1,11 @@
 "use server"
 
-// import { auth } from "@/auth"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "@/lib/errorHandler"
-import { getCurrentSession, setSessionTokenCookie } from "../session"
-import { cookies } from "next/headers"
-
-const backendUrl = process.env.BASE_URL
 
 export const getAllBagianMinta = async () => {
     try {
-        const response = await axios.get(`/api/bagminta`)
+        const response = await AxiosClient.get(`/api/gudang/bagminta`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -21,16 +16,7 @@ export const getAllBagianMinta = async () => {
 
 export const createBagianMinta = async (formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        // cookieStore.set("session", token || "" , {
-        //   httpOnly: true,
-        //   sameSite: "lax",
-        //   secure: process.env.NODE_ENV === "production",
-        //   path: "***/***"
-        // });
-        const response = await axios.post(`${backendUrl}/api/bagminta`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.post(`/api/gudang/bagminta`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -39,10 +25,7 @@ export const createBagianMinta = async (formData: FormData) => {
 
 export const getBagianMinta = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.get(`${backendUrl}/api/bagminta/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.get(`/api/gudang/bagminta/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {
@@ -53,10 +36,7 @@ export const getBagianMinta = async (id: string | null) => {
 
 export const editBagianMinta = async (id: number, formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.put(`${backendUrl}/api/bagminta/${id}`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.put(`/api/gudang/bagminta/${id}`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -65,10 +45,7 @@ export const editBagianMinta = async (id: number, formData: FormData) => {
 
 export const deleteBagianMinta = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.delete(`${backendUrl}/api/bagminta/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.delete(`/api/gudang/bagminta/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {

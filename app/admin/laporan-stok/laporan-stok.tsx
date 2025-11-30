@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import formatHarga from "@/lib/format-harga";
@@ -26,7 +26,7 @@ interface Props {
   isTampilkan: boolean;
 }
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+const fetcher = (url: string) => AxiosClient.get(url).then((res) => res.data);
 
 export default function LapAduanReport(props: Props) {
   const month = format(props.filter.month, "yyyyMM");
@@ -36,12 +36,12 @@ export default function LapAduanReport(props: Props) {
     data: barang,
     isLoading: barangLoading,
     error: barangError,
-  } = useSWR(`/api/laporan-stok?month=${month}`, fetcher);
+  } = useSWR(`/api/gudang/laporan-stok?month=${month}`, fetcher);
   const {
     data: formatLaporan,
     isLoading: formatLaporanLoading,
     error: formatLaporanError,
-  } = useSWR(`/api/ttd-lap?tipe=LPS`, fetcher);
+  } = useSWR(`/api/gudang/ttd-lap?tipe=LPS`, fetcher);
 
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
@@ -371,9 +371,8 @@ export default function LapAduanReport(props: Props) {
           </div>
 
           <div
-            className={`flex flex-wrap ${
-              ttdFilter.length > 2 ? "justify-center" : "justify-between"
-            }`}
+            className={`flex flex-wrap ${ttdFilter.length > 2 ? "justify-center" : "justify-between"
+              }`}
           >
             {ttdFilter.map((items: any, index: number) => (
               <div key={index} className="text-center w-1/3 mb-8">

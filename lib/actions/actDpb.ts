@@ -1,16 +1,10 @@
 "use server";
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "../errorHandler"
-import { cookies } from "next/headers";
-
-const backendUrl = process.env.BASE_URL
 
 export const getAllDpb = async () => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.get(`/api/dpb`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.get(`/api/gudang/dpb`)
         console.log(response.data)
         return response.data
     } catch (error) {
@@ -21,16 +15,7 @@ export const getAllDpb = async () => {
 
 export const createDpb = async (formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        // cookieStore.set("session", token || "" , {
-        //   httpOnly: true,
-        //   sameSite: "lax",
-        //   secure: process.env.NODE_ENV === "production",
-        //   path: "***/***"
-        // });
-        const response = await axios.post(`${backendUrl}/api/dpb`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.post(`/api/gudang/dpb`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -39,10 +24,7 @@ export const createDpb = async (formData: FormData) => {
 
 export const getDpb = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.get(`${backendUrl}/api/dpb/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.get(`/api/gudang/dpb/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {
@@ -53,10 +35,7 @@ export const getDpb = async (id: string | null) => {
 
 export const editDpb = async (id: number, formData: FormData) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.put(`${backendUrl}/api/dpb/${id}`, formData, {
-            headers: { Cookie: cookieStore.toString() }
-        })
+        const response = await AxiosClient.put(`/api/gudang/dpb/${id}`, formData)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -65,10 +44,7 @@ export const editDpb = async (id: number, formData: FormData) => {
 
 export const deleteDpb = async (id: string | null) => {
     try {
-        const cookieStore = await cookies();
-        const response = await axios.delete(`${backendUrl}/api/dpb/${id}`, {
-            headers: { Cookie: cookieStore.toString() },
-        })
+        const response = await AxiosClient.delete(`/api/gudang/dpb/${id}`)
         console.log(response.data)
         return response.data
     } catch (error) {

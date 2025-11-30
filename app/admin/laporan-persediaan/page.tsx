@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import axios from 'axios'
+import AxiosClient from '@/lib/AxiosClient'
 import { AlertCircle, CalendarIcon, Plus } from 'lucide-react'
 import useSWR from 'swr'
 import { DataTable } from '../paket/data-table'
@@ -19,7 +19,7 @@ import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { MonthPicker } from "@/components/ui/monthpicker"
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 
 export default function LaporanPersediaan() {

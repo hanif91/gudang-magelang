@@ -28,7 +28,7 @@ import { serialize } from "object-to-formdata"
 import { createMerek, editMerek } from "@/lib/actions/actMerek"
 import useSWR, { mutate } from "swr"
 import { createAssetLokasi, editAssetLokasi } from "@/lib/actions/actAssetLokasi"
-import axios from "axios"
+import AxiosClient from "@/lib/AxiosClient"
 import { Combobox } from "@/components/ui/combobox"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -39,7 +39,7 @@ interface Wilayah {
   nama: string;
 }
 
-const fetcher = (url: any) => axios.get(url).then(res => res.data.data)
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data.data)
 
 
 
@@ -47,7 +47,7 @@ export default function AssetLokasiForm({ asset_lokasi }: { asset_lokasi?: any }
   const router = useRouter()
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const { data: listWilayah, isLoading: isLoadingWilayah } = useSWR<Wilayah[]>('/api/asset-wilayah', fetcher)
+  const { data: listWilayah, isLoading: isLoadingWilayah } = useSWR<Wilayah[]>('/api/gudang/asset-wilayah', fetcher)
 
 
   const formSchema = z.object({
@@ -76,7 +76,7 @@ export default function AssetLokasiForm({ asset_lokasi }: { asset_lokasi?: any }
           description: "Data Asset Lokasi berhasil disimpan!",
         })
         router.push("/admin/asset-lokasi")
-        // mutate('/api/merek')
+        // mutate('/api/gudang/merek')
         router.refresh
 
       } else {
