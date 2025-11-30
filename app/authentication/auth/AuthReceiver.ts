@@ -14,7 +14,7 @@ interface ValidationResponse {
 export async function processEncryptedToken(encryptedData: string) {
   const secretKey = process.env.SSO_SECRET_KEY;
   // URL Backend kamu (bukan URL frontend Web A atau Web B)
-  const backendApiUrl = process.env.NEXT_PUBLIC_API_URL; 
+  const backendApiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   if (!secretKey || !backendApiUrl) {
     return { success: false, message: "Konfigurasi Server (Env) belum lengkap" };
@@ -40,14 +40,14 @@ export async function processEncryptedToken(encryptedData: string) {
       headers: {
         'Content-Type': 'application/json',
         // Masukkan token di Header Authorization
-        'Authorization': `Bearer ${originalToken}` 
+        'Authorization': `Bearer ${originalToken}`
       },
       cache: 'no-store' // Penting! Agar Next.js tidak men-cache request ini
     });
 
     if (!res.ok) {
-        // Jika backend merespon 401 (Unauthorized) atau 403 (Forbidden)
-        return { success: false, message: "Token sudah kadaluarsa atau tidak valid" };
+      // Jika backend merespon 401 (Unauthorized) atau 403 (Forbidden)
+      return { success: false, message: "Token sudah kadaluarsa atau tidak valid" };
     }
 
     // Opsional: Ambil data user terbaru dari respon validasi
@@ -57,8 +57,8 @@ export async function processEncryptedToken(encryptedData: string) {
     // LANGKAH 3: SET COOKIE DI WEB B (Resmi Masuk)
     // -------------------------------------------------------------
     const cookieStore = await cookies();
-    
-    cookieStore.set('token', originalToken, {
+
+    cookieStore.set('token_gudang', originalToken, {
       // secure: process.env.NODE_ENV === 'production', // Wajib true saat deploy HTTPS
       secure: false,
       httpOnly: false, // Sesuaikan kebutuhanmu (false jika butuh akses via JS client)

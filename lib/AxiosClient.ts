@@ -20,7 +20,7 @@ AxiosClient.interceptors.request.use(
             try {
                 const { cookies } = await import("next/headers");
                 const cookieStore = await cookies();
-                const sessionCookie = cookieStore.get("token"); // Adjust cookie name if needed
+                const sessionCookie = cookieStore.get('token_gudang'); // Adjust cookie name if needed
                 if (sessionCookie) {
                     config.headers.Cookie = `${sessionCookie.name}=${sessionCookie.value}`;
                 }

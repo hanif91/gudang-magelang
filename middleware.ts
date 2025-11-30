@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
-	const hasToken = request.cookies.has('token');
+	const hasToken = request.cookies.has('token_gudang');
 
 	// Allow access to the receiver page without a token
 	if (pathname.startsWith("/authentication/receiver")) {

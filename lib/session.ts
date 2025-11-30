@@ -66,7 +66,7 @@ export async function validateSessionToken(
 export const getCurrentSession = cache(
   async (): Promise<SessionValidationResult> => {
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value ?? null;
+    const token = cookieStore.get('token_gudang')?.value ?? null;
     if (token === null) {
       return { session: null, user: null };
     }
@@ -96,7 +96,7 @@ export async function setSessionTokenCookie(
   expiresAt: Date,
 ): Promise<void> {
   const cookieStore = await cookies();
-  cookieStore.set("token", token, {
+  cookieStore.set('token_gudang', token, {
     httpOnly: true,
     sameSite: "lax",
     // secure: process.env.NODE_ENV === "production",
@@ -108,7 +108,7 @@ export async function setSessionTokenCookie(
 
 export async function deleteSessionTokenCookie(): Promise<void> {
   const cookieStore = await cookies();
-  cookieStore.set("token", "", {
+  cookieStore.set('token_gudang', "", {
     httpOnly: true,
     sameSite: "lax",
     // secure: process.env.NODE_ENV === "production",

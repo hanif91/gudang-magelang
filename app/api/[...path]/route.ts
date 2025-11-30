@@ -10,7 +10,7 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
     const url = `${EXTERNAL_API_URL}/api/${path}${req.nextUrl.search}`;
 
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const token = cookieStore.get('token_gudang')?.value;
 
     const headers: Record<string, string> = {
         "Content-Type": "application/json",
