@@ -8,7 +8,6 @@ export default async function Home() {
 		if (portalUrl) {
 			return redirect(portalUrl);
 		}
-		return redirect("/login"); // Fallback if env is missing
 	}
 
 	return redirect("/admin");
