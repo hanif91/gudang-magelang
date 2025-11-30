@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { getUser } from "@/lib/actions/usersAction"
+
 import { notFound } from "next/navigation"
 import { decrypt } from "@/lib/crypto"
 import DataForm from "../data-form"
@@ -24,7 +24,7 @@ export default async function edit({ searchParams }: { searchParams: Promise<{ [
   const paramsId = await searchParams;
   const paramsIdValue = paramsId.id as string || ""
   const id = decrypt(decodeURIComponent(paramsIdValue))
-  console.log("id" ,id)
+  console.log("id", id)
   const data = await getPaket(id)
 
   // console.log(data);

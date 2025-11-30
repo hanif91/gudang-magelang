@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { getUser } from "@/lib/actions/usersAction"
+
 import { notFound } from "next/navigation"
 import { decrypt } from "@/lib/crypto"
 import DataForm from "../data-form"
@@ -19,13 +19,13 @@ export const metadata: Metadata = {
 }
 
 export default async function edit({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
-  
-	const paramsId = await searchParams;
-	const paramsIdValue = paramsId.id as string || "" 
-	const id = decrypt(decodeURIComponent(paramsIdValue))
+
+  const paramsId = await searchParams;
+  const paramsIdValue = paramsId.id as string || ""
+  const id = decrypt(decodeURIComponent(paramsIdValue))
   const data = await getKategori(id)
 
-	console.log(data);
+  console.log(data);
   if (data && !data.success) {
     notFound()
   }
