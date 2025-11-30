@@ -59,7 +59,8 @@ export async function processEncryptedToken(encryptedData: string) {
     const cookieStore = await cookies();
     
     cookieStore.set('token', originalToken, {
-      secure: process.env.NODE_ENV === 'production', // Wajib true saat deploy HTTPS
+      // secure: process.env.NODE_ENV === 'production', // Wajib true saat deploy HTTPS
+      secure: false,
       httpOnly: false, // Sesuaikan kebutuhanmu (false jika butuh akses via JS client)
       sameSite: 'lax',
       path: '/',

@@ -17,7 +17,7 @@ export function LogoutButton() {
 			{/* <div className="flex justify-start w-full"> */}
 			<Button className="w-full  justify-start border-0 px-1" size={"sm"} variant={"outline"}>
 				<LogOut size={24} className='mx-2' />
-				Sign out
+				Back to Portal
 			</Button>
 			{/* </div> */}
 

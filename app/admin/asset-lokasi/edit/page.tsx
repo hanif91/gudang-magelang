@@ -7,12 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { getUser } from "@/lib/actions/usersAction"
 import { notFound } from "next/navigation"
 import { decrypt } from "@/lib/crypto"
 import DataForm from "../data-form"
 import { Fragment } from "react"
-import { getMerek } from "@/lib/actions/actMerek"
 import { getAssetLokasi } from "@/lib/actions/actAssetLokasi"
 
 export const metadata: Metadata = {

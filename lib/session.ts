@@ -99,7 +99,8 @@ export async function setSessionTokenCookie(
   cookieStore.set("token", token, {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
+    secure: false,
     expires: expiresAt,
     path: "/",
   });
@@ -110,7 +111,8 @@ export async function deleteSessionTokenCookie(): Promise<void> {
   cookieStore.set("token", "", {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
+    secure: false,
     maxAge: 0,
     path: "/",
   });
