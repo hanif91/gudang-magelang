@@ -1,5 +1,6 @@
 'use client';
 import useSWR from 'swr';
+import Image from "next/image";
 import {
     Table,
     TableBody,
@@ -103,7 +104,7 @@ export default function LapAduanReport(props: Props) {
 
             <div ref={componentRef} className="px-10">
                 <div className="flex items-center gap-4 mb-6">
-                    <img className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" />
+                    <Image className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
                     <div className="text-green-800">
                         <h1 className="font-bold text-lg">{formatLaporan?.data?.kota?.headerlap1}</h1>
                         <p className="text-sm">{formatLaporan?.data?.kota?.headerlap2}</p>

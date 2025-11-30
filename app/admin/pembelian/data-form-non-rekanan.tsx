@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useTransition, useState, useEffect } from "react"
+import { useTransition, useState, useEffect, useCallback } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -126,7 +126,7 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
   })
 
   // Fungsi untuk menghitung grand total berdasarkan input harga_beli dan qty dari data DPB
-  const hitungGrandTotal = () => {
+  const hitungGrandTotal = useCallback(() => {
     const barangValues = form.getValues("barang")
     const total = barangValues.reduce((acc: number, item: any, index: number) => {
       // Cari barang asli untuk mendapatkan nilai qty dari data DPB
@@ -135,7 +135,7 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
       return acc + (Number(item.harga_beli) * qty)
     }, 0)
     setGrandTotal(total)
-  }
+  }, [form, selectedDpb])
 
   // Update grand total saat nilai harga_beli berubah
   useEffect(() => {
@@ -145,7 +145,7 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
       }
     })
     return () => subscription.unsubscribe()
-  }, [form, selectedDpb])
+  }, [form, hitungGrandTotal])
 
   const handleNoDPBChange = (dpbId: string) => {
     const selected = data?.find((dpb) => dpb.id === Number(dpbId))

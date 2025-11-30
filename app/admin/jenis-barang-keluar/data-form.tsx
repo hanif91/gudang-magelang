@@ -25,11 +25,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { serialize } from "object-to-formdata"
-import { createStock, editStock } from "@/lib/actions/actStock"
-import useSWR from "swr"
-import useSWR from "swr"
 import { createJenisBk, editJenisBk } from "@/lib/actions/actJenisBk"
-import { Combobox } from "@/components/ui/combobox"
 
 
 export default function JenisBarangKeluarForm({ jenis_bk }: { jenis_bk?: any }) {

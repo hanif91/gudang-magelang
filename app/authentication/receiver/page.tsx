@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { processEncryptedToken } from '@/app/authentication/auth/AuthReceiver';
 
-export default function AuthReceiverPage() {
+function AuthReceiverContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [status, setStatus] = useState("Memproses keamanan...");
@@ -26,7 +26,7 @@ export default function AuthReceiverPage() {
           setStatus("Berhasil! Mengalihkan...");
           // Gunakan window.location agar state aplikasi benar-benar fresh, 
           // atau router.replace jika ingin SPA transition
-          router.replace('/'); 
+          router.replace('/');
         } else {
           setStatus(`Gagal: ${result.message}`);
         }
@@ -46,5 +46,13 @@ export default function AuthReceiverPage() {
         <p className="text-gray-600 animate-pulse">{status}</p>
       </div>
     </div>
+  );
+}
+
+export default function AuthReceiverPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthReceiverContent />
+    </Suspense>
   );
 }

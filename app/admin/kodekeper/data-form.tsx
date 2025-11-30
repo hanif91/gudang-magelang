@@ -26,8 +26,6 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { serialize } from "object-to-formdata"
 import { createStock, editStock } from "@/lib/actions/actStock"
-import useSWR from "swr"
-import useSWR from "swr"
 import { createKodekeper, editKodekeper } from "@/lib/actions/actKodekeper"
 import { Combobox } from "@/components/ui/combobox"
 

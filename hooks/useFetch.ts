@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import axios from "axios";
 
-const backendUrl = process.env.BASE_URL;
+const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 
 
 const instance = axios.create({

@@ -2,6 +2,7 @@ import AxiosClient from "@/lib/AxiosClient";
 import React, { forwardRef } from "react";
 import useSWR from "swr";
 import Dpbk from "../models/models";
+import Image from "next/image";
 
 interface TtdLap {
     ttdlap: {
@@ -42,7 +43,7 @@ const PrintDPBK = forwardRef<HTMLDivElement, { data: Dpbk }>(({ data }, ref) => 
     return (
         <div ref={ref} className="text-sm font-sans mx-auto w-full px-10 relative">
             <div className="flex items-center space-x-2 mb-5">
-                <img className="w-16" src={'/logo.png'} alt="Logo" />
+                <Image className="w-16 h-auto" src="/logo.png" alt="Logo" width={64} height={64} />
                 <div className="text-green-800 items-start">
                     <p>{ttdLap.kota?.headerlap1}</p>
                     <p>{ttdLap.kota?.headerlap2}</p>
