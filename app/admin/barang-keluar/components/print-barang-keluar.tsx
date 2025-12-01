@@ -38,7 +38,7 @@ interface TtdLap {
         footerkota: string;
     };
     paraf: {
-        ttdLap: {
+        ttd: {
             header: string;
             nama_paraf: string;
             jabatan: string;
@@ -67,7 +67,7 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
         year: 'numeric',
     }).format(new Date());
 
-    const ttdFilter = ttdLap.paraf.ttdLap.filter((e, i) => {
+    const ttdFilter = ttdLap.paraf.ttd.filter((e, i) => {
         return e.isid == 1;
     })
 

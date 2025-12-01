@@ -34,7 +34,7 @@ interface TtdLap {
         footerkota: string;
     };
     paraf: {
-        ttdLap: {
+        ttd: {
             header: string;
             nama_paraf: string;
             jabatan: string;
