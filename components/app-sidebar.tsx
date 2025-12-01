@@ -68,7 +68,7 @@ const iconMap: Record<string, LucideIcon> = {
 const data = {
   teams: [
     {
-      name: "GUDANG TAKALAR",
+      name: "GUDANG PDAM MAGELANG",
       logo: GalleryVerticalEnd,
       plan: "",
     },
