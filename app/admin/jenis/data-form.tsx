@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createMerek, editMerek } from "@/lib/actions/actMerek"
 import useSWR, { mutate } from "swr"
 import { createJenis, editJenis } from "@/lib/actions/actJenis"
@@ -67,8 +67,8 @@ export default function JenisForm({ jenis }: { jenis?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = jenis ? await editJenis(jenis.id, formData) : await createJenis(formData)
+      // const formData = serialize(values)
+      const data = jenis ? await editJenis(jenis.id, values) : await createJenis(values)
 
       if (data.success) {
         toast({

@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 // import { auth } from "@/auth"
 import AxiosClient from "@/lib/AxiosClient"
@@ -15,9 +15,9 @@ export const getAllUnit = async () => {
 }
 
 
-export const createUnit = async (formData: FormData) => {
+export const createUnit = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/unit`, formData)
+        const response = await AxiosClient.post(`/api/gudang/unit`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -35,9 +35,9 @@ export const getUnit = async (id: string | null) => {
 }
 
 
-export const editUnit = async (id: number, formData: FormData) => {
+export const editUnit = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/unit/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/unit/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

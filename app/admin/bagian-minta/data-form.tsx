@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createStock, editStock } from "@/lib/actions/actStock"
 import { createBagianMinta, editBagianMinta } from "@/lib/actions/actBagianMinta"
 
@@ -46,8 +46,8 @@ export default function BagianMintaForm({ bagian_minta }: { bagian_minta?: any }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = bagian_minta ? await editBagianMinta(bagian_minta.id, formData) : await createBagianMinta(formData)
+      // const formData = serialize(values)
+      const data = bagian_minta ? await editBagianMinta(bagian_minta.id, values) : await createBagianMinta(values)
 
       if (data.success) {
         toast({

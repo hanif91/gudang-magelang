@@ -11,12 +11,12 @@ export default async function RootLayoutAdmin({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const { user } = await getCurrentSession();
-	if (user === null) {
-		console.log(user, "from page");
-		const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL || "http://localhost:3000"; // Fallback
-		return redirect(portalUrl);
-	}
+	// const { user } = await getCurrentSession();
+	// if (user === null) {
+	// 	console.log(user, "from page");
+	// 	const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL || "http://localhost:3000"; // Fallback
+	// 	return redirect(portalUrl);
+	// }
 
 
 	return (

@@ -37,6 +37,14 @@ interface TtdLap {
         headerlap2: string;
         footerkota: string;
     };
+    paraf: {
+        ttdLap: {
+            header: string;
+            nama_paraf: string;
+            jabatan: string;
+            isid: number;
+        }[];
+    };
 }
 
 const fetcher = (url: string) => AxiosClient.get(url).then(res => res.data.data);
@@ -59,7 +67,7 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
         year: 'numeric',
     }).format(new Date());
 
-    const ttdFilter = ttdLap.ttdlap.filter((e, i) => {
+    const ttdFilter = ttdLap.paraf.ttdLap.filter((e, i) => {
         return e.isid == 1;
     })
 

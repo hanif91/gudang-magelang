@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { serialize } from "object-to-formdata";
+// import { serialize } from "object-to-formdata";
 import { createMerek, editMerek } from "@/lib/actions/actMerek";
 import useSWR, { mutate } from "swr";
 import { createPaket, editPaket } from "@/lib/actions/actPaket";
@@ -81,10 +81,10 @@ export default function PaketForm({ paket }: { paket?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values);
+      // const formData = serialize(values);
       const data = paket
-        ? await editPaket(paket.id, formData)
-        : await createPaket(formData);
+        ? await editPaket(paket.id, values)
+        : await createPaket(values);
 
       if (data.success) {
         toast({

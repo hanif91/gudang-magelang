@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 // import { auth } from "@/auth"
 import AxiosClient from "@/lib/AxiosClient"
@@ -16,9 +16,9 @@ export const getUsersParaf = async () => {
 }
 
 
-export const createUserParaf = async (formData: FormData) => {
+export const createUserParaf = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/user-paraf`, formData)
+        const response = await AxiosClient.post(`/api/gudang/user-paraf`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -36,9 +36,9 @@ export const getUserParaf = async (id: string | null) => {
 }
 
 
-export const editUserParaf = async (id: number, formData: FormData) => {
+export const editUserParaf = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/user-paraf/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/user-paraf/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createStock, editStock } from "@/lib/actions/actStock"
 import useSWR from "swr"
 
@@ -52,8 +52,8 @@ export default function AssetWilayahForm({ asset_wilayah }: { asset_wilayah?: an
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = asset_wilayah ? await editAssetWilayah(asset_wilayah.id, formData) : await createAssetWilayah(formData)
+      // const formData = serialize(values)
+      const data = asset_wilayah ? await editAssetWilayah(asset_wilayah.id, values) : await createAssetWilayah(values)
 
       if (data.success) {
         toast({

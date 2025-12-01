@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import { cache } from "react";
+import Cookies from "js-cookie";
 
 export interface Session {
   id: string;
@@ -65,12 +65,11 @@ export async function validateSessionToken(
 
 export const getCurrentSession = cache(
   async (): Promise<SessionValidationResult> => {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token_gudang')?.value ?? null;
-    if (token === null) {
+    const cookieStore = Cookies.get('token_gudang')?.value ?? null;
+    if (cookieStore === null) {
       return { session: null, user: null };
     }
-    const result = await validateSessionToken(token);
+    const result = await validateSessionToken(cookieStore);
     return result;
   },
 );
@@ -95,9 +94,7 @@ export async function setSessionTokenCookie(
   token: string,
   expiresAt: Date,
 ): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.set('token_gudang', token, {
-    httpOnly: true,
+  const cookieStore = Cookies.set('token_gudang', token, {
     sameSite: "lax",
     // secure: process.env.NODE_ENV === "production",
     secure: false,
@@ -107,15 +104,7 @@ export async function setSessionTokenCookie(
 }
 
 export async function deleteSessionTokenCookie(): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.set('token_gudang', "", {
-    httpOnly: true,
-    sameSite: "lax",
-    // secure: process.env.NODE_ENV === "production",
-    secure: false,
-    maxAge: 0,
-    path: "/",
-  });
+  const cookieStore = Cookies.remove('token_gudang');
 }
 
 export async function getSessionOnServerSide<SessionValidationResult>() {

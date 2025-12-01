@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 // import { auth } from "@/auth"
 import AxiosClient from "@/lib/AxiosClient"
@@ -15,9 +15,9 @@ export const getAllKodekeper = async () => {
 }
 
 
-export const createKodekeper = async (formData: FormData) => {
+export const createKodekeper = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/kodekeper`, formData)
+        const response = await AxiosClient.post(`/api/gudang/kodekeper`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -35,9 +35,9 @@ export const getKodekeper = async (id: string | null) => {
 }
 
 
-export const editKodekeper = async (id: number, formData: FormData) => {
+export const editKodekeper = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/kodekeper/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/kodekeper/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

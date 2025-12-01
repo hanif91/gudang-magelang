@@ -1,4 +1,4 @@
-"use server";
+"use client";
 import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "../errorHandler"
 
@@ -13,11 +13,13 @@ export const getAllDpb = async () => {
 }
 
 
-export const createDpb = async (formData: FormData) => {
+export const createDpb = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/dpb`, formData)
+        console.log("INT")
+        const response = await AxiosClient.post(`/api/gudang/dpb`, data)
         return response.data
     } catch (error) {
+        console.error(error)
         return axiosErrorHandler(error)
     }
 }
@@ -33,9 +35,9 @@ export const getDpb = async (id: string | null) => {
 }
 
 
-export const editDpb = async (id: number, formData: FormData) => {
+export const editDpb = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/dpb/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/dpb/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

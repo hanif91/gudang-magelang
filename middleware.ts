@@ -11,16 +11,16 @@ export function middleware(request: NextRequest) {
 	}
 
 	// If no token, redirect to Portal
-	if (!hasToken) {
-		const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL;
-		if (portalUrl) {
-			return NextResponse.redirect(new URL(portalUrl));
-		} else {
-			// Fallback if env is missing (though it should be there)
-			// Maybe redirect to a generic error page or keep on current page but it will fail
-			return NextResponse.next();
-		}
-	}
+	// if (!hasToken) {
+	// 	const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL;
+	// 	if (portalUrl) {
+	// 		return NextResponse.redirect(new URL(portalUrl));
+	// 	} else {
+	// 		// Fallback if env is missing (though it should be there)
+	// 		// Maybe redirect to a generic error page or keep on current page but it will fail
+	// 		return NextResponse.next();
+	// 	}
+	// }
 
 	return NextResponse.next();
 }

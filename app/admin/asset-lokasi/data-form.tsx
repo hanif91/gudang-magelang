@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createMerek, editMerek } from "@/lib/actions/actMerek"
 import useSWR, { mutate } from "swr"
 import { createAssetLokasi, editAssetLokasi } from "@/lib/actions/actAssetLokasi"
@@ -67,8 +67,8 @@ export default function AssetLokasiForm({ asset_lokasi }: { asset_lokasi?: any }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = asset_lokasi ? await editAssetLokasi(asset_lokasi.id, formData) : await createAssetLokasi(formData)
+      // const formData = serialize(values)
+      const data = asset_lokasi ? await editAssetLokasi(asset_lokasi.id, values) : await createAssetLokasi(values)
 
       if (data.success) {
         toast({

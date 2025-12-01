@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createMerek, editMerek } from "@/lib/actions/actMerek"
 import useSWR, { mutate } from "swr"
 import { createAssetPerpipaan, editAssetPerpipaan } from "@/lib/actions/actAssetPerpipaan"
@@ -73,8 +73,8 @@ export default function AssetPerpipaanForm({ asset_perpipaan }: { asset_perpipaa
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = asset_perpipaan ? await editAssetPerpipaan(asset_perpipaan.id, formData) : await createAssetPerpipaan(formData)
+      // const formData = serialize(values)
+      const data = asset_perpipaan ? await editAssetPerpipaan(asset_perpipaan.id, values) : await createAssetPerpipaan(values)
 
       if (data.success) {
         toast({

@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 // import { auth } from "@/auth"
 import AxiosClient from "@/lib/AxiosClient"
@@ -16,9 +16,9 @@ export const getKateogories = async () => {
 }
 
 
-export const createKategori = async (formData: FormData) => {
+export const createKategori = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/kategori`, formData)
+        const response = await AxiosClient.post(`/api/gudang/kategori`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -36,9 +36,9 @@ export const getKategori = async (id: string | null) => {
 }
 
 
-export const editKategori = async (id: number, formData: FormData) => {
+export const editKategori = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/kategori/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/kategori/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

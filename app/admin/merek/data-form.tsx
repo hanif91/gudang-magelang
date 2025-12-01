@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createMerek, editMerek } from "@/lib/actions/actMerek"
 import { mutate } from "swr"
 import { Combobox } from "@/components/ui/combobox"
@@ -49,8 +49,8 @@ export default function MerekForm({ merek }: { merek?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = merek ? await editMerek(merek.id, formData) : await createMerek(formData)
+      // const formData = serialize(values)
+      const data = merek ? await editMerek(merek.id, values) : await createMerek(values)
 
       if (data.success) {
         toast({

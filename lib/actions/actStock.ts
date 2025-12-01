@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 // import { auth } from "@/auth"
 import AxiosClient from "@/lib/AxiosClient"
@@ -15,9 +15,9 @@ export const getAllStock = async () => {
 }
 
 
-export const createStock = async (formData: FormData) => {
+export const createStock = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/stock`, formData)
+        const response = await AxiosClient.post(`/api/gudang/stock`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -35,9 +35,9 @@ export const getStock = async (id: string | null) => {
 }
 
 
-export const editStock = async (id: number, formData: FormData) => {
+export const editStock = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/stock/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/stock/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

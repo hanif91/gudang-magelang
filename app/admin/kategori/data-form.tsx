@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createMerek, editMerek } from "@/lib/actions/actMerek"
 import { mutate } from "swr"
 import { createKategori, editKategori } from "@/lib/actions/actKategori"
@@ -52,8 +52,8 @@ export default function KategoriForm({ kategori }: { kategori?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = kategori ? await editKategori(kategori.id, formData) : await createKategori(formData)
+      // const formData = serialize(values)
+      const data = kategori ? await editKategori(kategori.id, values) : await createKategori(values)
 
       if (data.success) {
         toast({

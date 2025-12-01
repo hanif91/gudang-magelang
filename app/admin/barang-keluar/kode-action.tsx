@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Combobox } from "@/components/ui/combobox"
 import { Skeleton } from "@/components/ui/skeleton"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 // import { editBarangKeluar } from "@/lib/actions/actBarangKeluar"
 import { toast } from "@/hooks/use-toast"
 import { updateStatus } from "@/lib/actions/actBarangKeluar"
@@ -59,10 +59,10 @@ export default function KodeAction({ id_barang_keluar, kodekeper, id_kodekeper, 
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         startTransition(async () => {
-            const formData = serialize(values); // Konversi values ke FormData
+            // const formData = serialize(values); // Konversi values ke FormData
             // console.log(formData); // Untuk debugging
             // Kirim formData ke backend menggunakan axios atau fetch
-            const dataResponse = await updateStatus(Number(id_barang_keluar), formData)
+            const dataResponse = await updateStatus(Number(id_barang_keluar), values)
             if (dataResponse.success) {
                 toast({
                     variant: "default",

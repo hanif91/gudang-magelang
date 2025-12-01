@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import AxiosClient from "@/lib/AxiosClient";
 import { axiosErrorHandler } from "@/lib/errorHandler";
@@ -13,11 +13,11 @@ export const getAllBarangKeluar = async () => {
   }
 };
 
-export const createBarangKeluar = async (formData: FormData) => {
+export const createBarangKeluar = async (data: any) => {
   try {
     const response = await AxiosClient.post(
       `/api/gudang/barang-keluar`,
-      formData
+      data
     );
     return response.data;
   } catch (error) {
@@ -35,11 +35,11 @@ export const getBarangKeluar = async (id: string | null) => {
   }
 };
 
-export const updateStatus = async (id: number, formData: FormData) => {
+export const updateStatus = async (id: number, data: any) => {
   try {
     const response = await AxiosClient.put(
       `/api/gudang/barang-keluar/${id}`,
-      formData
+      data
     );
     return response.data;
   } catch (error) {
@@ -47,11 +47,11 @@ export const updateStatus = async (id: number, formData: FormData) => {
   }
 };
 
-export const editKomentar = async (id: number, formData: FormData) => {
+export const editKomentar = async (id: number, data: any) => {
   try {
     const response = await AxiosClient.put(
       `/api/gudang/barang-keluar/komentar/${id}`,
-      formData
+      data
     );
     return response.data;
   } catch (error) {

@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createPembelianItem, editPembelianItem } from "@/lib/actions/actPembelianItem"
 import AxiosClient from "@/lib/AxiosClient"
 import useSWR from "swr"
@@ -168,10 +168,10 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
+      // const formData = serialize(values)
       const dataResponse = pembelian
-        ? await editPembelianItem(pembelian.id, formData)
-        : await createPembelianItem(formData)
+        ? await editPembelianItem(pembelian.id, values)
+        : await createPembelianItem(values)
 
       if (dataResponse.success) {
         toast({

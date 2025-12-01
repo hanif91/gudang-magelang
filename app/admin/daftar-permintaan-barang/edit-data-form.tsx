@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createBarang, editBarang } from "@/lib/actions/actBarang"
 import useSWR from "swr"
 import AxiosClient from "@/lib/AxiosClient"
@@ -72,9 +72,9 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         startTransition(async () => {
-            const formData = serialize(values)
-            console.log(formData)
-            const data = await editDpb(dpb.id, formData)
+            // const formData = serialize(values)
+            // console.log(formData)
+            const data = await editDpb(dpb.id, values)
             if (data.success) {
                 toast({
                     variant: "default",

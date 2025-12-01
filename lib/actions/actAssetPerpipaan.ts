@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "@/lib/errorHandler"
@@ -14,9 +14,9 @@ export const getAllAssetPerpipaan = async () => {
 }
 
 
-export const createAssetPerpipaan = async (formData: FormData) => {
+export const createAssetPerpipaan = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/asset-perpipaan`, formData)
+        const response = await AxiosClient.post(`/api/gudang/asset-perpipaan`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -34,9 +34,9 @@ export const getAssetPerpipaan = async (id: string | null) => {
 }
 
 
-export const editAssetPerpipaan = async (id: number, formData: FormData) => {
+export const editAssetPerpipaan = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/asset-perpipaan/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/asset-perpipaan/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

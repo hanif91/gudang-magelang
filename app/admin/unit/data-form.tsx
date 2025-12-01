@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createStock, editStock } from "@/lib/actions/actStock"
 import useSWR from "swr"
 
@@ -52,8 +52,8 @@ export default function UnitForm({ unit }: { unit?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = unit ? await editUnit(unit.id, formData) : await createUnit(formData)
+      // const formData = serialize(values)
+      const data = unit ? await editUnit(unit.id, values) : await createUnit(values)
 
       if (data.success) {
         toast({

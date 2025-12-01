@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { mutate } from "swr"
 import { createUserParaf, editUserParaf } from "@/lib/actions/actUserParaf"
 
@@ -50,8 +50,8 @@ export default function UserParafForm({ userParaf }: { userParaf?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = userParaf ? await editUserParaf(userParaf.id, formData) : await createUserParaf(formData)
+      // const formData = serialize(values)
+      const data = userParaf ? await editUserParaf(userParaf.id, values) : await createUserParaf(values)
 
       if (data.success) {
         toast({

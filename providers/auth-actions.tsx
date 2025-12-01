@@ -1,8 +1,8 @@
-'use server'
+'use client'
 
 import { getCurrentSession } from "@/lib/session";
 
- 
+
 export async function getUser() {
 	const { user } = await getCurrentSession();
 	if (user === null) {

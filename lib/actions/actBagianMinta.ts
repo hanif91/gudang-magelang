@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "@/lib/errorHandler"
@@ -14,9 +14,9 @@ export const getAllBagianMinta = async () => {
 }
 
 
-export const createBagianMinta = async (formData: FormData) => {
+export const createBagianMinta = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/bagminta`, formData)
+        const response = await AxiosClient.post(`/api/gudang/bagminta`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -34,9 +34,9 @@ export const getBagianMinta = async (id: string | null) => {
 }
 
 
-export const editBagianMinta = async (id: number, formData: FormData) => {
+export const editBagianMinta = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/bagminta/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/bagminta/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

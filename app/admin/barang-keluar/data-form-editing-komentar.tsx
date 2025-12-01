@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { serialize } from "object-to-formdata";
+// import { serialize } from "object-to-formdata";
 import { editKomentar } from "@/lib/actions/actBarangKeluar";
 import { Combobox } from "@/components/ui/combobox";
 import {
@@ -99,8 +99,8 @@ export default function EditingKomentarForm({ data }: { data?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values);
-      const result = await editKomentar(data.id, formData);
+      // const formData = serialize(values);
+      const result = await editKomentar(data.id, values);
       if (result.success) {
         toast({
           variant: "default",

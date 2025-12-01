@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createStock, editStock } from "@/lib/actions/actStock"
 import { createSupplier, editSupplier } from "@/lib/actions/actSupplier"
 import { Combobox } from "@/components/ui/combobox"
@@ -50,8 +50,8 @@ export default function SupplierForm({ supplier }: { supplier?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = supplier ? await editSupplier(supplier.id, formData) : await createSupplier(formData)
+      // const formData = serialize(values)
+      const data = supplier ? await editSupplier(supplier.id, values) : await createSupplier(values)
 
       if (data.success) {
         toast({

@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 // import { auth } from "@/auth"
 import AxiosClient from "@/lib/AxiosClient"
@@ -16,9 +16,9 @@ export const getMereks = async () => {
 }
 
 
-export const createMerek = async (formData: FormData) => {
+export const createMerek = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/merek`, formData)
+        const response = await AxiosClient.post(`/api/gudang/merek`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -36,9 +36,9 @@ export const getMerek = async (id: string | null) => {
 }
 
 
-export const editMerek = async (id: number, formData: FormData) => {
+export const editMerek = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/merek/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/merek/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

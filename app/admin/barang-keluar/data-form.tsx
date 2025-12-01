@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { serialize } from "object-to-formdata";
+// import { serialize } from "object-to-formdata";
 import { createBarangKeluar } from "@/lib/actions/actBarangKeluar";
 import AxiosClient from "@/lib/AxiosClient";
 import useSWR from "swr";
@@ -256,9 +256,9 @@ export default function BarangKeluarForm({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values);
+      // const formData = serialize(values);
       // console.log(formData)
-      const dataResponse = await createBarangKeluar(formData);
+      const dataResponse = await createBarangKeluar(values);
 
       if (dataResponse.success) {
         toast({

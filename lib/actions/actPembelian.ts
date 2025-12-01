@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 // import { auth } from "@/auth"
 import AxiosClient from "@/lib/AxiosClient"
@@ -15,9 +15,9 @@ export const getAllPembelian = async () => {
 }
 
 
-export const createPembelian = async (formData: FormData) => {
+export const createPembelian = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/pembelian`, formData)
+        const response = await AxiosClient.post(`/api/gudang/pembelian`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -35,9 +35,9 @@ export const getPembelian = async (id: string | null) => {
 }
 
 
-export const editPembelian = async (id: number, formData: FormData) => {
+export const editPembelian = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/pembelian/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/pembelian/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

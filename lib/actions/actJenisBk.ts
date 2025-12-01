@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 // import { auth } from "@/auth"
 import AxiosClient from "@/lib/AxiosClient"
@@ -15,9 +15,9 @@ export const getAllJenisBk = async () => {
 }
 
 
-export const createJenisBk = async (formData: FormData) => {
+export const createJenisBk = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/jenis-bk`, formData)
+        const response = await AxiosClient.post(`/api/gudang/jenis-bk`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -35,9 +35,9 @@ export const getJenisBk = async (id: string | null) => {
 }
 
 
-export const editJenisBk = async (id: number, formData: FormData) => {
+export const editJenisBk = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/jenis-bk/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/jenis-bk/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

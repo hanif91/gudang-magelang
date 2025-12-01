@@ -1,4 +1,4 @@
-"use server";
+"use client";
 import AxiosClient from "@/lib/AxiosClient"
 import { axiosErrorHandler } from "../errorHandler"
 
@@ -13,9 +13,9 @@ export const getAllBarang = async () => {
 }
 
 
-export const createBarang = async (formData: FormData) => {
+export const createBarang = async (data: any) => {
     try {
-        const response = await AxiosClient.post(`/api/gudang/barang`, formData)
+        const response = await AxiosClient.post(`/api/gudang/barang`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)
@@ -33,9 +33,9 @@ export const getBarang = async (id: string | null) => {
 }
 
 
-export const editBarang = async (id: number, formData: FormData) => {
+export const editBarang = async (id: number, data: any) => {
     try {
-        const response = await AxiosClient.put(`/api/gudang/barang/${id}`, formData)
+        const response = await AxiosClient.put(`/api/gudang/barang/${id}`, data)
         return response.data
     } catch (error) {
         return axiosErrorHandler(error)

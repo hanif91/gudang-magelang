@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { serialize } from "object-to-formdata"
+// import { serialize } from "object-to-formdata"
 import { createStock, editStock } from "@/lib/actions/actStock"
 import { createKodekeper, editKodekeper } from "@/lib/actions/actKodekeper"
 import { Combobox } from "@/components/ui/combobox"
@@ -51,8 +51,8 @@ export default function KodekeperForm({ kodekeper }: { kodekeper?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const formData = serialize(values)
-      const data = kodekeper ? await editKodekeper(kodekeper.id, formData) : await createKodekeper(formData)
+      // const formData = serialize(values)
+      const data = kodekeper ? await editKodekeper(kodekeper.id, values) : await createKodekeper(values)
 
       if (data.success) {
         toast({
