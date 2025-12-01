@@ -30,7 +30,7 @@ interface Props {
 
 export default function DataTabelFilter(props: Props) {
 	// const { data, error, isLoading } = useSWR('/api/gudang/pembelian-item', fetcher)
-	const { data: UserData, isLoading: UserLoading, error: UserError, mutate: UserMutate } = useFetch('/api/gudang/pembelian', props)
+	const { data: UserData, isLoading: UserLoading, error: UserError, mutate: UserMutate } = useFetch('/api/gudang/pembelian-item', props)
 
 	// if (props.isTampilkan === false || props.isTampilkan === undefined) {
 	// 	return null
