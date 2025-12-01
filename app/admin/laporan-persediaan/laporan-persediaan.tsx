@@ -38,7 +38,7 @@ export default function LapAduanReport(props: Props) {
         fetcher
     );
     const { data: formatLaporan, isLoading: formatLaporanLoading, error: formatLaporanError } = useSWR(
-        `/api/gudang/ttd-lap?tipe=LPPER`,
+        `/api/portal/settings/attribute-lap?namalap=LPPER`,
         fetcher
     );
 
@@ -127,7 +127,7 @@ export default function LapAduanReport(props: Props) {
         year: 'numeric',
     }).format(new Date());
 
-    const ttdFilter = formatLaporan?.data?.ttdlap?.filter((e: any) => e.isid === 1);
+    const ttdFilter = formatLaporan?.data?.paraf?.ttd?.filter((e: any) => e.is_id === true);
 
     return (
         <div className="w-full border-2 rounded-lg shadow-lg mt-24">
@@ -141,8 +141,8 @@ export default function LapAduanReport(props: Props) {
                 <div className="flex items-center gap-4 mb-6">
                     <Image className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
                     <div className="text-green-800">
-                        <h1 className="font-bold text-lg">{formatLaporan?.data?.kota?.headerlap1}</h1>
-                        <p className="text-sm">{formatLaporan?.data?.kota?.headerlap2}</p>
+                        <h1 className="font-bold text-lg">{formatLaporan?.data?.header?.headerlap1}</h1>
+                        <p className="text-sm">{formatLaporan?.data?.header?.headerlap2}</p>
                     </div>
                 </div>
 
@@ -295,17 +295,17 @@ export default function LapAduanReport(props: Props) {
                         <div className="w-1/3" />
                         <div className="w-1/3" />
                         <div className="w-1/3">
-                            <p className="text-center">{`${formatLaporan?.data?.kota?.footerkota}, ${formatTanggal}`}</p>
+                            <p className="text-center">{`${formatLaporan?.data?.header?.footerkota}, ${formatTanggal}`}</p>
                         </div>
                     </div>
 
-                    <div className={`flex flex-wrap ${ttdFilter.length > 2 ? 'justify-center' : 'justify-between'}`}>
-                        {ttdFilter.map((items: any, index: number) => (
+                    <div className={`flex flex-wrap ${ttdFilter?.length > 2 ? 'justify-center' : 'justify-between'}`}>
+                        {ttdFilter?.map((items: any, index: number) => (
                             <div key={index} className="text-center w-1/3 mb-8">
                                 <p>{items.header}</p>
                                 <strong>{items.jabatan}</strong>
                                 <br /><br /><br />
-                                <strong>{items.nama_paraf}</strong>
+                                <strong>{items.nama}</strong>
                             </div>
                         ))}
                     </div>

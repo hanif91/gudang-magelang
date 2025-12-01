@@ -42,7 +42,7 @@ interface TtdLap {
 const fetcher = (url: string) => AxiosClient.get(url).then(res => res.data.data);
 
 const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
-    const { data: ttdLap, error: errorTtdLap, isLoading: isLoadingTtdLap } = useSWR<TtdLap>(`/api/gudang/ttd-lap?tipe=BPP&bagminta=${data.namattd_bagminta}`, fetcher);
+    const { data: ttdLap, error: errorTtdLap, isLoading: isLoadingTtdLap } = useSWR<TtdLap>(`/api/portal/settings/attribute-lap?namalap=BPP&bagminta=${data.namattd_bagminta}`, fetcher);
 
     if (isLoadingTtdLap || !ttdLap) {
         return <div>Loading tanda tangan...</div>;
