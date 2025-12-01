@@ -1,39 +1,39 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
+export function asErrorMessage(e: any): string {
+    console.log(e);
+    return e?.response?.data?.message ?? e?.message ?? "Unknown error";
+}
 
-const baseURL = typeof window === "undefined"
-    ? process.env.NEXT_PUBLIC_API_URL
-    : "";
-
-const AxiosClient = axios.create({
-    baseURL: baseURL,
-    headers: {
-        "Content-Type": "application/json",
-    },
+const axiosClient = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    timeout: 15000,
 });
 
-// Add a request interceptor to attach the session cookie
-AxiosClient.interceptors.request.use(
-    async (config) => {
-        // Check if we are running on the server
-        if (typeof window === "undefined") {
-            try {
-                const { cookies } = await import("next/headers");
-                const cookieStore = await cookies();
-                const sessionCookie = cookieStore.get('token_gudang'); // Adjust cookie name if needed
-                if (sessionCookie) {
-                    config.headers.Cookie = `${sessionCookie.name}=${sessionCookie.value}`;
-                }
-            } catch (error) {
-                // Ignore error: cookies() cannot be called in Client Component SSR
-                // The request will likely go to the proxy which handles cookies
+axiosClient.interceptors.request.use(async (config) => {
+    const token = Cookies.get('token_gudang');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
+axiosClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        console.log(error);
+        if (error.response?.status === 401) {
+            Cookies.remove('token_gudang');
+            const portalUrl = process.env.NEXT_PUBLIC_PORTAL_BASE_URL;
+            if (portalUrl) {
+                window.location.href = portalUrl;
+            } else {
+                window.location.href = "/login"; // Fallback
             }
         }
-        return config;
-    },
-    (error) => {
         return Promise.reject(error);
-    }
+    },
 );
 
-export default AxiosClient;
+export default axiosClient;

@@ -1,20 +1,12 @@
 import useSWR from 'swr';
-import axios from "axios";
+import AxiosClient from "@/lib/AxiosClient";
 
-const backendUrl = process.env.NEXT_PUBLIC_API_URL;
-
-
-const instance = axios.create({
-  baseURL : backendUrl,
-});
+const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 
-const fetcher  = (url : any) => instance.get(url).then(res => res.data)
-
-
-export default function useFetch(url : any, params : any = {}) {
+export default function useFetch(url: any, params: any = {}) {
   // if values in params is null, undefined, or empty string, remove it
-  const filteredParams = Object.keys(params).reduce((acc : any, key : any) => {
+  const filteredParams = Object.keys(params).reduce((acc: any, key: any) => {
     if (
       params[key] !== null &&
       params[key] !== undefined &&
@@ -33,7 +25,7 @@ export default function useFetch(url : any, params : any = {}) {
   });
 
   return {
-    data: data??[],
+    data: data ?? [],
     isLoading,
     error,
     mutate,
