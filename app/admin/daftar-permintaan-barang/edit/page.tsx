@@ -30,14 +30,17 @@ function EditPageContent() {
       const id = decrypt(decodeURIComponent(idParam))
       if (id) {
         const res = await getDpb(id)
+        console.log('res', res)
         if (res && res.success) {
-          setData(res.data)
+          setData(res.data[0])
         }
       }
       setLoading(false)
     }
     fetchData()
   }, [idParam])
+
+  console.log('res data', data)
 
   if (loading) {
     return (
