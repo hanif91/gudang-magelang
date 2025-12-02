@@ -74,7 +74,7 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
       console.log("Form Data:", values);
 
       const data = dpb
-        ? await editDpb(dpb.id, values)
+        ? await editDpb(dpb.nodpb, values)
         : await createDpb(values);
       console.log(data)
 
