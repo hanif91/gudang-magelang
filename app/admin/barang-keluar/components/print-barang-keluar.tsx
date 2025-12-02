@@ -32,7 +32,7 @@ interface TtdLap {
         jabatan: string;
         isid: number;
     }[];
-    kota: {
+    header: {
         headerlap1: string;
         headerlap2: string;
         footerkota: string;
@@ -80,8 +80,8 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
             <div className="flex items-center space-x-2 mb-5">
                 <Image className="w-16 h-auto" src="/logo.png" alt="Logo" width={64} height={64} />
                 <div className="text-green-800 items-start">
-                    <p>{ttdLap.kota?.headerlap1}</p>
-                    <p>{ttdLap.kota?.headerlap2}</p>
+                    <p>{ttdLap.header?.headerlap1}</p>
+                    <p>{ttdLap.header?.headerlap2}</p>
                 </div>
             </div>
 
@@ -240,7 +240,7 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
                     <div className="w-1/3" />
                     <div className="w-1/3" />
                     <div className="w-1/3">
-                        <p className="text-center">{`${ttdLap.kota?.footerkota}, ${formatTanggal}`}</p>
+                        <p className="text-center">{`${ttdLap.header?.footerkota}, ${formatTanggal}`}</p>
                     </div>
                 </div> */}
 
