@@ -1,4 +1,5 @@
-import { Metadata } from "next"
+"use client"
+
 import {
   Card,
   CardContent,
@@ -8,28 +9,60 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { notFound } from "next/navigation"
-import { decrypt } from "@/lib/crypto"
+import { useSearchParams } from "next/navigation"
+import { decrypt } from "@/lib/cryptoClient"
 import DataForm from "../data-form"
-import { Fragment } from "react"
-import { getMerek } from "@/lib/actions/actMerek"
+import { Fragment, Suspense, useEffect, useState } from "react"
 import { getPaket } from "@/lib/actions/actPaket"
 
-export const metadata: Metadata = {
-  title: "Edit Paket",
-}
+function EditPageContent() {
+  const searchParams = useSearchParams()
+  const idParam = searchParams.get("id")
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
-export default async function edit({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!idParam) {
+        setLoading(false)
+        return
+      }
+      const id = decrypt(decodeURIComponent(idParam))
+      if (id) {
+        const res = await getPaket(id)
+        if (res && res.success) {
+          setData(res.data[0])
+        }
+      }
+      setLoading(false)
+    }
+    fetchData()
+  }, [idParam])
 
-  const paramsId = await searchParams;
-  const paramsIdValue = paramsId.id as string || ""
-  const id = decrypt(decodeURIComponent(paramsIdValue))
-  console.log("id", id)
-  const data = await getPaket(id)
+  if (loading) {
+    return (
+      <main className="flex flex-col gap-5 justify-center content-center p-5">
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Edit Paket</CardTitle>
+            <CardDescription>Loading...</CardDescription>
+          </CardHeader>
+        </Card>
+      </main>
+    )
+  }
 
-  // console.log(data);
-  if (data && !data.success) {
-    notFound()
+  if (!data) {
+    return (
+      <main className="flex flex-col gap-5 justify-center content-center p-5">
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Edit Paket</CardTitle>
+            <CardDescription>Data not found</CardDescription>
+          </CardHeader>
+        </Card>
+      </main>
+    )
   }
 
   return (
@@ -41,11 +74,19 @@ export default async function edit({ searchParams }: { searchParams: Promise<{ [
             <CardDescription>Edit Paket Form</CardDescription>
           </CardHeader>
           <CardContent className="py-0">
-            <DataForm paket={data.data[0]} />
+            <DataForm paket={data} />
           </CardContent>
           <CardFooter></CardFooter>
         </Card>
       </main>
     </Fragment>
+  )
+}
+
+export default function EditPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditPageContent />
+    </Suspense>
   )
 }

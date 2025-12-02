@@ -1,4 +1,5 @@
-import { Metadata } from "next"
+"use client"
+
 import {
   Card,
   CardContent,
@@ -8,29 +9,60 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { notFound } from "next/navigation"
-import { decrypt } from "@/lib/crypto"
+import { useSearchParams } from "next/navigation"
+import { decrypt } from "@/lib/cryptoClient"
 import DataForm from "../data-form"
-import { Fragment } from "react"
-import { getMerek } from "@/lib/actions/actMerek"
-import { getJenis } from "@/lib/actions/actJenis"
-import { getStock } from "@/lib/actions/actStock"
+import { Fragment, Suspense, useEffect, useState } from "react"
 import { getJenisBk } from "@/lib/actions/actJenisBk"
 
-export const metadata: Metadata = {
-  title: "Edit Jenis Barang Keluar",
-}
+function EditPageContent() {
+  const searchParams = useSearchParams()
+  const idParam = searchParams.get("id")
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
-export default async function edit({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!idParam) {
+        setLoading(false)
+        return
+      }
+      const id = decrypt(decodeURIComponent(idParam))
+      if (id) {
+        const res = await getJenisBk(id)
+        if (res && res.success) {
+          setData(res.data)
+        }
+      }
+      setLoading(false)
+    }
+    fetchData()
+  }, [idParam])
 
-  const paramsId = await searchParams;
-  const paramsIdValue = paramsId.id as string || ""
-  const id = decrypt(decodeURIComponent(paramsIdValue))
-  const data = await getJenisBk(id)
+  if (loading) {
+    return (
+      <main className="flex flex-col gap-5 justify-center content-center p-5">
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Edit Jenis Barang Keluar</CardTitle>
+            <CardDescription>Loading...</CardDescription>
+          </CardHeader>
+        </Card>
+      </main>
+    )
+  }
 
-  console.log(data);
-  if (data && !data.success) {
-    notFound()
+  if (!data) {
+    return (
+      <main className="flex flex-col gap-5 justify-center content-center p-5">
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Edit Jenis Barang Keluar</CardTitle>
+            <CardDescription>Data not found</CardDescription>
+          </CardHeader>
+        </Card>
+      </main>
+    )
   }
 
   return (
@@ -42,11 +74,19 @@ export default async function edit({ searchParams }: { searchParams: Promise<{ [
             <CardDescription>Edit Jenis Barang Keluar Form</CardDescription>
           </CardHeader>
           <CardContent className="py-0">
-            <DataForm jenis_bk={data.data} />
+            <DataForm jenis_bk={data} />
           </CardContent>
           <CardFooter></CardFooter>
         </Card>
       </main>
     </Fragment>
+  )
+}
+
+export default function EditPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditPageContent />
+    </Suspense>
   )
 }
