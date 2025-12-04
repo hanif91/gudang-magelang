@@ -30,7 +30,7 @@ function EditPageContent() {
       if (id) {
         const res = await getDpbk(id)
         if (res && res.success) {
-          setData(res.data)
+          setData(res.data[0])
         }
       }
       setLoading(false)

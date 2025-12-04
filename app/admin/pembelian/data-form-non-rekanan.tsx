@@ -67,7 +67,10 @@ interface Barang {
 }
 
 const fetcher = (url: any) =>
-  AxiosClient.get(url).then((res) => res.data.data)
+  AxiosClient.get(url).then((res) => {
+    console.log("res", res)
+    return res.data.data
+  })
 
 // Karena qty tidak akan diinput, schema hanya memerlukan harga_beli untuk tiap barang
 const formSchema = z.object({

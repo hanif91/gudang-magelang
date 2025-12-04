@@ -178,7 +178,15 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-5"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
+        }}
+      >
         <FormField
           control={form.control}
           name="tanggal"
@@ -261,21 +269,21 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                       control={form.control}
                       name={`items.${index}.barang_id`}
                       render={({ field }) => {
-                        const selectedBarangIds = form
-                          .getValues("items")
-                          .filter((_, i) => i !== index)
-                          .map((item) => Number(item.barang_id));
+                        // const selectedBarangIds = form
+                        //   .getValues("items")
+                        //   .filter((_, i) => i !== index)
+                        //   .map((item) => Number(item.barang_id));
 
-                        const availableBarang = data.filter((barang) => {
-                          return !selectedBarangIds.includes(Number(barang.id));
-                        });
+                        // const availableBarang = data.filter((barang) => {
+                        //   return !selectedBarangIds.includes(Number(barang.id));
+                        // });
 
                         return (
                           <FormItem className="w-1/2">
                             {index === 0 && <FormLabel>Barang</FormLabel>}
                             <FormControl>
                               <Combobox
-                                options={availableBarang.map((barang) => ({
+                                options={data.map((barang) => ({
                                   value: barang.id.toString(),
                                   label: barang.nama,
                                 }))}
@@ -312,6 +320,7 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                               min={0.01}
                               placeholder="Qty"
                               {...field}
+                              className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                               onChange={(e) => {
                                 const stok = form.getValues(
                                   `items.${index}.stok_barang`
@@ -438,23 +447,23 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                           control={form.control}
                           name={`items.${index}.barang_id`}
                           render={({ field }) => {
-                            const selectedBarangIds = form
-                              .getValues("items")
-                              .filter((_, i) => i !== index)
-                              .map((item) => Number(item.barang_id));
+                            // const selectedBarangIds = form
+                            //   .getValues("items")
+                            //   .filter((_, i) => i !== index)
+                            //   .map((item) => Number(item.barang_id));
 
-                            const availableBarang = data.filter((barang) => {
-                              return !selectedBarangIds.includes(
-                                Number(barang.id)
-                              );
-                            });
+                            // const availableBarang = data.filter((barang) => {
+                            //   return !selectedBarangIds.includes(
+                            //     Number(barang.id)
+                            //   );
+                            // });
 
                             return (
                               <FormItem className="w-1/2">
                                 {index === 0 && <FormLabel>Barang</FormLabel>}
                                 <FormControl>
                                   <Combobox
-                                    options={availableBarang.map((barang) => ({
+                                    options={data.map((barang) => ({
                                       value: barang.id.toString(),
                                       label: barang.nama,
                                     }))}
@@ -484,6 +493,7 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                                   min={0}
                                   placeholder="Qty"
                                   {...field}
+                                  className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                   onChange={(e) => {
                                     const stok = form.getValues(
                                       `items.${index}.stok_barang`
