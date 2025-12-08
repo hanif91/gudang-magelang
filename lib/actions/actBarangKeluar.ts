@@ -83,3 +83,16 @@ export const deleteBarangKeluarItem = async (id: string | null) => {
     return axiosErrorHandler(error);
   }
 };
+
+
+export const verifyBarangKeluarItem = async (id: string | null, data: any) => {
+  try {
+    const response = await AxiosClient.put(
+      `/api/gudang/barang-keluar/item/${id}`,
+      data
+    );
+    return response.data;
+  } catch (error) {
+    return axiosErrorHandler(error);
+  }
+};
