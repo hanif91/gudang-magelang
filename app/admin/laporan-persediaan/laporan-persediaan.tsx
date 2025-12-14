@@ -300,4 +300,6 @@ const LapAduanReport = React.forwardRef<LapAduanReportRef, Props>((props, ref) =
     );
 });
 
+
+LapAduanReport.displayName = "LapAduanReport"
 export default LapAduanReport;
