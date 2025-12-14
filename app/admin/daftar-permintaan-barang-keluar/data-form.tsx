@@ -118,8 +118,9 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
       // const formData = serialize(values);
       // console.log("Form Data:", values);
 
+      console.log(dpbk)
       const data = dpbk
-        ? await editDpbk(dpbk.id, values)
+        ? await editDpbk(dpbk.nodpbk, values)
         : await createDpbk(values);
 
       if (data.success) {

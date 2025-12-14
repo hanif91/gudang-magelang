@@ -25,24 +25,25 @@ interface Props {
     month: Date;
   };
   isTampilkan: boolean;
+  data: any;
+  isLoading?: boolean;
+  formatLaporan?: any;
+}
+
+export interface LapAduanReportRef {
+  handlePrint: () => void;
 }
 
 const fetcher = (url: string) => AxiosClient.get(url).then((res) => res.data);
 
-export default function LapAduanReport(props: Props) {
+const LapAduanReport = React.forwardRef<LapAduanReportRef, Props>((props, ref) => {
   const month = format(props.filter.month, "yyyyMM");
   const periodeText = formatBulanIndonesia(props.filter.month);
 
-  const {
-    data: barang,
-    isLoading: barangLoading,
-    error: barangError,
-  } = useSWR(`/api/gudang/laporan-stok?month=${month}`, fetcher);
-  const {
-    data: formatLaporan,
-    isLoading: formatLaporanLoading,
-    error: formatLaporanError,
-  } = useSWR(`/api/portal/settings/attribute-lap?namalap=LPS`, fetcher);
+  const barang = props.data;
+  // const barangLoading = props.isLoading; // Handled by parent
+
+  const formatLaporan = props.formatLaporan;
 
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
@@ -86,25 +87,13 @@ export default function LapAduanReport(props: Props) {
         `,
   });
 
-  // if (!props.isTampilkan) return null;
+  React.useImperativeHandle(ref, () => ({
+    handlePrint
+  }));
 
-  if (barangError || formatLaporanError) {
-    return (
-      <Alert variant="destructive" className="mx-auto max-w-2xl">
-        <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>Gagal memuat data stok barang</AlertDescription>
-      </Alert>
-    );
-  }
+  // Loading handled by parent
+  // if (barangLoading || formatLaporanLoading) { ... }
 
-  if (barangLoading || formatLaporanLoading) {
-    return (
-      <div className="w-full mt-24 mx-auto p-4">
-        <Skeleton className="w-full h-[300px]" />
-      </div>
-    );
-  }
   console.log(barang);
 
   // Calculate row numbers per category
@@ -150,13 +139,7 @@ export default function LapAduanReport(props: Props) {
   );
 
   return (
-    <div className="w-full border-2 rounded-lg shadow-lg mt-24">
-      <div className="flex justify-end p-4">
-        <Button onClick={() => handlePrint()} className="print:hidden">
-          Cetak Laporan
-        </Button>
-      </div>
-
+    <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
       <div ref={componentRef} className="px-10">
         <div className="flex items-center gap-4 mb-6">
           <Image className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
@@ -390,4 +373,6 @@ export default function LapAduanReport(props: Props) {
       </div>
     </div>
   );
-}
+});
+
+export default LapAduanReport;

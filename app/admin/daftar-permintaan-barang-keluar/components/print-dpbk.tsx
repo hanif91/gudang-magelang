@@ -19,9 +19,9 @@ interface TtdLap {
     paraf: {
         ttd: {
             header: string;
-            nama_paraf: string;
+            nama: string;
             jabatan: string;
-            isid: number;
+            is_id: boolean;
         }[];
     };
 }
@@ -46,12 +46,12 @@ const PrintDPBK = forwardRef<HTMLDivElement, { data: Dpbk }>(({ data }, ref) => 
         year: 'numeric',
     }).format(new Date());
 
-    const ttdFilter = ttdLap.paraf.ttd.filter((e) => e.isid === 1);
+    const ttdFilter = ttdLap.paraf.ttd.filter((e) => e.is_id == true);
 
     return (
         <div ref={ref} className="text-sm font-sans mx-auto w-full px-10 relative">
             <div className="flex items-center space-x-2 mb-5">
-                <Image className="w-16 h-auto" src="/logo.png" alt="Logo" width={64} height={64} />
+                <img className="w-16 h-auto" src="/logo.png" alt="Logo" width={64} height={64} />
                 <div className="text-green-800 items-start">
                     <p>{ttdLap.header?.headerlap1}</p>
                     <p>{ttdLap.header?.headerlap2}</p>
@@ -131,7 +131,7 @@ const PrintDPBK = forwardRef<HTMLDivElement, { data: Dpbk }>(({ data }, ref) => 
                                 <p>{items.header}</p>
                                 <strong>{items.jabatan}</strong>
                                 <br /><br /><br />
-                                <strong>{items.nama_paraf}</strong>
+                                <strong>{items.nama}</strong>
                             </div>
                         ))}
                     </div>

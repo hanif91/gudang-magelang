@@ -36,9 +36,9 @@ interface TtdLap {
     paraf: {
         ttd: {
             header: string;
-            nama_paraf: string;
+            nama: string;
             jabatan: string;
-            isid: number;
+            is_id: boolean;
         }[];
     };
 }
@@ -47,6 +47,7 @@ const fetcher = (url: string) => AxiosClient.get(url).then(res => res.data.data)
 
 const PrintDPB = forwardRef<HTMLDivElement, { data: Dpb }>(({ data }, ref) => {
     const { data: ttdLap, error: errorTtdLap, isLoading: isLoadingTtdLap } = useSWR<TtdLap>('/api/portal/settings/attribute-lap?namalap=DPB', fetcher);
+
 
     if (isLoadingTtdLap || !ttdLap) {
         return <div>Loading tanda tangan...</div>;
@@ -63,9 +64,9 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Dpb }>(({ data }, ref) => {
         year: 'numeric',
     }).format(new Date());
 
-    console.log(ttdLap)
 
-    const ttdFilter = ttdLap.paraf.ttd.filter((e) => e.isid === 1);
+    const ttdFilter = ttdLap.paraf.ttd.filter((e) => e.is_id);
+    console.log()
 
     return (
         <div ref={ref} className="text-sm font-sans mx-auto w-full px-10 relative">
@@ -141,7 +142,7 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Dpb }>(({ data }, ref) => {
                                 <p>{items.header}</p>
                                 <strong>{items.jabatan}</strong>
                                 <br /><br /><br />
-                                <strong>{items.nama_paraf}</strong>
+                                <strong>{items.nama}</strong>
                             </div>
                         ))}
                     </div>

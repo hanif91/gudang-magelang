@@ -40,9 +40,9 @@ interface TtdLap {
     paraf: {
         ttd: {
             header: string;
-            nama_paraf: string;
+            nama: string;
             jabatan: string;
-            isid: number;
+            is_id: boolean;
         }[];
     };
 }
@@ -68,7 +68,7 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
     }).format(new Date());
 
     const ttdFilter = ttdLap.paraf.ttd.filter((e, i) => {
-        return e.isid == 1;
+        return e.is_id == true;
     })
 
     return (
@@ -244,31 +244,59 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
                     </div>
                 </div> */}
 
-                <div className={`flex flex-wrap justify-between`}>
-                    {ttdFilter.map((items, index) => (
-                        <div key={index} className="text-center w-1/3 mb-4">
-                            <p className={`${index > 2 ? 'text-left' : 'text-center'}`}>{items.header}</p>
-                            <br /><br />
-                            {index == 1 ?
-                                <strong>{items.nama_paraf}</strong> :
-                                <div className="flex flex-row space-x-3 text-left">
-                                    <div className="flex flex-col">
-                                        <p>Nama</p>
-                                        <p>Tanggal</p>
-                                    </div>
-                                    <div className="flex flex-col flex-grow">
-                                        <div className="flex items-center">
-                                            <span>: {items.nama_paraf}</span>
-                                        </div>
-                                        <div className="flex items-end">
-                                            <span>: </span>
-                                            <span className="flex-grow border-b border-dotted border-black ml-2 mr-8"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+                <div className={`flex flex-wrap flex-col`}>
+
+                    <div className="flex flex-wrap justify-end pr-10">
+                        <p className="text-right">{`${ttdLap.header?.footerkota}, ${formatTanggal}`}</p>
+                    </div>
+                    <div className={`flex justify-between`}>
+                        <div className="text-center w-1/3 mb-8">
+                            <p>{ttdLap.paraf.ttd[0].header}</p>
+                            <strong>{ttdLap.paraf.ttd[0].jabatan}</strong>
+                            <br /><br /><br />
+                            <strong>{ttdLap.paraf.ttd[0].nama}</strong>
                         </div>
-                    ))}
+                        <div className="text-center w-1/3 mb-8">
+                            <p>{ttdLap.paraf.ttd[1].header}</p>
+                            <strong>{ttdLap.paraf.ttd[1].jabatan}</strong>
+                            <br /><br /><br />
+                            <strong>{ttdLap.paraf.ttd[1].nama}</strong>
+                        </div>
+                        <div className="text-center w-1/3 mb-8">
+                            <p>Dikelola oleh</p>
+                            <strong>{data.nama_bagminta}</strong>
+                            <br /><br /><br />
+                            <strong>{data.namattd_bagminta}</strong>
+                        </div>
+                    </div>
+                    <div className={`flex justify-between`}>
+                        <div className="text-center w-1/3 mb-8">
+                            <p>{ttdLap.paraf.ttd[2].header}</p>
+                            <strong>{ttdLap.paraf.ttd[2].jabatan}</strong>
+                            <br /><br /><br />
+                            <strong>{ttdLap.paraf.ttd[2].nama}</strong>
+                        </div>
+                        <div className="w-1/3 mb-8 ml-5">
+                            <p className="text-center">Yang menerima barang</p>
+                            <ul className="list-decimal mt-3">
+                                <li className=""><span className="ml-24">:</span> </li>
+                                <li className=""><span className="ml-24">:</span> </li>
+                                <li className=""><span className="ml-24">:</span> </li>
+                            </ul>
+                        </div>
+                        <div className="w-1/3 mb-8">
+                            <p className="text-center">Dibukukan ke Kartu Stock</p>
+
+                            <table className="border border-collapse border-black mt-3 w-full">
+                                <tr>
+                                    <td className="border border-collapse border-black ">Input Tgl:</td>
+                                </tr>
+                                <tr>
+                                    <td className="border border-collapse border-black ">Diketahui:</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             {/* <div className="footer">
