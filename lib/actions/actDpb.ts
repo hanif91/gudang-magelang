@@ -12,6 +12,16 @@ export const getAllDpb = async () => {
     }
 }
 
+export const getAllDpbSisa = async () => {
+    try {
+        const response = await AxiosClient.get(`/api/gudang/dpb/sisa`)
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        return axiosErrorHandler(error)
+    }
+}
+
 
 export const createDpb = async (data: any) => {
     try {

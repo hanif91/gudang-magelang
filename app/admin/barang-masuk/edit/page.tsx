@@ -70,8 +70,8 @@ function EditPageContent() {
       <main className="flex flex-col gap-5 justify-center content-center p-5">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Edit Pembelian</CardTitle>
-            <CardDescription>Edit Pembelian Form</CardDescription>
+            <CardTitle>Edit Barang Masuk</CardTitle>
+            <CardDescription>Edit Barang Masuk Form</CardDescription>
           </CardHeader>
           <CardContent className="py-0">
             <DataForm pembelian={data} />

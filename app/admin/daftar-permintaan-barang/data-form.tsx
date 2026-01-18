@@ -33,12 +33,13 @@ interface Barang {
 
 const formSchema = z.object({
   tanggal: z.string().min(1, "Tanggal is required"),
-  nodpb: z.string(),
-  rekanan: z.union([z.literal("1"), z.literal("0")]),
+  // nodpb: z.string().optional(),
   items: z.array(
     z.object({
       barang_id: z.string().min(1, "Barang harus dipilih"),
       qty: z.coerce.number().min(1, "Qty harus lebih dari 0"),
+      qty_op: z.number().optional(),
+      dpb_id: z.number().optional(),
     })
   ).min(1, "Minimal satu barang harus dipilih"),
 });
@@ -55,9 +56,13 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
       tanggal: dpb?.tanggal
         ? new Date(dpb.tanggal).toISOString().split('T')[0]
         : new Date().toISOString().split('T')[0],
-      rekanan: dpb?.flagfullrekanan?.toString() ?? "",
-      nodpb: dpb?.nodpb ?? "",
-      items: dpb?.barang ?? [{ barang_id: "", qty: "" }],
+      // nodpb: dpb?.nodpb ?? "",
+      items: dpb?.barang?.map((item: any) => ({
+        barang_id: item.barang_id?.toString() || item.id?.toString() || "", // Handle various potential property names if needed, usually item.barang_id from backend check
+        qty: item.qty,
+        qty_op: Number(item.qty_op || 0) ,
+        dpb_id: Number(item.id_nodpb)
+      })) ?? [{ barang_id: "", qty: "", qty_op: 0, dpb_id: 0 }],
     },
   });
 
@@ -69,14 +74,25 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
 
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values)
+    try {
     startTransition(async () => {
       // const formData = serialize(values);
       console.log("Form Data:", values);
 
+
+      let payload = values;
+
+      if (dpb) {
+        payload = {
+          ...values,
+          items: values.items.filter((item) => (item.qty_op || 0) === 0),
+        };
+      }
+
       const data = dpb
-        ? await editDpb(dpb.nodpb, values)
+        ? await editDpb(dpb.nodpb, payload)
         : await createDpb(values);
-      console.log(data)
 
       if (data.success) {
         toast({ variant: "default", description: "Data berhasil disimpan!" });
@@ -86,6 +102,10 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
         toast({ variant: "destructive", description: data.message });
       }
     });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({ variant: "destructive", description: "Gagal menyimpan data. Silakan coba lagi." });
+    }
   }
 
   if (error) return (
@@ -162,9 +182,19 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
   // }
 
 
+
+  const onError = (errors: any) => {
+    console.log("Validation Errors:", errors);
+    toast({
+      variant: "destructive",
+      title: "Validasi Gagal",
+      description: "Mohon periksa kembali inputan anda.",
+    });
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-5">
         <FormField
           control={form.control}
           name="tanggal"
@@ -179,32 +209,7 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
           )}
         />
 
-        <FormField control={form.control} name="rekanan" render={({ field }) => (
-          <FormItem>
-            <FormLabel>Status Rekanan</FormLabel>
-            <FormControl>
-              {/* <Select onValueChange={field.onChange} defaultValue={field.value} >
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="1">Aktif</SelectItem>
-                    <SelectItem value="0">Tidak Aktif</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select> */}
-              <Combobox
-                options={[{ label: "Ya", value: "1" }, { label: "Tidak", value: "0" }]}
-                value={field.value?.toString() || ""}
-                onChange={(value) => field.onChange(value)}
-                placeholder="Pilih Status Rekanan"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )} />
-
+    
 
         <div className="space-y-4">
           <label className="text-lg font-semibold">Detail Permintaan Barang</label>
@@ -304,6 +309,7 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
                             field.onChange(value);
                           }}
                           placeholder="Pilih Barang"
+                          disabled={Number(form.getValues(`items.${index}.qty_op`) || 0) > 0}
                         />
                       </FormControl>
                       <FormMessage />
@@ -321,7 +327,12 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
                   <FormItem className="w-1/2">
                     {index === 0 && <FormLabel>Qty</FormLabel>}
                     <FormControl>
-                      <Input type="number" placeholder="Qty" {...field} />
+                      <Input 
+                        type="number" 
+                        placeholder="Qty" 
+                        {...field} 
+                        disabled={Number(form.getValues(`items.${index}.qty_op`) || 0) > 0}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -333,6 +344,7 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
                   type="button"
                   variant="destructive"
                   onClick={() => remove(index)}
+                  disabled={Number(form.getValues(`items.${index}.qty_op`) || 0) > 0}
                 >
                   Hapus
                 </Button>

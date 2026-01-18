@@ -155,7 +155,7 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
           <CardHeader />
           <CardContent>
             <p className="text-red-500">Gagal memuat data. Silakan coba lagi.</p>
-            <p className="text-122874257971sm text-gray-500 mt-2">
+            <p className="text-sm text-gray-500 mt-2">
               Error: {error?.message || errorSupplier?.message}
             </p>
           </CardContent>
@@ -286,7 +286,7 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
             description: 'Data Pembelian berhasil disimpan!',
           });
           const tanggal = form.getValues('tanggal');
-          router.push(`/admin/pembelian?start=${tanggal}&end=${tanggal}`);
+          router.push(`/admin/barang-masuk?start=${tanggal}&end=${tanggal}`);
           router.refresh();
         } else {
           toast({

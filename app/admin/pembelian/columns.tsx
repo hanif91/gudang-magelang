@@ -1,122 +1,126 @@
 "use client"
-
+import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
-import { DataTableColumnHeader } from "@/components/datatable-header-column"
-import Actions from "./actions"
-import DetailActions from "./detail-actions"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import moment from "moment"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
+import formatRupiah from "@/lib/format-harga"
+import OpDetailModal from "./OpDetailModal"
 
-// define data
-interface Pembelian {
-  no_pembelian: string,
-  supplier: string,
-  tanggal: string,
-  no_voucher: string,
-  status: string,
-  id_pembelian: string,
-  total : string
-}
+export const columns: ColumnDef<any>[] = [
+    {
+        id: "index",
+        header: "No",
+        cell: ({ row }) => row.index + 1,
+    },
+    {
+        accessorKey: "no_op",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    No OP
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+    },
+    {
+        accessorKey: "tanggal",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Tanggal OP
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => {
+            const date = row.getValue("tanggal");
+            return date ? moment(date).format("DD MMMM YYYY") : "-";
+        },
+    },
+    {
+        accessorKey: "total_qty",
+        header: "Total Qty",
+        cell: ({ row }) => {
+            return <div className="text-center">{row.getValue("total_qty")}</div>
+        }
+    },
+    {
+        accessorKey: "total_harga",
+        header: "Total Harga",
+        cell: ({ row }) => {
+            return formatRupiah(row.getValue("total_harga"))
+        }
+    },
+    {
+        id: "detail",
+        header: "Items",
+        cell: ({ row }) => {
+            const data = row.original
+            return <OpDetailModal items={data.items || []} noOp={data.no_op} />
+        }
+    },
+    // {
+    //     id: "actions",
+    //     enableHiding: false,
+    //     cell: ({ row }) => {
+    //         const data = row.original
 
-export const columns: ColumnDef<Pembelian>[] = [
-  {
-    id: "index",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="No." />
-    ),
-    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
-  },
-  {
-    accessorKey: "no_pembelian",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="No Pembelian" />
-    ),
-  },
-
-  {
-    accessorKey: "supplier",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Supplier" />
-    ),
-  },
-
-  {
-    accessorKey: "tanggal",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tanggal" />
-    ),
-    // cell: ({ row }) => {
-    //   const rawDate = row.getValue("tanggal");
-
-    //   // Pastikan rawDate bertipe string atau number
-    //   const dateValue =
-    //     typeof rawDate === "string" || typeof rawDate === "number"
-    //       ? new Date(rawDate)
-    //       : null;
-
-    //   const formattedDate = dateValue
-    //     ? dateValue.toLocaleDateString("id-ID", {
-    //       day: "2-digit",
-    //       month: "long",
-    //       year: "numeric",
-    //     })
-    //     : "-";
-
-    //   return <div className="text-left">{formattedDate}</div>;
+    //         return (
+    //             <DropdownMenu>
+    //                 <DropdownMenuTrigger asChild>
+    //                     <Button variant="ghost" className="h-8 w-8 p-0">
+    //                         <span className="sr-only">Open menu</span>
+    //                         <MoreHorizontal className="h-4 w-4" />
+    //                     </Button>
+    //                 </DropdownMenuTrigger>
+    //                 <DropdownMenuContent align="end">
+    //                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
+    //                     <DropdownMenuSeparator />
+    //                     {/* <DropdownMenuItem
+    //                         onClick={() => navigator.clipboard.writeText(JSON.stringify(data))}
+    //                     >
+    //                         Copy Data
+    //                     </DropdownMenuItem> */}
+    //                     {/* <Link href={`/admin/pembelian/edit/${data.no_op}`}>
+    //                          <DropdownMenuItem>Edit</DropdownMenuItem>
+    //                     </Link> */}
+    //                 </DropdownMenuContent>
+    //             </DropdownMenu>
+    //         )
+    //     },
     // },
-    accessorFn: (row) => {
-      const rawDate = row.tanggal
-      // Pastikan rawDate bertipe string atau number
-      const dateValue =
-        typeof rawDate === "string" || typeof rawDate === "number"
-          ? new Date(rawDate)
-          : null;
+    {
+        id: "actions",
+        enableHiding: false,
+        cell: ({ row }) => {
+            const data = row.original
 
-      const formattedDate = dateValue
-        ? dateValue.toLocaleDateString("id-ID", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        })
-        : "-";
-      return formattedDate;
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <Link href={`/admin/pembelian/edit/${encodeURIComponent(data.no_op)}`}>
+                             <DropdownMenuItem>Edit</DropdownMenuItem>
+                        </Link>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )
+        },
     },
-  },
-  {
-    accessorKey: "no_voucher",
-    enableSorting: false,
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="No Voucher" />
-    ),
-  },
-
-  {
-    accessorKey: "Total",
-    enableSorting: false,
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Total" className="" />
-    ),
-    cell: ({ row }) => {
-      // const total = row.getValue("Total");
-      const totalNumber = Number(row.original.total);
-      return <div className="text-center">{totalNumber.toLocaleString("id-ID", { style: "currency", currency: "IDR",minimumFractionDigits: 0 })}</div>;
-    },
-  },
-  // {
-  //   accessorKey: "user",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="User" />
-  //   ),
-  // },
-  {
-    id: "action",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Actions" />
-    ),
-    cell: ({ row }) => (
-      <div className="text-center">
-        <DetailActions data={row.original} />
-        <Actions id={row.original.id_pembelian} />
-
-      </div>
-    ),
-  },
 ]

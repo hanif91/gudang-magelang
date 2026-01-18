@@ -25,6 +25,7 @@ interface ComboboxProps {
     placeholder?: string; // Placeholder untuk tombol Combobox
     searchPlaceholder?: string; // Placeholder untuk input pencarian
     emptyText?: string; // Teks yang ditampilkan jika tidak ada hasil pencarian
+    disabled?: boolean; // Menentukan apakah combobox dinonaktifkan
 }
 
 export function Combobox({
@@ -34,6 +35,7 @@ export function Combobox({
     placeholder = "Select...",
     searchPlaceholder = "Search...",
     emptyText = "No results found.",
+    disabled = false,
 }: ComboboxProps) {
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -68,6 +70,7 @@ export function Combobox({
                 <Button
                     variant="outline"
                     role="combobox"
+                    disabled={disabled}
                     aria-expanded={open}
                     className="w-full justify-between"
                 >

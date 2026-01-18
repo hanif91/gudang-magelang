@@ -36,13 +36,13 @@ export default function DetailActions({ data }: { data: any }) {
       <CustomModal
         isOpen={openDetail}
         onClose={() => setOpenDetail(false)}
-        title="Detail Pembelian"
-        description="Informasi lengkap tentang pembelian"
+        title="Detail Barang Masuk"
+        description="Informasi lengkap tentang barang masuk"
       >
         <div className="space-y-4">
           <div className="flex">
             <div className="text-left">
-              <p>No Pembelian</p>
+              <p>No Barang Masuk</p>
               <p>Tanggal</p>
               <p>No Voucher</p>
               <p>Supplier</p>

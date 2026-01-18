@@ -8,8 +8,8 @@ import AxiosClient from '@/lib/AxiosClient'
 import { AlertCircle, Plus, CalendarIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import useSWR from 'swr'
-import { DataTable } from '../pembelian/data-table'
-import { columns } from '../pembelian/columns'
+import { DataTable } from '../barang-masuk/data-table'
+import { columns } from '../barang-masuk/columns'
 import { Label } from "@/components/ui/label"
 import { differenceInBusinessDays, format } from "date-fns"
 import { MonthPicker } from "@/components/ui/monthpicker"
@@ -40,8 +40,8 @@ export default function DataTabelFilter(props: Props) {
 		<main className="flex flex-col gap-5 justify-center content-center p-5">
 			<Card className="w-full">
 				<CardHeader>
-					<CardTitle>Pembelian</CardTitle>
-					<CardDescription>Daftar Pembelian</CardDescription>
+					<CardTitle>Barang Masuk</CardTitle>
+					<CardDescription>Daftar Barang Masuk</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<Alert variant="destructive" className="mb-5">
@@ -87,7 +87,7 @@ export default function DataTabelFilter(props: Props) {
 		<>
 			<DataTable columns={columns} data={UserData.data ?? []} />
 			<div className="flex flex-row items-center justify-center space-x-5 space-y-2 p-5">
-				<Label className="text-center text-lg">Total Transaksi Pembelian Periode {props.periode} : {UserData.data ? UserData.data.reduce((acc: number, item: any) => acc + item.total, 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }) : "Rp. 0"}</Label>
+				<Label className="text-center text-lg">Total Transaksi Barang Masuk Periode {props.periode} : {UserData.data ? UserData.data.reduce((acc: number, item: any) => acc + item.total, 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }) : "Rp. 0"}</Label>
 			</div>
 		</>
 
