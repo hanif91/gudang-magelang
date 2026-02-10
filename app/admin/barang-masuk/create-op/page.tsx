@@ -11,7 +11,7 @@ import {
 import DataFormOp from "../data-form-op"
 
 export const metadata: Metadata = {
-  title: "Create Pembelian OP",
+  title: "Create Barang Masuk",
 }
 
 export default async function CreateOpPage() {
@@ -21,7 +21,7 @@ export default async function CreateOpPage() {
         <Card className="w-full">
           <CardHeader>
             <CardTitle>Create Barang Masuk</CardTitle>
-            <CardDescription>Masukan Data Pembelian Berdasarkan Order Pembelian (OP)</CardDescription>
+            <CardDescription>Masukan Data Barang Masuk Berdasarkan Order Pembelian (OP)</CardDescription>
           </CardHeader>
           <CardContent className="py-0">
             <DataFormOp />

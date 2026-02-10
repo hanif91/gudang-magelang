@@ -121,7 +121,7 @@ const LapAduanReport = React.forwardRef<LapAduanReportRef, Props>((props, ref) =
     const ttdFilter = formatLaporan?.data?.paraf?.ttd?.filter((e: any) => e.is_id === true);
 
     return (
-        <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
+        <div style={{ position: "fixed", left: "-9999px", top: "-9999px", display: "none" }}>
             <div ref={componentRef} className="px-10">
                 <div className="flex items-center gap-4 mb-6">
                     <Image className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
@@ -188,25 +188,25 @@ const LapAduanReport = React.forwardRef<LapAduanReportRef, Props>((props, ref) =
                                             {formatHarga(item.harga, { style: 'decimal' }) || '0.00'}
                                         </TableCell>
                                         <TableCell className="border border-black text-right qty-col">
-                                            {item.qtyawal?.toLocaleString() || '0'}
+                                            {formatHarga(Number(item.qtyawal), { style: 'decimal' }) || '0'}
                                         </TableCell>
                                         <TableCell className="border border-black text-right saldo-col font-medium w-[100px]">
                                             {formatHarga(item.saldoawal, { style: 'decimal' }) || '0.00'}
                                         </TableCell>
                                         <TableCell className="border border-black text-right qty-col">
-                                            {item.qtymasuk?.toLocaleString() || '0'}
+                                            {formatHarga(Number(item.qtymasuk), { style: 'decimal' }) || '0'}
                                         </TableCell>
                                         <TableCell className="border border-black text-right saldo-col font-medium w-[100px]">
                                             {formatHarga(item.saldomasuk, { style: 'decimal' }) || '0.00'}
                                         </TableCell>
                                         <TableCell className="border border-black text-right qty-col">
-                                            {item.qtykeluar?.toLocaleString() || '0'}
+                                            {formatHarga(Number(item.qtykeluar), { style: 'decimal' }) || '0'}
                                         </TableCell>
                                         <TableCell className="border border-black text-right saldo-col font-medium w-[100px]">
                                             {formatHarga(item.saldokeluar, { style: 'decimal' }) || '0.00'}
                                         </TableCell>
                                         <TableCell className="border border-black text-right qty-col">
-                                            {item.qtyakhir?.toLocaleString() || '0'}
+                                            {formatHarga(Number(item.qtyakhir), { style: 'decimal' }) || '0'}
                                         </TableCell>
                                         <TableCell className="border border-black text-right saldo-col font-medium w-[100px]">
                                             {formatHarga(item.saldoakhir, { style: 'decimal' }) || '0.00'}
