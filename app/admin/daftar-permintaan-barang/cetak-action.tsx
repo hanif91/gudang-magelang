@@ -5,23 +5,7 @@ import { useReactToPrint } from "react-to-print"
 import PrintDPB from "./components/print-dpb"
 import useSWR from "swr"
 
-interface Dpb {
-    id: number,
-    nodpb: string,
-    tanggal: string
-    barang: Barang[]
-}
-
-interface Barang {
-    id: number,
-    nama_barang: string,
-    satuan_barang: string,
-    qty: number,
-    nama_jenis: string,
-    nama_kategori: string,
-    nama_merek: string,
-    stok: number,
-}
+import { Dpb } from "./columns"
 export default function CetakAction({ data }: { data: Dpb }) {
     const inputRef = useRef(null)
     // Correct useReactToPrint usage
@@ -43,7 +27,7 @@ export default function CetakAction({ data }: { data: Dpb }) {
     if (data == null) {
         return
     }
-    
+
 
 
 

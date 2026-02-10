@@ -2,6 +2,7 @@ import React from 'react'
 
 interface Barang {
     id: number,
+    flagproses: number,
     nama_barang: string,
     satuan_barang: string,
     stok_barang: number,
@@ -14,5 +15,6 @@ export default interface Dpbk {
     nama_unit: string,
     tanggal: string,
     keterangan: string,
-    barang: Barang[]
+    barang: Barang[],
+    status: number
 }

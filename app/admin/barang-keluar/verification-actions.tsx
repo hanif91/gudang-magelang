@@ -35,13 +35,15 @@ interface BarangKeluarItems {
     qty: number;
     qty_minta: number;
     id_dpbk: number;
+    kodekeper_id: number;
+    kodekeper_kode: string;
+    kodekeper_nama: string;
     harga: number;
     total: number;
     nodpb: string;
     nodpbk: string;
     stock: number;
     satuan: string;
-    kodekeper_kode?: string;
 }
 
 interface BarangKeluar {
@@ -51,11 +53,13 @@ interface BarangKeluar {
     keterangan: string;
     id_jenis_bk: number;
     nama_jenis_bk: string;
+    id_kodekeper: string;
     kodekeper: string;
     nama_kodekeper: string;
     id_asset_perpipaan: number;
     nama_asset_perpipaan: string;
     id_bagminta: number;
+    total: number;
     nama_bagminta: string;
     barang_keluar_items: BarangKeluarItems[];
 }
@@ -77,6 +81,7 @@ export default function VerificationActions({ data, mutate: externalMutate }: { 
     const [openDetail, setOpenDetail] = useState(false);
     const [openVerify, setOpenVerify] = useState(false);
     const [selectedVerifyId, setSelectedVerifyId] = useState<number | null>(null);
+    const [status, setStatus] = useState<number | null>(null);
     const [isPending, setIsPending] = useState(false);
     const router = useRouter()
 
@@ -139,6 +144,17 @@ export default function VerificationActions({ data, mutate: externalMutate }: { 
         form.reset();
     }
 
+    const handleStatus = () => {
+            const jmlkodekeper = data.barang_keluar_items.length;
+
+            if (jmlkodekeper == length) {
+                return setStatus(2)
+            } else if (jmlkodekeper > 0) {
+                return setStatus(1)
+            } else {
+                return setStatus(0)
+            }
+    };
     return (
         <>
             <Button onClick={() => setOpenDetail(true)} variant="ghost" title="Verifikasi per item">
@@ -172,7 +188,7 @@ export default function VerificationActions({ data, mutate: externalMutate }: { 
                                     <p>Tanggal</p>
                                     <p>Keterangan</p>
                                     <p>Jenis Barang Keluar</p>
-                                    <p>Kode Keperluan</p>
+                                    {/* <p>Kode Keperluan</p> */}
                                     <p>Asset</p>
                                     <p>Nama Bagian</p>
                                 </div>
@@ -188,7 +204,7 @@ export default function VerificationActions({ data, mutate: externalMutate }: { 
                                     </p>
                                     <p>: {data.keterangan}</p>
                                     <p>: {data.nama_jenis_bk}</p>
-                                    <p>: {`${data.nama_kodekeper} (${data.kodekeper})`}</p>
+                                    {/* <p>: {`${data.nama_kodekeper} (${data.kodekeper})`}</p> */}
                                     <p>: {data.nama_asset_perpipaan}</p>
                                     <p>: {data.nama_bagminta}</p>
                                 </div>
@@ -240,7 +256,7 @@ export default function VerificationActions({ data, mutate: externalMutate }: { 
                                                     size="sm"
                                                     className={barang.kodekeper_kode ? "bg-green-600 hover:bg-green-700" : ""}
                                                     onClick={() => {
-                                                        setSelectedVerifyId(barang.id_fifo);
+                                                        setSelectedVerifyId(barang.id_barang_keluar);
                                                         setOpenVerify(true);
                                                     }}
                                                 >

@@ -290,16 +290,18 @@ import { DataTableColumnHeader } from "@/components/datatable-header-column"
 import Actions from "./actions"
 import DetailActions from "./detail-actions"
 import CetakAction from "./cetak-action"
+import { Badge } from "@/components/ui/badge"
 
 // define data
-interface Dpb {
+export interface Dpb {
   id: number,
   nodpb: string,
   tanggal: string
   barang: Barang[]
+  status: number
 }
 
-interface Barang {
+export interface Barang {
   id: number,
   nama_barang: string,
   satuan_barang: string,
@@ -307,7 +309,8 @@ interface Barang {
   nama_jenis: string,
   nama_kategori: string,
   nama_merek: string,
-  stok : number,
+  stok: number,
+  flagproses: number
 }
 export const columns: ColumnDef<Dpb>[] = [
   {
@@ -322,6 +325,29 @@ export const columns: ColumnDef<Dpb>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="No DBP" />
     ),
+  },
+
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const status = row.getValue("status");
+      return (
+        <Badge
+          variant={
+            status === 2
+              ? "success"
+              : status === 1
+                ? "warning"
+                : "destructive"
+          }
+        >
+          {status === 2 ? "Sudah Proses" : status === 1 ? "Sudah Proses Sebagian" : "Belum Proses"}
+        </Badge>
+      );
+    },
   },
 
   {
@@ -389,7 +415,7 @@ export const columns: ColumnDef<Dpb>[] = [
       <div className="text-center">
         <DetailActions data={row.original} />
         <CetakAction data={row.original} />
-        <Actions id={row.original.nodpb} />
+        <Actions id={row.original.nodpb} status={row.original.status} />
       </div>
     ),
   },

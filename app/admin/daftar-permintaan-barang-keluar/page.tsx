@@ -6,7 +6,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Skeleton } from '@/components/ui/skeleton'
 import AxiosClient from '@/lib/AxiosClient'
 import { AlertCircle, Plus } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select"
 import useSWR from 'swr'
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
@@ -15,7 +22,8 @@ const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 
 export default function DaftarPermintaanBarangKeluar() {
-	const { data, error, isLoading } = useSWR('/api/gudang/dpbk', fetcher)
+	const [flagproses, setFlagproses] = useState("-1");
+	const { data, error, isLoading } = useSWR(`/api/gudang/dpbk?flagproses=${flagproses}`, fetcher)
 	if (error) return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">
 			<Card className="w-full">
@@ -66,7 +74,20 @@ export default function DaftarPermintaanBarangKeluar() {
 	return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">
 			<Card className="w-full">
-				<CardHeader className="py-4">
+				<CardHeader className="py-4 flex flex-row items-center justify-between">
+					<div className="w-[250px]">
+						<Select value={flagproses} onValueChange={setFlagproses}>
+							<SelectTrigger>
+								<SelectValue placeholder="Pilih Status" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="-1">Semua</SelectItem>
+								<SelectItem value="0">Belum Proses</SelectItem>
+								<SelectItem value="1">Sudah Proses Sebagian</SelectItem>
+								<SelectItem value="2">Sudah Proses</SelectItem>
+							</SelectContent>
+						</Select>
+					</div>
 					<Link href="/admin/daftar-permintaan-barang-keluar/create" className="flex justify-end">
 						<Button variant="default" className="w-32">
 							<Plus className="w-4 h-4 mr-1" /> Create

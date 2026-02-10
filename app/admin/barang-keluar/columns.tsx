@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import KodeAction from "./kode-action";
 import CetakAction from "./cetak-action";
 import formatHarga from "@/lib/format-harga";
+import { Badge } from "@/components/ui/badge";
 
 // define data
 interface BarangKeluarItems {
@@ -18,6 +19,9 @@ interface BarangKeluarItems {
   qty: number;
   qty_minta: number;
   id_dpbk: number;
+  kodekeper_id: number;
+  kodekeper_kode: string;
+  kodekeper_nama: string;
   harga: number;
   total: number;
   nodpb: string;
@@ -56,6 +60,34 @@ export const createColumns = (mutate?: () => void): ColumnDef<BarangKeluar>[] =>
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="No BPP" />
     ),
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const items = row.original.barang_keluar_items;
+      const totalItems = items.length;
+      const verifiedCount = items.filter((item) => item.kodekeper_kode).length;
+
+      let label = "Belum Proses";
+      let className = "bg-red-100 text-red-800 border-red-300";
+
+      if (verifiedCount > 0 && verifiedCount < totalItems) {
+        label = "Sudah Proses Sebagian";
+        className = "bg-yellow-100 text-yellow-800 border-yellow-300";
+      } else if (verifiedCount === totalItems && totalItems > 0) {
+        label = "Sudah Proses";
+        className = "bg-green-100 text-green-800 border-green-300";
+      }
+
+      return (
+        <Badge variant={verifiedCount === totalItems && totalItems > 0 ? "success" : verifiedCount > 0 && verifiedCount < totalItems ? "warning" : "destructive"}>
+          {label}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "tanggal",
@@ -181,7 +213,7 @@ export const createColumns = (mutate?: () => void): ColumnDef<BarangKeluar>[] =>
         <DetailActions data={row.original} mutate={mutate} />
         <VerificationActions data={row.original} mutate={mutate} />
         <CetakAction data={row.original} />
-        <Actions id={row.original.id.toString()} mutate={mutate} />
+        <Actions id={row.original.id.toString()} mutate={mutate} disabled={row.original.barang_keluar_items.some((item) => item.kodekeper_kode)} />
       </div>
     ),
   },

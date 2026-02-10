@@ -38,6 +38,9 @@ interface BarangKeluarItems {
   qty: number;
   qty_minta: number;
   id_dpbk: number;
+  kodekeper_id: number;
+  kodekeper_kode: string;
+  kodekeper_nama: string;
   harga: number;
   total: number;
   nodpb: string;
@@ -56,11 +59,13 @@ interface BarangKeluar {
   keterangan: string;
   id_jenis_bk: number;
   nama_jenis_bk: string;
+  id_kodekeper: string;
   kodekeper: string;
   nama_kodekeper: string;
   id_asset_perpipaan: number;
   nama_asset_perpipaan: string;
   id_bagminta: number;
+  total: number;
   nama_bagminta: string;
   barang_keluar_items: BarangKeluarItems[];
 }
@@ -71,6 +76,8 @@ export default function DetailActions({ data, mutate: externalMutate }: { data: 
   const [selectedDeleteId, setSelectedDeleteId] = useState<number | null>(null);
   const [isPending, setIsPending] = useState(false);
   const router = useRouter()
+
+  console.log('data:', data);
 
   const deleteAction = async (id: number) => {
     // console.log("id",id)
@@ -148,7 +155,7 @@ export default function DetailActions({ data, mutate: externalMutate }: { data: 
                   <p>Tanggal</p>
                   <p>Keterangan</p>
                   <p>Jenis Barang Keluar</p>
-                  <p>Kode Keperluan</p>
+                  {/* <p>Kode Keperluan</p> */}
                   <p>Asset</p>
                   <p>Nama Bagian</p>
                 </div>
@@ -164,7 +171,7 @@ export default function DetailActions({ data, mutate: externalMutate }: { data: 
                   </p>
                   <p>: {data.keterangan}</p>
                   <p>: {data.nama_jenis_bk}</p>
-                  <p>: {`${data.nama_kodekeper} (${data.kodekeper})`}</p>
+                  {/* <p>: {`${data.nama_kodekeper} (${data.kodekeper})`}</p> */}
                   <p>: {data.nama_asset_perpipaan}</p>
                   <p>: {data.nama_bagminta}</p>
                 </div>
@@ -215,7 +222,7 @@ export default function DetailActions({ data, mutate: externalMutate }: { data: 
                         <Button
                           variant="destructive"
                           size="sm"
-                          disabled={data.barang_keluar_items.length <= 1}
+                          disabled={data.barang_keluar_items.length <= 1 || data.barang_keluar_items[index].kodekeper_kode ? true : false}
                           onClick={() => {
                             // console.log("id",barang.id_barang_keluar)
                             setSelectedDeleteId(barang.id_fifo);

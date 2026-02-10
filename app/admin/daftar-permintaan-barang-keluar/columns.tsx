@@ -8,6 +8,7 @@ import PrintDPB from "./components/print-dpbk"
 import PrintDPBK from "./components/print-dpbk"
 import Dpbk from "./models/models"
 import CetakAction from "./cetak-action"
+import { Badge } from "@/components/ui/badge"
 
 // define data
 
@@ -24,6 +25,29 @@ export const columns: ColumnDef<Dpbk>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="No DBPK" />
     ),
+  },
+
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const status = row.getValue("status");
+      return (
+        <Badge
+          variant={
+            status === 2
+              ? "success"
+              : status === 1
+                ? "warning"
+                : "destructive"
+          }
+        >
+          {status === 2 ? "Sudah Proses" : status === 1 ? "Sudah Proses Sebagian" : "Belum Proses"}
+        </Badge>
+      );
+    },
   },
 
   {
@@ -79,7 +103,7 @@ export const columns: ColumnDef<Dpbk>[] = [
       <div className="text-center">
         <DetailActions data={row.original} />
         <CetakAction data={row.original} />
-        <Actions id={row.original.nodpbk} />
+        <Actions id={row.original.nodpbk} status={row.original.status} />
       </div>
     ),
   },

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useTransition, useState } from "react"
-import { NotebookTabs, Pencil } from "lucide-react"
+import { NotebookTabs, Pencil, CircleX, CircleCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -70,39 +70,41 @@ export default function DetailActions({ data }: { data: Dpbk }) {
           <div>
             <CardTitle className="text-left text-lg font-semibold">Daftar Barang</CardTitle>
             <div className="max-h-80 overflow-y-auto">
-            <Table>
-              <TableCaption>Daftar semua informasi barang</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Nama Barang</TableHead>
-                  <TableHead>Qty</TableHead>
-                  {/* <TableHead>Jenis</TableHead> */}
-                  {/* <TableHead>Kategori</TableHead> */}
-                  {/* <TableHead>Merek</TableHead> */}
-                  <TableHead>Satuan Barang</TableHead>
-                  <TableHead>Stok Barang</TableHead>
-                  {/* <TableHead>Foto Barang</TableHead> */}
-                  {/* <TableHead>Minimal Stock</TableHead> */}
-                  {/* <TableHead>Foto</TableHead> */}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.barang.map((barang, index: any) => (
-                  <TableRow key={index}>
-                    <TableCell className="font-medium min-w-48 text-left">{barang.nama_barang}</TableCell>
-                    <TableCell className="font-medium">{barang.qty}</TableCell>
-                    {/* <TableCell className="font-medium">{barang.jenis}</TableCell> */}
-                    {/* <TableCell className="font-medium">{barang.kategori}</TableCell> */}
-                    {/* <TableCell className="font-medium">{barang.merek}</TableCell> */}
-                    <TableCell className="font-medium">{barang.satuan_barang}</TableCell>
-                    <TableCell className="font-medium">{barang.stok_barang}</TableCell>
-
-                    {/* <TableCell className="font-medium">{barang.satuan}</TableCell> */}
-                    {/* <TableCell className="font-medium">{barang.satuan}</TableCell> */}
+              <Table>
+                <TableCaption>Daftar semua informasi barang</TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Nama Barang</TableHead>
+                    <TableHead>Qty</TableHead>
+                    {/* <TableHead>Jenis</TableHead> */}
+                    {/* <TableHead>Kategori</TableHead> */}
+                    {/* <TableHead>Merek</TableHead> */}
+                    <TableHead>Satuan Barang</TableHead>
+                    <TableHead>Stok Barang</TableHead>
+                    {/* <TableHead>Foto Barang</TableHead> */}
+                    {/* <TableHead>Minimal Stock</TableHead> */}
+                    {/* <TableHead>Foto</TableHead> */}
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {data.barang.map((barang, index: any) => (
+                    <TableRow key={index}>
+                      <TableCell>{barang.flagproses === 1 ? <CircleCheck className="h-4 w-4 text-green-500" /> : <CircleX className="h-4 w-4 text-red-500" />}</TableCell>
+                      <TableCell className="font-medium min-w-45 text-left">{barang.nama_barang}</TableCell>
+                      <TableCell className="font-medium">{barang.qty}</TableCell>
+                      {/* <TableCell className="font-medium">{barang.jenis}</TableCell> */}
+                      {/* <TableCell className="font-medium">{barang.kategori}</TableCell> */}
+                      {/* <TableCell className="font-medium">{barang.merek}</TableCell> */}
+                      <TableCell className="font-medium">{barang.satuan_barang}</TableCell>
+                      <TableCell className="font-medium">{barang.stok_barang}</TableCell>
+
+                      {/* <TableCell className="font-medium">{barang.satuan}</TableCell> */}
+                      {/* <TableCell className="font-medium">{barang.satuan}</TableCell> */}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           </div>
         </div>

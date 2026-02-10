@@ -106,7 +106,7 @@ export const columns: ColumnDef<any>[] = [
 
             return (
                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                    <DropdownMenuTrigger asChild >
                         <Button variant="ghost" className="h-8 w-8 p-0">
                             <span className="sr-only">Open menu</span>
                             <MoreHorizontal className="h-4 w-4" />
@@ -115,9 +115,11 @@ export const columns: ColumnDef<any>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <Link href={`/admin/pembelian/edit/${encodeURIComponent(data.no_op)}`}>
-                             <DropdownMenuItem>Edit</DropdownMenuItem>
-                        </Link>
+                        <Button disabled={data.status == 2 ? true : false} className={`text-primary ${data.status == 2 ? "cursor-not-allowed bg-transparent" : ""}`}>
+                            <Link href={`/admin/pembelian/edit/${encodeURIComponent(data.no_op)}`}>
+                                Edit
+                            </Link>
+                        </Button>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )

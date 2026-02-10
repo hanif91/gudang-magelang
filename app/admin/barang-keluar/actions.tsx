@@ -28,7 +28,7 @@ import { mutate } from "swr"
 import { deleteBarangKeluar } from "@/lib/actions/actBarangKeluar"
 
 
-export default function Actions({ id, mutate: externalMutate }: { id: string; mutate?: () => void; }) {
+export default function Actions({ id, mutate: externalMutate, disabled }: { id: string; mutate?: () => void; disabled?: boolean }) {
   const { toast } = useToast()
   const [openDelete, setOpenDelete] = useState(false)
   const [isPending, startTransition] = useTransition()
@@ -102,6 +102,7 @@ export default function Actions({ id, mutate: externalMutate }: { id: string; mu
           <DropdownMenuItem
             className="focus:bg-destructive focus:text-white"
             onClick={() => setOpenDelete(true)}
+            disabled={disabled}
           >
             <Trash2 className="h-4 w-4 mr-2" /> Hapus Transaksi
           </DropdownMenuItem>
@@ -122,7 +123,7 @@ export default function Actions({ id, mutate: externalMutate }: { id: string; mu
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => deleteAction(id)}
-              disabled={isPending}
+              disabled={isPending || disabled}
             >
               <Trash2 className="h-4 w-4 mr-2" />
               Delete

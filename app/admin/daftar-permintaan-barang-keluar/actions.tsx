@@ -28,7 +28,7 @@ import { mutate } from "swr"
 import { deleteDpbk } from "@/lib/actions/actDpbk"
 
 
-export default function Actions({ id }: { id: string; }) {
+export default function Actions({ id, status }: { id: string; status: number }) {
   const { toast } = useToast()
   const [openDelete, setOpenDelete] = useState(false)
   const [isPending, startTransition] = useTransition()
@@ -83,11 +83,12 @@ export default function Actions({ id }: { id: string; }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild disabled={status === 1 || status === 2}>
             <Link
               href={`/admin/daftar-permintaan-barang-keluar/edit?id=${encodeURIComponent(
                 encrypt(id)
               )}`}
+              className={status === 1 || status === 2 ? "pointer-events-none opacity-50" : ""}
             >
               <Pencil className="h-4 w-4 mr-2" /> Edit
             </Link>
@@ -95,6 +96,7 @@ export default function Actions({ id }: { id: string; }) {
           <DropdownMenuItem
             className="focus:bg-destructive focus:text-white"
             onClick={() => setOpenDelete(true)}
+            disabled={status === 1 || status === 2}
           >
             <Trash2 className="h-4 w-4 mr-2" /> Hapus
           </DropdownMenuItem>

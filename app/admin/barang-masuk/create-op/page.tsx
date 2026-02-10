@@ -20,7 +20,7 @@ export default async function CreateOpPage() {
       <main className="flex flex-col gap-5 justify-center content-center p-5">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Create Pembelian dari OP</CardTitle>
+            <CardTitle>Create Barang Masuk</CardTitle>
             <CardDescription>Masukan Data Pembelian Berdasarkan Order Pembelian (OP)</CardDescription>
           </CardHeader>
           <CardContent className="py-0">

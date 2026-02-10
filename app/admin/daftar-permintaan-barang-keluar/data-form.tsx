@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 // import { serialize } from "object-to-formdata";
 import useSWR from "swr";
@@ -267,6 +268,23 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                 return (
                   <div key={field.id} className="flex space-x-4 items-start">
                     <FormField
+                      name={`${index}`}
+                      render={({ field }) => (
+                        <FormItem className="w-[4%] text-center">
+                          {index === 0 && <FormLabel>No</FormLabel>}
+                          <Input
+                            type="text"
+                            disabled
+                            className=" text-center"
+                            placeholder="No"
+                            value={`${index + 1}`}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
                       control={form.control}
                       name={`items.${index}.barang_id`}
                       render={({ field }) => {
@@ -375,13 +393,18 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                     />
 
                     {fields.length > 1 && (
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        onClick={() => remove(index)}
-                      >
-                        Hapus
-                      </Button>
+                      <div className="space-y-2">
+                        {index === 0 && (
+                          <Label className="opacity-0">Hapus</Label>
+                        )}
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          onClick={() => remove(index)}
+                        >
+                          Hapus
+                        </Button>
+                      </div>
                     )}
                   </div>
                 );
@@ -540,13 +563,18 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                         />
 
                         {fields.length > 1 && (
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            onClick={() => remove(index)}
-                          >
-                            Hapus
-                          </Button>
+                          <div className="space-y-2">
+                            {index === 0 && (
+                              <Label className="opacity-0">Hapus</Label>
+                            )}
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              onClick={() => remove(index)}
+                            >
+                              Hapus
+                            </Button>
+                          </div>
                         )}
                       </div>
                     );

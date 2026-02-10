@@ -198,16 +198,25 @@ export default function BarangKeluarForm({
 
   const handleSelectAll = () => {
     const availableBarang = getAvailableBarang();
-    const newSelectedBarang = [...selectedBarang, ...availableBarang];
+    const validItems = availableBarang.map((barang) => {
+      const currentQty = Number(barang.qty);
+      const finalQty = currentQty > barang.stok_barang ? barang.stok_barang : currentQty;
+      return {
+        ...barang,
+        qty: finalQty,
+      };
+    });
+
+    const newSelectedBarang = [...selectedBarang, ...validItems];
     setSelectedBarang(newSelectedBarang);
 
     // Update form barang field
     const newFormBarang = [
       ...form.getValues("barang"),
-      ...availableBarang.map((barang) => ({
+      ...validItems.map((barang) => ({
         dpbk_id: barang.id_nodpbk,
         barang_id: barang.barang_id,
-        qty: Number(barang.qty),
+        qty: barang.qty,
       })),
     ];
     form.setValue("barang", newFormBarang);

@@ -15,7 +15,7 @@ const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 
 export default function DaftarPermintaanBarang() {
-	const { data, error, isLoading } = useSWR('/api/gudang/dpb', fetcher)
+	const { data, error, isLoading } = useSWR('/api/gudang/dpb?flagproses=0', fetcher)
 	if (error) return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">
 			<Card className="w-full">

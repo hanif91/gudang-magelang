@@ -14,23 +14,10 @@ import {
 } from "@/components/ui/table"
 import { CardTitle } from "@/components/ui/card"
 import CustomModal from "./custom-modal"
+import { CircleCheck, CircleX } from "lucide-react"
 
-interface Dpb {
-  id: number
-  nodpb: string
-  tanggal: string
-  barang: Barang[]
-}
 
-interface Barang {
-  id: number
-  nama_barang: string
-  satuan_barang: string
-  qty: number
-  nama_jenis: string
-  nama_kategori: string
-  nama_merek: string
-}
+import { Dpb } from "./columns"
 
 export default function DetailActions({ data }: { data: Dpb }) {
   const [openDetail, setOpenDetail] = useState(false)
@@ -80,6 +67,7 @@ export default function DetailActions({ data }: { data: Dpb }) {
                   <TableRow>
                     <TableHead>No</TableHead>
                     <TableHead>Nama Barang</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead>Qty</TableHead>
                     <TableHead>Jenis</TableHead>
                     <TableHead>Kategori</TableHead>
@@ -91,10 +79,13 @@ export default function DetailActions({ data }: { data: Dpb }) {
                   {data.barang.map((barang, index) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium Text-left">
-                        {index+1}
+                        {index + 1}
                       </TableCell>
-                      <TableCell className="font-medium min-w-48 text-left">
+                      <TableCell className="font-medium min-w-45 text-left">
                         {barang.nama_barang}
+                      </TableCell>
+                      <TableCell className="font-medium Text-left">
+                        {barang.flagproses === 1 ? <CircleCheck className="h-4 w-4 text-green-500" /> : <CircleX className="h-4 w-4 text-red-500" />}
                       </TableCell>
                       <TableCell className="font-medium">{barang.qty}</TableCell>
                       <TableCell className="font-medium">{barang.nama_jenis}</TableCell>
