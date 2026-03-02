@@ -31,11 +31,6 @@ export default function CetakAction({ data }: { data: any }) {
     contentRef: inputRef,
     pageStyle: `
         @page {
-            @top-left { content: ""; }
-            @top-center { content: ""; }
-            @top-right { content: ""; }
-            @bottom-left { content: ""; }
-            @bottom-center { content: ""; }
             @bottom-right {
                 content: "Halaman " counter(page);
                 padding-right : 40px;

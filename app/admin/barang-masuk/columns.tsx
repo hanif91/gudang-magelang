@@ -4,8 +4,10 @@ import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/components/datatable-header-column"
 import Actions from "./actions"
 import DetailActions from "./detail-actions"
+import CetakAction from "./cetak-action"
 
 // define data
+
 interface Pembelian {
   no_pembelian: string,
   supplier: string,
@@ -13,7 +15,7 @@ interface Pembelian {
   no_voucher: string,
   status: string,
   id_pembelian: string,
-  total : string
+  total: string
 }
 
 export const columns: ColumnDef<Pembelian>[] = [
@@ -97,7 +99,7 @@ export const columns: ColumnDef<Pembelian>[] = [
     cell: ({ row }) => {
       // const total = row.getValue("Total");
       const totalNumber = Number(row.original.total);
-      return <div className="text-center">{totalNumber.toLocaleString("id-ID", { style: "currency", currency: "IDR",minimumFractionDigits: 0 })}</div>;
+      return <div className="text-center">{totalNumber.toLocaleString("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 })}</div>;
     },
   },
   // {
@@ -111,11 +113,11 @@ export const columns: ColumnDef<Pembelian>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Actions" />
     ),
-    cell: ({ row }) => (
-      <div className="text-center">
+    cell: ({ row, table }) => (
+      <div className="text-center flex items-center justify-center">
         <DetailActions data={row.original} />
-        <Actions id={row.original.id_pembelian} />
-
+        <CetakAction data={row.original} />
+        <Actions id={row.original.id_pembelian} onMutate={(table.options.meta as any)?.mutate} />
       </div>
     ),
   },

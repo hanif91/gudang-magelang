@@ -34,12 +34,14 @@ export default function JenisBarangKeluarForm({ jenis_bk }: { jenis_bk?: any }) 
   const [isPending, startTransition] = useTransition()
 
   const formSchema = z.object({
-    nama: z.string().min(1, "Date is required"),
+    nomor: z.string().min(1, "Nomor is required"),
+    nama: z.string().min(1, "Nama is required"),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      nomor: jenis_bk?.nomor ?? "",
       nama: jenis_bk?.nama ?? "",
     },
   })
@@ -69,15 +71,27 @@ export default function JenisBarangKeluarForm({ jenis_bk }: { jenis_bk?: any }) 
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
 
-        <FormField control={form.control} name="nama" render={({ field }) => (
-          <FormItem>
-            <FormLabel>Nama</FormLabel>
-            <FormControl>
-              <Input type="text" placeholder="Nama" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField control={form.control} name="nama" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nama</FormLabel>
+              <FormControl>
+                <Input type="text" placeholder="Nama" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <FormField control={form.control} name="nomor" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nomor</FormLabel>
+              <FormControl>
+                <Input type="text" placeholder="Nomor" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+        </div>
         <div className="flex justify-end">
           <Button type="submit" disabled={isPending} >{isPending ? "Menyimpan..." : "Submit"}</Button>
         </div>

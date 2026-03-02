@@ -1,5 +1,6 @@
 'use client';
 import useSWR from 'swr';
+import Image from "next/image";
 import {
     Table,
     TableBody,
@@ -123,7 +124,7 @@ const LapAduanReport = React.forwardRef<LapAduanReportRef, Props>((props, ref) =
         <div style={{ position: "fixed", left: "-9999px", top: "-9999px", display: "none" }}>
             <div ref={componentRef} className="px-10">
                 <div className="flex items-center gap-4 mb-6">
-                    <img src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
+                    <img className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
                     <div className="text-green-800">
                         <h1 className="font-bold text-lg">{formatLaporan?.data?.header?.headerlap1}</h1>
                         <p className="text-sm">{formatLaporan?.data?.header?.headerlap2}</p>
@@ -136,7 +137,7 @@ const LapAduanReport = React.forwardRef<LapAduanReportRef, Props>((props, ref) =
                 </div>
 
                 {/* Tabel Utama */}
-                <Table className="border border-collapse w-full mb-8">
+                <Table className="border border-collapse w-full table-fixed mb-8">
                     <TableHeader>
                         <TableRow>
                             <TableHead className="border border-black text-center font-bold w-[40px]" rowSpan={2}>NO</TableHead>

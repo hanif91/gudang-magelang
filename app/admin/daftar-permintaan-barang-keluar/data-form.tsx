@@ -340,15 +340,15 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                               placeholder="Qty"
                               {...field}
                               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                              value={field.value === 0 ? "" : field.value}
                               onChange={(e) => {
                                 const stok = form.getValues(
                                   `items.${index}.stok_barang`
                                 );
-                                const value =
-                                  e.target.value === "" ? "" : e.target.value; // Pertahankan string kosong
+                                const value = e.target.value;
 
                                 if (value === "") {
-                                  field.onChange(value);
+                                  field.onChange(0);
                                   return;
                                 }
 
@@ -363,8 +363,8 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                                   });
                                 } else {
                                   form.clearErrors(`items.${index}.qty`);
-                                  field.onChange(numValue);
                                 }
+                                field.onChange(numValue);
                               }}
                             />
                           </FormControl>
@@ -518,11 +518,20 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                                   placeholder="Qty"
                                   {...field}
                                   className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                  value={field.value === 0 ? "" : field.value}
                                   onChange={(e) => {
                                     const stok = form.getValues(
                                       `items.${index}.stok_barang`
                                     );
-                                    const value = parseFloat(e.target.value); // Menggunakan parseFloat untuk mengizinkan desimal
+                                    const val = e.target.value;
+
+                                    if (val === "") {
+                                      field.onChange(0);
+                                      form.clearErrors(`items.${index}.qty`);
+                                      return;
+                                    }
+
+                                    const value = parseFloat(val); // Menggunakan parseFloat untuk mengizinkan desimal
                                     if (value > stok) {
                                       form.setError(`items.${index}.qty`, {
                                         type: "manual",
@@ -531,8 +540,8 @@ export default function DaftarPermintaanBarangKeluar({ dpbk }: { dpbk?: any }) {
                                       });
                                     } else {
                                       form.clearErrors(`items.${index}.qty`);
-                                      field.onChange(value);
                                     }
+                                    field.onChange(value);
                                   }}
                                 />
                               </FormControl>

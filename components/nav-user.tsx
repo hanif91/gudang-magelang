@@ -1,13 +1,9 @@
 "use client"
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 import {
   BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
 } from "lucide-react"
 
 import {
@@ -30,22 +26,65 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import useSWR, { Fetcher } from 'swr'
 import { Skeleton } from "@/components/ui/skeleton"
-import AxiosClient from '@/lib/AxiosClient'
 import { LogoutButton } from './logout-button'
-const fetcher = (url: string) => AxiosClient.get(url).then((res) => res.data.data);
 
-export function NavUser(
+interface UserData {
+  id: number;
+  username: string;
+  nama: string;
+  jabatan: string;
+  rolePortal: string;
+  roleId: number;
+  isActive: boolean;
+  isUserPpob: boolean;
+  isUserTimtagih: boolean;
+  noHp: string;
+  loket: Array<{
+    id: number;
+    aktif: number;
+    loket: string;
+    primary: number;
+    kodeloket: string;
+  }>;
+}
 
-) {
-  const { data, error, isLoading } = useSWR('/api/auth/validate-token', fetcher)
+// Helper function to get user initials from name
+function getInitials(name: string): string {
+  if (!name) return 'U';
+  const words = name.trim().split(' ');
+  if (words.length >= 2) {
+    return (words[0][0] + words[1][0]).toUpperCase();
+  }
+  return name.substring(0, 2).toUpperCase();
+}
+
+export function NavUser() {
+  const [user, setUser] = useState<UserData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { isMobile } = useSidebar()
-  if (error) return <div>failed to load</div>;
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser) as UserData;
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Failed to parse user data from localStorage:', error);
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
   if (isLoading) return (
     <Skeleton className="w-[100px] h-[20px] rounded-full" />
   )
-  const user = data?.user;
+
+  if (!user) return (
+    <Skeleton className="w-[100px] h-[20px] rounded-full" />
+  )
   // console.log(user);
   return (
     <SidebarMenu>
@@ -57,12 +96,13 @@ export function NavUser(
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user?.image} alt={''} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg bg-primary text-primary-foreground">
+                  {getInitials(user.nama)}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user?.nama}</span>
-                <span className="truncate text-xs">{user?.email}</span>
+                <span className="truncate font-semibold">{user.nama}</span>
+                <span className="truncate text-xs">{user.jabatan}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -76,12 +116,13 @@ export function NavUser(
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user?.image} alt={user?.nama} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg bg-primary text-primary-foreground">
+                    {getInitials(user.nama)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user?.nama}</span>
-                  <span className="truncate text-xs">{user?.email}</span>
+                  <span className="truncate font-semibold">{user.nama}</span>
+                  <span className="truncate text-xs">{user.jabatan}</span>
                 </div>
               </div>
             </DropdownMenuLabel>

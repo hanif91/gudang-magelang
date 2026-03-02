@@ -335,11 +335,12 @@ export default function PembelianForm({ pembelian }: { pembelian?: any }) {
           name='no_pembelian'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>No Pembelian</FormLabel>
+              <FormLabel>No Barang Masuk</FormLabel>
               <FormControl>
                 <Input
                   type='text'
-                  placeholder='Masukkan No Pembelian'
+                  disabled
+                  placeholder='No Barang Masuk'
                   {...field}
                 />
               </FormControl>

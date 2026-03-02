@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useTransition, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -49,18 +50,21 @@ export default function PaketForm({ paket }: { paket?: any }) {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
+  const [useHargaPaket, setUseHargaPaket] = useState(paket?.harga_paket ? paket.harga_paket > 0 : false);
   const { data: listBarang, isLoading: isLoadingBarang } = useSWR<Barang[]>(
     "/api/gudang/barang",
     fetcher
   );
-
   const formSchema = z.object({
     nama: z.string().min(1, "Nama is required"),
+    keterangan: z.string().optional(),
+    harga_paket: z.coerce.number().min(0, "Harga Paket tidak boleh kurang dari 0").optional(),
     barang: z
       .array(
         z.object({
           barang_id: z.string().min(1, "Barang harus dipilih"),
           qty: z.coerce.number().gt(0, "Qty harus lebih dari 0"),
+          paket_id: z.any().optional(),
         })
       )
       .min(1, ""),
@@ -70,7 +74,11 @@ export default function PaketForm({ paket }: { paket?: any }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       nama: paket?.nama ?? "",
-      barang: paket?.barang ?? [{ barang_id: "", qty: 1 }],
+      keterangan: paket?.keterangan ?? "",
+      harga_paket: paket?.harga_paket ?? 0,
+      barang: paket?.barang ?? [{
+        barang_id: "", qty: 1
+      }],
     },
   });
 
@@ -81,10 +89,21 @@ export default function PaketForm({ paket }: { paket?: any }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
+      const finalValues = {
+        ...values,
+        harga_paket: useHargaPaket ? values.harga_paket : 0,
+        barang: paket
+          ? values.barang.map((b) => ({
+            ...b,
+            paket_id: b.paket_id ? b.paket_id : null,
+          }))
+          : values.barang,
+      };
+
       // const formData = serialize(values);
       const data = paket
-        ? await editPaket(paket.id, values)
-        : await createPaket(values);
+        ? await editPaket(paket.id, finalValues)
+        : await createPaket(finalValues);
 
       if (data.success) {
         toast({
@@ -140,15 +159,72 @@ export default function PaketForm({ paket }: { paket?: any }) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="nama"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nama Paket</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Nama Paket" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="keterangan"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Keterangan</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Keterangan" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
-          name="nama"
+          name="harga_paket"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nama Paket</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="Nama Paket" {...field} />
-              </FormControl>
+              <FormLabel>Harga Paket</FormLabel>
+              <div className="flex items-center gap-3">
+                <Checkbox
+                  id="useHargaPaket"
+                  checked={useHargaPaket}
+                  onCheckedChange={(checked) => {
+                    setUseHargaPaket(checked === true || paket?.harga_paket > 0);
+                    if (!checked) {
+                      form.setValue("harga_paket", 0);
+                    }
+                  }}
+                />
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="0"
+                    {...field}
+                    value={field.value === 0 ? "" : field.value}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val === "") {
+                        field.onChange(0);
+                        return;
+                      }
+                      field.onChange(Number(val));
+                    }}
+                    disabled={!useHargaPaket}
+                    className="flex-1"
+                  />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}

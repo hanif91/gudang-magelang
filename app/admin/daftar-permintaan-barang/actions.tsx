@@ -57,6 +57,7 @@ export default function Actions({ id, status }: { id: string, status: number }) 
           ),
         })
         mutate('/api/gudang/dpb')
+        router.refresh()
       } else {
         toast({
           variant: "destructive",

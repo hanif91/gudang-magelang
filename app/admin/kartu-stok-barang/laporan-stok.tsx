@@ -104,7 +104,7 @@ export default function LapAduanReport(props: Props) {
 
             <div ref={componentRef} className="px-10">
                 <div className="flex items-center gap-4 mb-6">
-                    <Image className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
+                    <img className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
                     <div className="text-green-800">
                         <h1 className="font-bold text-lg">{formatLaporan?.data?.header?.headerlap1}</h1>
                         <p className="text-sm">{formatLaporan?.data?.header?.headerlap2}</p>

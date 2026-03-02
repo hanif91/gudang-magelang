@@ -32,6 +32,7 @@ import {
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Checkbox } from "@/components/ui/checkbox"
+import { RefreshCw } from "lucide-react"
 
 interface OpItem {
   id_op: number
@@ -77,7 +78,7 @@ const formSchema = z.object({
   // But wait, the prompt says "barang // Expecting array of objects: { op_id, qty, harga_beli, dpb_id }".
   // So `dpb_id` in the root might be redundant or specific to the transaction context.
   // I'll include it as optional or derived.
-  dpb_id: z.coerce.number().optional(), 
+  dpb_id: z.coerce.number().optional(),
   barang: z.array(
     z.object({
       op_id: z.coerce.number().min(1),
@@ -101,15 +102,16 @@ export default function DataFormOp() {
   const router = useRouter()
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  
+
   // Fetch OPs
   const { data: listOp, isLoading: isLoadingOp, error: errorOp } = useSWR("/api/gudang/pembelian-item/op-with-sisa", fetcher)
-  
+
   // Fetch Suppliers
   const { data: listSupplier, isLoading: isLoadingSupplier, error: errorSupplier } = useSWR("/api/gudang/supplier", fetcher)
 
   const [selectedOp, setSelectedOp] = useState<OpData | null>(null)
   const [grandTotal, setGrandTotal] = useState(0)
+  const [isLoadingNoPembelian, setIsLoadingNoPembelian] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -122,13 +124,39 @@ export default function DataFormOp() {
     },
   })
 
+  // Watch tanggal and fetch no_pembelian automatically
+  const watchedTanggal = form.watch('tanggal')
+
+  // Function to fetch no_pembelian
+  const fetchNoPembelian = useCallback(async () => {
+    const tanggal = form.getValues('tanggal')
+    if (!tanggal) return
+
+    setIsLoadingNoPembelian(true)
+    try {
+      const response = await AxiosClient.get(`/api/gudang/noautobm?tgl=${tanggal}`)
+      if (response.data.success && response.data.data?.nobm) {
+        form.setValue('no_pembelian', response.data.data.nobm)
+      }
+    } catch (error) {
+      console.error('Error fetching no_pembelian:', error)
+      // Don't show error toast, just log it
+    } finally {
+      setIsLoadingNoPembelian(false)
+    }
+  }, [form])
+
+  useEffect(() => {
+    fetchNoPembelian()
+  }, [watchedTanggal, fetchNoPembelian])
+
   // Watch for OP Selection
   const handleOpChange = (noop: string) => {
     const selected = listOp?.find((op: OpData) => op.noop === noop)
     if (selected) {
       setSelectedOp(selected)
       form.setValue('op_noop', selected.noop)
-      
+
       // Map items to form array
       const mappedItems = selected.items.map((item: OpItem) => ({
         op_id: item.id_op,
@@ -142,9 +170,9 @@ export default function DataFormOp() {
         supplier_id: item.id_supplier,
         selected: true
       }))
-      
+
       form.setValue('barang', mappedItems)
-      
+
       // If items have a common DPB, maybe set it? The prompt says "dpb_id" in body.
       // I'll take the first one for now if needed.
       if (mappedItems.length > 0) {
@@ -158,18 +186,18 @@ export default function DataFormOp() {
     control: form.control,
     name: "barang",
   })
-  
+
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
       if (name?.startsWith("barang")) {
-         const currentItems = form.getValues("barang")
-         const total = currentItems.reduce((acc, item) => {
-           if (item.selected) {
-             return acc + (item.qty * item.harga_beli)
-           }
-           return acc
-         }, 0)
-         setGrandTotal(total)
+        const currentItems = form.getValues("barang")
+        const total = currentItems.reduce((acc, item) => {
+          if (item.selected) {
+            return acc + (item.qty * item.harga_beli)
+          }
+          return acc
+        }, 0)
+        setGrandTotal(total)
       }
     })
     return () => subscription.unsubscribe()
@@ -181,36 +209,36 @@ export default function DataFormOp() {
       try {
         // Filter out unselected items
         const selectedItems = values.barang.filter(item => item.selected && item.qty > 0)
-        
+
         if (selectedItems.length === 0) {
-           toast({ variant: 'destructive', description: "Tidak ada barang yang dipilih" })
-           return
+          toast({ variant: 'destructive', description: "Tidak ada barang yang dipilih" })
+          return
         }
-        
+
         // Validate Qty vs Sisa
         const invalidItem = selectedItems.find(item => item.qty > item.qty_sisa_limit)
         if (invalidItem) {
-           toast({ 
-             variant: 'destructive', 
-             description: `Qty untuk ${invalidItem.item_name} melebihi sisa (${invalidItem.qty_sisa_limit})` 
-           })
-           return
+          toast({
+            variant: 'destructive',
+            description: `Qty untuk ${invalidItem.item_name} melebihi sisa (${invalidItem.qty_sisa_limit})`
+          })
+          return
         }
 
         // Construct Payload
         const payload = {
-            no_pembelian: values.no_pembelian,
-            tanggal: values.tanggal,
-            keterangan: values.keterangan || "",
-            supplier_id: selectedItems[0]?.supplier_id, // Get supplier_id from first selected item
-            dpb_id: values.dpb_id, // Root DPB ID (taking from first item or logic)
-            barang: selectedItems.map(item => ({
-                op_id: item.op_id,
-                qty: item.qty,
-                harga_beli: item.harga_beli,
-                barang_id: item.barang_id,
-                dpb_id: item.dpb_id
-            }))
+          no_pembelian: values.no_pembelian,
+          tanggal: values.tanggal,
+          keterangan: values.keterangan || "",
+          supplier_id: selectedItems[0]?.supplier_id, // Get supplier_id from first selected item
+          dpb_id: values.dpb_id, // Root DPB ID (taking from first item or logic)
+          barang: selectedItems.map(item => ({
+            op_id: item.op_id,
+            qty: item.qty,
+            harga_beli: item.harga_beli,
+            barang_id: item.barang_id,
+            dpb_id: item.dpb_id
+          }))
         }
 
         const dataResponse = await createPembelianOp(payload)
@@ -248,13 +276,13 @@ export default function DataFormOp() {
   }
 
   if (isLoadingOp || isLoadingSupplier) {
-      return <div>Loading...</div>
+    return <div>Loading...</div>
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
-        
+
         {/* Tanggal */}
         <FormField
           control={form.control}
@@ -278,7 +306,24 @@ export default function DataFormOp() {
             <FormItem>
               <FormLabel>No Pembelian</FormLabel>
               <FormControl>
-                <Input placeholder='Masukkan No Pembelian' {...field} />
+                <div className="relative">
+                  <Input
+                    placeholder={isLoadingNoPembelian ? 'Memuat...' : 'No Pembelian akan terisi otomatis setelah memilih tanggal'}
+                    {...field}
+                    disabled={isLoadingNoPembelian}
+                    className="pr-10"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                    onClick={fetchNoPembelian}
+                    disabled={isLoadingNoPembelian || !watchedTanggal}
+                  >
+                    <RefreshCw className={`h-4 w-4 ${isLoadingNoPembelian ? 'animate-spin' : ''}`} />
+                  </Button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -346,7 +391,7 @@ export default function DataFormOp() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                     <TableHead className="w-[50px]">Pilih</TableHead>
+                    <TableHead className="w-[50px]">Pilih</TableHead>
                     <TableHead>No DPB</TableHead>
                     <TableHead>Nama Barang</TableHead>
                     <TableHead>Sisa Qty</TableHead>
@@ -365,16 +410,16 @@ export default function DataFormOp() {
                     return (
                       <TableRow key={item.id}>
                         <TableCell>
-                             <FormField
-                              control={form.control}
-                              name={`barang.${index}.selected`}
-                              render={({ field }) => (
-                                <Checkbox
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              )}
-                            />
+                          <FormField
+                            control={form.control}
+                            name={`barang.${index}.selected`}
+                            render={({ field }) => (
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            )}
+                          />
                         </TableCell>
                         <TableCell>
                           {form.getValues(`barang.${index}.no_dpb`)}
@@ -382,50 +427,63 @@ export default function DataFormOp() {
                         <TableCell>
                           {form.getValues(`barang.${index}.item_name`)}
                         </TableCell>
-                         <TableCell>
+                        <TableCell>
                           {sisaLimit}
                         </TableCell>
                         <TableCell>
-                             <FormField
-                                control={form.control}
-                                name={`barang.${index}.qty`}
-                                render={({ field }) => (
-                                    <Input 
-                                        type="number" 
-                                        {...field} 
-                                        disabled={!isSelected}
-                                        onChange={e => {
-                                            const val = parseFloat(e.target.value)
-                                            field.onChange(val)
-                                        }}
-                                        max={sisaLimit}
-                                        className={qty > sisaLimit ? 'border-red-500' : ''}
-                                    />
-                                )}
-                             />
-                             {qty > sisaLimit && <span className="text-xs text-red-500">Melebihi sisa item</span>}
+                          <FormField
+                            control={form.control}
+                            name={`barang.${index}.qty`}
+                            render={({ field }) => (
+                              <Input
+                                type="number"
+                                {...field}
+                                disabled={!isSelected}
+                                value={field.value === 0 ? "" : field.value}
+                                onChange={e => {
+                                  const val = e.target.value;
+                                  if (val === "") {
+                                    field.onChange(0);
+                                    return;
+                                  }
+                                  field.onChange(parseFloat(val));
+                                }}
+                                max={sisaLimit}
+                                className={qty > sisaLimit ? 'border-red-500' : ''}
+                              />
+                            )}
+                          />
+                          {qty > sisaLimit && <span className="text-xs text-red-500">Melebihi sisa item</span>}
                         </TableCell>
                         <TableCell>
-                             <FormField
-                                control={form.control}
-                                name={`barang.${index}.harga_beli`}
-                                render={({ field }) => (
-                                    <Input 
-                                        type="number" 
-                                        {...field} 
-                                        disabled={!isSelected}
-                                        onChange={e => field.onChange(parseFloat(e.target.value))}
-                                    />
-                                )}
-                             />
+                          <FormField
+                            control={form.control}
+                            name={`barang.${index}.harga_beli`}
+                            render={({ field }) => (
+                              <Input
+                                type="number"
+                                {...field}
+                                disabled={!isSelected}
+                                value={field.value === 0 ? "" : field.value}
+                                onChange={e => {
+                                  const val = e.target.value;
+                                  if (val === "") {
+                                    field.onChange(0);
+                                    return;
+                                  }
+                                  field.onChange(parseFloat(val));
+                                }}
+                              />
+                            )}
+                          />
                         </TableCell>
                         <TableCell>
-                             {formatHarga(qty * hargaBeli)}
+                          {formatHarga(qty * hargaBeli)}
                         </TableCell>
                       </TableRow>
                     );
                   })}
-                   <TableRow>
+                  <TableRow>
                     <TableCell colSpan={5} className='font-bold text-right'>
                       Grand Total:
                     </TableCell>

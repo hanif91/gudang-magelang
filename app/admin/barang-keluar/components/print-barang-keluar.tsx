@@ -6,21 +6,29 @@ import Image from "next/image";
 
 interface Bpp {
     id: number;
+    nama_jenis_bk: string;
     nobpp: string;
+    nodpbk: string;
+    nama_unit: string;
     tanggal: string;
     keterangan: string;
     total: number;
     nama_bagminta: string;
     namattd_bagminta: string;
+    ttd_nama_unit: string;
+    ttd_nik_unit: string;
+    ttd_jabatan_unit: string;
     barang_keluar_items: Barang[];
 }
 
 interface Barang {
     id_barang: number;
     nama_barang: string;
+    kodebarang: string;
     satuan: string;
     qty: number;
     qty_minta: number;
+    total: number;
     harga: number;
     stok: number;
 }
@@ -41,6 +49,7 @@ interface TtdLap {
         ttd: {
             header: string;
             nama: string;
+            nik: string;
             jabatan: string;
             is_id: boolean;
         }[];
@@ -78,7 +87,7 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
             }}>
             {/* Header */}
             <div className="flex items-center space-x-2 mb-5">
-                <Image className="w-16 h-auto" src="/logo.png" alt="Logo" width={64} height={64} />
+                <img className="w-16 h-auto" src="/logo.png" alt="Logo" width={64} height={64} />
                 <div className="text-green-800 items-start">
                     <p>{ttdLap.header?.headerlap1}</p>
                     <p>{ttdLap.header?.headerlap2}</p>
@@ -90,8 +99,16 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
             </h2>
 
             <div className="flex justify-between items-center mb-2 font-bold">
-                <span >Bagian Yang Meminta : {data.nama_bagminta}</span>
-                <span>No. {data.nobpp}</span>
+                <div>
+                    <span>Bg. Meminta : {data.nama_bagminta}</span><br />
+                    <hr className="border-black border-1" />
+                    <span>Unit : {data.nama_unit || "-"}</span>
+                </div>
+                <div>
+                    <span>BPP No. {data.nobpp}/ {data.nama_jenis_bk}</span>
+                    <hr className="border-black border-1" />
+                    <span>DPPB No. {data.nodpbk}</span>
+                </div>
             </div>
             {/* <hr className="border-black" />  */}
 
@@ -109,18 +126,20 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
             <table className="w-full mt-4">
                 <thead >
                     <tr>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center" rowSpan={2}>NO.</th>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center" colSpan={2}>YANG MEMINTA</th>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center" rowSpan={2}>URAIAN</th>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center" colSpan={4}> Dikeluarkan</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center" rowSpan={2}>NO.</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center" rowSpan={2}>KODE BARANG</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center" rowSpan={2}>URAIAN</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center" colSpan={3}>JUMLAH PERSEDIAAN</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center" colSpan={3}>HARGA</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center" rowSpan={2}>CATATAN</th>
                     </tr>
                     <tr>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center">BYK</th>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center">SAT</th>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center">BYK</th>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center">SAT</th>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center">HRG.SAT</th>
-                        <th className="border-[1px] border-solid border-black px-2 py-1 w-1/12 text-center">JUMLAH</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center">SAT</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center">DIMINTA</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center">DIKELUARKAN</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center">QTY</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center">SAT</th>
+                        <th className="border-[1px] border-solid border-black px-2 py-1 text-center">TOTAL</th>
 
                     </tr>
 
@@ -132,22 +151,29 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
                     {data?.barang_keluar_items?.map((items, index) => {
                         return (
                             <tr key={index} className={`border-[1px] border-solid border-black ${index % 24 == 0 && 'break-page'}`}>
-                                <td className="border-[1px] border-solid border-black px-2 py-1 text-center w-1/12">{index + 1}</td>
-                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-1/12">{items.qty_minta}</td>
-                                <td className="border-[1px] border-solid border-black px-2 py-1 w-1/12">{items.satuan}</td>
-                                <td className="border-[1px] border-solid border-black px-2 py-1 w-6/12">{items.nama_barang}</td>
-                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-1/12">{items.qty}</td>
-                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-1/12">{items.satuan}</td>
-                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-1/12">{formatHarga(items.harga, { style: "decimal" })}</td>
-                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-1/12">{formatHarga(items.harga * items.qty, { style: "decimal" })}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 text-center w-[5%]">{index + 1}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-[10%]">{items.kodebarang}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 w-[40%]">{items.nama_barang}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-[10%]">{items.satuan}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-[10%]">{items.qty_minta}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-[10%]">{items.qty}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-[10%]">{items.qty}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-[10%]">{formatHarga(Number(items.harga))}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-[10%]">{formatHarga(Number(items.total))}</td>
+                                {/* <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-1/12">{formatHarga(items.harga, { style: "decimal" })}</td>
+                                <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-1/12">{formatHarga(items.harga * items.qty, { style: "decimal" })}</td> */}
                                 {/* <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-1/12"></td> */}
                                 {/* <td className="border-[1px] border-solid border-black px-2 py-1 text-right w-1/12">{items.}</td> */}
                             </tr>
                         )
                     })}
                     <tr className="border-[1px] border-solid border-black">
-                        <td colSpan={7} className="border-[1px] border-solid border-black px-2 py-1 text-right font-bold">Total</td>
-                        <td className="border-[1px] border-solid border-black px-2 py-1 text-right font-bold">{formatHarga(data.total, { style: "decimal" })}</td>
+                        <td colSpan={4} className="border-[1px] border-solid border-black px-2 py-1 text-right font-bold">Total</td>
+                        <td className="border-[1px] border-solid border-black px-2 py-1 text-right font-bold">{data.barang_keluar_items.reduce((total, item) => total + item.qty_minta, 0)}</td>
+                        <td className="border-[1px] border-solid border-black px-2 py-1 text-right font-bold">{data.barang_keluar_items.reduce((total, item) => total + item.qty, 0)}</td>
+                        <td className="border-[1px] border-solid border-black px-2 py-1 text-right font-bold">{data.barang_keluar_items.reduce((total, item) => total + item.qty, 0)}</td>
+                        <td className="border-[1px] border-solid border-black px-2 py-1 text-right font-bold">{formatHarga(data.barang_keluar_items.reduce((total, item) => Number(total) + Number(item.harga), 0))}</td>
+                        <td className="border-[1px] border-solid border-black px-2 py-1 text-right font-bold">{formatHarga(data.barang_keluar_items.reduce((total, item) => Number(total) + Number(item.total), 0))}</td>
                     </tr>
                     <tr className="border-[1px] border-solid border-black">
                         <td colSpan={8}>Di Gunakan Untuk : {data?.keterangan}</td>
@@ -235,7 +261,7 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
                 </div>
             </div> */}
 
-            <div className="break-inside-avoid mt-4">
+            <div className="break-inside-avoid mt-2">
                 {/* <div className="flex flex-wrap">
                     <div className="w-1/3" />
                     <div className="w-1/3" />
@@ -246,37 +272,45 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
 
                 <div className={`flex flex-wrap flex-col`}>
 
-                    <div className="flex flex-wrap justify-end pr-10">
+                    <div className="flex flex-wrap justify-end pr-[60px]">
                         <p className="text-right">{`${ttdLap.header?.footerkota}, ${formatTanggal}`}</p>
                     </div>
                     <div className={`flex justify-between`}>
-                        <div className="text-center w-1/3 mb-8">
-                            <p>{ttdLap.paraf.ttd[0].header}</p>
-                            <strong>{ttdLap.paraf.ttd[0].jabatan}</strong>
+                        <div className="text-center w-1/3">
+                            <p>Diajukan Oleh,</p>
+                            <strong>{data.ttd_jabatan_unit}</strong>
                             <br /><br /><br />
-                            <strong>{ttdLap.paraf.ttd[0].nama}</strong>
+                            <strong className="underline">{data.ttd_nama_unit}</strong>
+                            <br />
+                            <strong>{data.ttd_nik_unit}</strong>
                         </div>
-                        <div className="text-center w-1/3 mb-8">
+                        <div className="text-center w-1/3">
                             <p>{ttdLap.paraf.ttd[1].header}</p>
                             <strong>{ttdLap.paraf.ttd[1].jabatan}</strong>
                             <br /><br /><br />
-                            <strong>{ttdLap.paraf.ttd[1].nama}</strong>
-                        </div>
-                        <div className="text-center w-1/3 mb-8">
-                            <p>Dikelola oleh</p>
-                            <strong>{data.nama_bagminta}</strong>
-                            <br /><br /><br />
-                            <strong>{data.namattd_bagminta}</strong>
+                            <strong className="underline">{ttdLap.paraf.ttd[1].nama}</strong>
+                            <br />
+                            <strong>{ttdLap.paraf.ttd[1].nik}</strong>
                         </div>
                     </div>
                     <div className={`flex justify-between`}>
-                        <div className="text-center w-1/3 mb-8">
-                            <p>{ttdLap.paraf.ttd[2].header}</p>
-                            <strong>{ttdLap.paraf.ttd[2].jabatan}</strong>
+                        <div className="text-center w-1/3">
+                            <p>Diterima Oleh,</p>
+                            <strong>{data.ttd_jabatan_unit}</strong>
                             <br /><br /><br />
-                            <strong>{ttdLap.paraf.ttd[2].nama}</strong>
+                            <strong className="underline">{data.ttd_nama_unit}</strong>
+                            <br />
+                            <strong>{data.ttd_nik_unit}</strong>
                         </div>
-                        <div className="w-1/3 mb-8 ml-5">
+                        <div className="text-center w-1/3">
+                            <p>{ttdLap.paraf.ttd[3].header}</p>
+                            <strong>{ttdLap.paraf.ttd[3].jabatan}</strong>
+                            <br /><br /><br />
+                            <strong className="underline">{ttdLap.paraf.ttd[3].nama}</strong>
+                            <br />
+                            <strong>{ttdLap.paraf.ttd[3].nik}</strong>
+                        </div>
+                        {/* <div className="w-1/3 mb-8 ml-5">
                             <p className="text-center">Yang menerima barang</p>
                             <ul className="list-decimal mt-3">
                                 <li className=""><span className="ml-24">:</span> </li>
@@ -295,7 +329,7 @@ const PrintDPB = forwardRef<HTMLDivElement, { data: Bpp }>(({ data }, ref) => {
                                     <td className="border border-collapse border-black ">Diketahui:</td>
                                 </tr>
                             </table>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

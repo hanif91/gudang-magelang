@@ -145,15 +145,15 @@ export default function VerificationActions({ data, mutate: externalMutate }: { 
     }
 
     const handleStatus = () => {
-            const jmlkodekeper = data.barang_keluar_items.length;
+        const jmlkodekeper = data.barang_keluar_items.length;
 
-            if (jmlkodekeper == length) {
-                return setStatus(2)
-            } else if (jmlkodekeper > 0) {
-                return setStatus(1)
-            } else {
-                return setStatus(0)
-            }
+        if (jmlkodekeper == length) {
+            return setStatus(2)
+        } else if (jmlkodekeper > 0) {
+            return setStatus(1)
+        } else {
+            return setStatus(0)
+        }
     };
     return (
         <>

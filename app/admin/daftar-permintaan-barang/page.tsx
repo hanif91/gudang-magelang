@@ -1,11 +1,9 @@
 "use client"
-import Link from "next/link"
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import AxiosClient from '@/lib/AxiosClient'
-import { AlertCircle, Plus } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
 import React from 'react'
 import useSWR from 'swr'
 import { DataTable } from "./data-table"
@@ -67,13 +65,6 @@ export default function DaftarPermintaanBarang() {
 	return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">
 			<Card className="w-full">
-				<CardHeader className="py-4">
-					<Link href="/admin/daftar-permintaan-barang/create" className="flex justify-end">
-						<Button variant="default" className="w-32">
-							<Plus className="w-4 h-4 mr-1" /> Create
-						</Button>
-					</Link>
-				</CardHeader>
 				<CardContent>
 					<DataTable columns={columns} data={data.data} />
 				</CardContent>
