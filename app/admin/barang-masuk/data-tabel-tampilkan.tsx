@@ -17,6 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils"
 import { MonthRangePicker } from "@/components/ui/monthrangepicker"
 import useFetch from "@/hooks/useFetch"
+import { DateRange } from "react-day-picker"
 const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 
@@ -31,6 +32,8 @@ interface Props {
 export default function DataTabelFilter(props: Props) {
 	// const { data, error, isLoading } = useSWR('/api/gudang/pembelian-item', fetcher)
 	const { data: UserData, isLoading: UserLoading, error: UserError, mutate: UserMutate } = useFetch('/api/gudang/pembelian-item', props)
+	const [selectedSupplier, setSelectedSupplier] = useState<string>("all")
+	const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
 
 	// if (props.isTampilkan === false || props.isTampilkan === undefined) {
 	// 	return null
@@ -85,7 +88,15 @@ export default function DataTabelFilter(props: Props) {
 
 	return (
 		<>
-			<DataTable columns={columns} data={UserData.data ?? []} />
+			<DataTable 
+				columns={columns} 
+				data={UserData.data ?? []} 
+				mutate={UserMutate}
+				dateRange={dateRange}
+				onDateRangeChange={setDateRange}
+				selectedSupplier={selectedSupplier}
+				onSupplierChange={setSelectedSupplier}
+			/>
 			<div className="flex flex-row items-center justify-center space-x-5 space-y-2 p-5">
 				<Label className="text-center text-lg">Total Transaksi Barang Masuk Periode {props.periode} : {UserData.data ? UserData.data.reduce((acc: number, item: any) => acc + item.total, 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }) : "Rp. 0"}</Label>
 			</div>

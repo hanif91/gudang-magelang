@@ -71,14 +71,14 @@ export const createColumns = (mutate?: () => void): ColumnDef<BarangKeluar>[] =>
       const totalItems = items.length;
       const verifiedCount = items.filter((item) => item.kodekeper_kode).length;
 
-      let label = "Belum Proses";
+      let label = "Belum Diverifikasi";
       let className = "bg-red-100 text-red-800 border-red-300";
 
       if (verifiedCount > 0 && verifiedCount < totalItems) {
-        label = "Sudah Proses Sebagian";
+        label = "Terverifikasi Sebagian";
         className = "bg-yellow-100 text-yellow-800 border-yellow-300";
       } else if (verifiedCount === totalItems && totalItems > 0) {
-        label = "Sudah Proses";
+        label = "Terverifikasi";
         className = "bg-green-100 text-green-800 border-green-300";
       }
 
@@ -87,6 +87,32 @@ export const createColumns = (mutate?: () => void): ColumnDef<BarangKeluar>[] =>
           {label}
         </Badge>
       );
+    },
+    accessorFn: (row) => {
+      const items = row.barang_keluar_items;
+      const totalItems = items.length;
+      const verifiedCount = items.filter((item) => item.kodekeper_kode).length;
+
+      if (verifiedCount === totalItems && totalItems > 0) {
+        return "Terverifikasi";
+      } else if (verifiedCount > 0 && verifiedCount < totalItems) {
+        return "Terverifikasi Sebagian";
+      } else {
+        return "Belum Diverifikasi";
+      }
+    },
+    filterFn: (row, columnId, filterValue) => {
+      if (!filterValue || filterValue === "") return true;
+
+      const status = row.getValue(columnId) as string;
+
+      if (filterValue === "sudah") {
+        return status === "Terverifikasi";
+      } else if (filterValue === "Belum Diverifikasi") {
+        return status === "Belum Diverifikasi";
+      }
+
+      return true;
     },
   },
   {
@@ -203,19 +229,28 @@ export const createColumns = (mutate?: () => void): ColumnDef<BarangKeluar>[] =>
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Actions" />
     ),
-    cell: ({ row }) => (
-      <div className="text-center">
-        {/* <DetailActions data={row.original} />
+    cell: ({ row }) => {
+      const isAllVerified = row.original.barang_keluar_items.length > 0 && row.original.barang_keluar_items.every((item) => item.kodekeper_kode);
+      return (
+        <div className="text-center">
+          {/* <DetailActions data={row.original} />
         <CetakAction data={row.original} />
         
         <CetakAction data={row.original} /> */}
-        {/* <Actions id={row.original.nobpp} /> */}
-        <DetailActions data={row.original} mutate={mutate} />
-        <VerificationActions data={row.original} mutate={mutate} />
-        <CetakAction data={row.original} />
-        <Actions id={row.original.id.toString()} mutate={mutate} disabled={row.original.barang_keluar_items.some((item) => item.kodekeper_kode)} />
-      </div>
-    ),
+          {/* <Actions id={row.original.nobpp} /> */}
+          <DetailActions data={row.original} mutate={mutate} />
+          <VerificationActions data={row.original} mutate={mutate} />
+          <CetakAction data={row.original} />
+          <Actions
+            id={row.original.id.toString()}
+            nobpp={row.original.nobpp}
+            mutate={mutate}
+            disabled={row.original.barang_keluar_items.some((item) => item.kodekeper_kode)}
+            isAllVerified={isAllVerified}
+          />
+        </div>
+      )
+    },
   },
 ];
 

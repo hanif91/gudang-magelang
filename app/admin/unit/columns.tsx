@@ -26,6 +26,12 @@ export const columns: ColumnDef<Unit>[] = [
     ),
   },
   {
+    accessorKey: "namattd",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Nama TTD" />
+    ),
+  },
+  {
     accessorKey: "aktif",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />

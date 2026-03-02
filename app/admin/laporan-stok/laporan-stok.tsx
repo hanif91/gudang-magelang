@@ -142,7 +142,7 @@ const LapAduanReport = React.forwardRef<LapAduanReportRef, Props>((props, ref) =
     <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
       <div ref={componentRef} className="px-10">
         <div className="flex items-center gap-4 mb-6">
-          <Image className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
+          <img className="w-16 h-16" src="/logo.png" alt="Logo Perumdam" width={64} height={64} />
           <div className="text-green-800">
             <h1 className="font-bold text-lg">
               {formatLaporan?.data?.header?.headerlap1}

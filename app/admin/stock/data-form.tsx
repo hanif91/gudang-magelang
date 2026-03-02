@@ -173,7 +173,20 @@ export default function StockForm({ stock }: { stock?: any }) {
           <FormItem>
             <FormLabel>Qty</FormLabel>
             <FormControl>
-              <Input type="number" placeholder="Qty" {...field} />
+              <Input
+                type="number"
+                placeholder="Qty"
+                {...field}
+                value={field.value === 0 ? "" : field.value}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === "") {
+                    field.onChange(0);
+                    return;
+                  }
+                  field.onChange(Number(val));
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

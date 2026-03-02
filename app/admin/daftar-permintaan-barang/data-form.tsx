@@ -60,7 +60,7 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
       items: dpb?.barang?.map((item: any) => ({
         barang_id: item.barang_id?.toString() || item.id?.toString() || "", // Handle various potential property names if needed, usually item.barang_id from backend check
         qty: item.qty,
-        qty_op: Number(item.qty_op || 0) ,
+        qty_op: Number(item.qty_op || 0),
         dpb_id: Number(item.id_nodpb)
       })) ?? [{ barang_id: "", qty: "", qty_op: 0, dpb_id: 0 }],
     },
@@ -76,32 +76,32 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
     try {
-    startTransition(async () => {
-      // const formData = serialize(values);
-      console.log("Form Data:", values);
+      startTransition(async () => {
+        // const formData = serialize(values);
+        console.log("Form Data:", values);
 
 
-      let payload = values;
+        let payload = values;
 
-      if (dpb) {
-        payload = {
-          ...values,
-          items: values.items.filter((item) => (item.qty_op || 0) === 0),
-        };
-      }
+        if (dpb) {
+          payload = {
+            ...values,
+            items: values.items.filter((item) => (item.qty_op || 0) === 0),
+          };
+        }
 
-      const data = dpb
-        ? await editDpb(dpb.nodpb, payload)
-        : await createDpb(values);
+        const data = dpb
+          ? await editDpb(dpb.nodpb, payload)
+          : await createDpb(values);
 
-      if (data.success) {
-        toast({ variant: "default", description: "Data berhasil disimpan!" });
-        router.push("/admin/daftar-permintaan-barang");
-        router.refresh();
-      } else {
-        toast({ variant: "destructive", description: data.message });
-      }
-    });
+        if (data.success) {
+          toast({ variant: "default", description: "Data berhasil disimpan!" });
+          router.push("/admin/daftar-permintaan-barang");
+          router.refresh();
+        } else {
+          toast({ variant: "destructive", description: data.message });
+        }
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
       toast({ variant: "destructive", description: "Gagal menyimpan data. Silakan coba lagi." });
@@ -209,7 +209,7 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
           )}
         />
 
-    
+
 
         <div className="space-y-4">
           <label className="text-lg font-semibold">Detail Permintaan Barang</label>
@@ -327,11 +327,20 @@ export default function DaftarPermintaanBarang({ dpb }: { dpb?: any }) {
                   <FormItem className="w-1/2">
                     {index === 0 && <FormLabel>Qty</FormLabel>}
                     <FormControl>
-                      <Input 
-                        type="number" 
-                        placeholder="Qty" 
-                        {...field} 
+                      <Input
+                        type="number"
+                        placeholder="Qty"
+                        {...field}
                         disabled={Number(form.getValues(`items.${index}.qty_op`) || 0) > 0}
+                        value={field.value === 0 ? "" : field.value}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (val === "") {
+                            field.onChange(0);
+                            return;
+                          }
+                          field.onChange(Number(val));
+                        }}
                       />
                     </FormControl>
                     <FormMessage />

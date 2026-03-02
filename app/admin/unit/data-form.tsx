@@ -40,6 +40,9 @@ export default function UnitForm({ unit }: { unit?: any }) {
   const formSchema = z.object({
     nama: z.string().min(1, "Date is required"),
     aktif: z.union([z.literal("1"), z.literal("0")]),
+    namattd: z.string().min(1, "Namattd is required"),
+    jabatanttd: z.string().min(1, "Jabatan is required"),
+    nikttd: z.string().min(1, "Nik is required"),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,6 +50,9 @@ export default function UnitForm({ unit }: { unit?: any }) {
     defaultValues: {
       nama: unit?.nama ?? "",
       aktif: unit?.aktif?.toString() ?? "",
+      namattd: unit?.namattd ?? "",
+      jabatanttd: unit?.jabatanttd ?? "",
+      nikttd: unit?.nikttd ?? "",
     },
   })
 
@@ -111,6 +117,35 @@ export default function UnitForm({ unit }: { unit?: any }) {
             <FormMessage />
           </FormItem>
         )} />
+
+        <FormField control={form.control} name="namattd" render={({ field }) => (
+          <FormItem>
+            <FormLabel>Nama TTD</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="Nama yang bertanda tangan" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )} />
+        <FormField control={form.control} name="jabatanttd" render={({ field }) => (
+          <FormItem>
+            <FormLabel>Jabatan TTD</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="Jabatan yang bertanda tangan" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )} />
+        <FormField control={form.control} name="nikttd" render={({ field }) => (
+          <FormItem>
+            <FormLabel>NIK TTD</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="NIK yang bertanda tangan" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )} />
+
         <div className="flex justify-end">
           <Button type="submit" disabled={isPending}  >{isPending ? "Menyimpan..." : "Submit"}</Button>
         </div>

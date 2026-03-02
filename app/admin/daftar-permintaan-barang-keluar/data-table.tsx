@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import {
   ColumnDef,
   SortingState,
@@ -33,11 +33,13 @@ import { DataTablePagination } from "@/components/datatable-pagination"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  flagproses?: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  flagproses = "-1",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [pagination, setPagination] = useState<PaginationState>({
@@ -46,8 +48,17 @@ export function DataTable<TData, TValue>({
   })
   const [globalFilter, setGlobalFilter] = useState("")
 
+  // Filter data berdasarkan flagproses (client-side filtering)
+  const filteredData = useMemo(() => {
+    if (flagproses === "-1") {
+      return data
+    }
+    const statusFilter = parseInt(flagproses)
+    return data.filter((item: any) => item.status === statusFilter)
+  }, [data, flagproses])
+
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface Dpbk {
   id: number;
@@ -110,7 +111,7 @@ export default function BarangKeluarForm({
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const { data, isLoading, error } = useSWR("/api/gudang/dpbk", fetcher);
+  const { data, isLoading, error } = useSWR("/api/gudang/dpbk?flagproses=0", fetcher);
   const {
     data: listJenisBk,
     isLoading: isLoadingJenisBk,
@@ -181,6 +182,15 @@ export default function BarangKeluarForm({
     const qtyValid =
       qtyAwal > barang.stok_barang ? barang.stok_barang : qtyAwal;
 
+    // Skip jika qty 0 atau stok 0
+    if (qtyValid <= 0 || barang.stok_barang <= 0) {
+      toast({
+        variant: "destructive",
+        description: `Barang "${barang.nama_barang}" tidak bisa ditambahkan karena qty atau stok 0.`,
+      });
+      return;
+    }
+
     // Update state selectedBarang
     const barangDenganQtyValid = { ...barang, qty: qtyValid };
     setSelectedBarang((prev) => [...prev, barangDenganQtyValid]);
@@ -198,14 +208,24 @@ export default function BarangKeluarForm({
 
   const handleSelectAll = () => {
     const availableBarang = getAvailableBarang();
-    const validItems = availableBarang.map((barang) => {
-      const currentQty = Number(barang.qty);
-      const finalQty = currentQty > barang.stok_barang ? barang.stok_barang : currentQty;
-      return {
-        ...barang,
-        qty: finalQty,
-      };
-    });
+    const validItems = availableBarang
+      .map((barang) => {
+        const currentQty = Number(barang.qty);
+        const finalQty = currentQty > barang.stok_barang ? barang.stok_barang : currentQty;
+        return {
+          ...barang,
+          qty: finalQty,
+        };
+      })
+      .filter((barang) => barang.qty > 0 && barang.stok_barang > 0); // Skip barang dengan qty/stok 0
+
+    if (validItems.length === 0) {
+      toast({
+        variant: "destructive",
+        description: "Tidak ada barang dengan qty > 0 yang bisa ditambahkan.",
+      });
+      return;
+    }
 
     const newSelectedBarang = [...selectedBarang, ...validItems];
     setSelectedBarang(newSelectedBarang);
@@ -586,10 +606,16 @@ export default function BarangKeluarForm({
                       <Input
                         type="number"
                         step="any"
-                        value={barang.qty}
+                        value={barang.qty === 0 ? "" : barang.qty}
                         onChange={(e) => {
-                          const newQty = Number(e.target.value);
+                          const val = e.target.value;
 
+                          if (val === "") {
+                            handleUpdateQty(barang.barang_id, 0);
+                            return;
+                          }
+
+                          const newQty = Number(val);
                           if (newQty > barang.stok_barang) {
                             handleUpdateQty(
                               barang.barang_id,
@@ -631,13 +657,22 @@ export default function BarangKeluarForm({
             </FormItem>
           )}
         />
+        {/* Tampilkan error validasi barang */}
+        {form.formState.errors.barang && (
+          <Alert className="bg-red-800 text-white">
+            <AlertTitle>Perhatian!</AlertTitle>
+            <AlertDescription>
+              {form.formState.errors.barang.message ||
+                "Pastikan semua qty barang lebih dari 0"}
+            </AlertDescription>
+          </Alert>
+        )}
         {/* Tombol Submit */}
         <div className="flex justify-end">
           <Button type="submit" disabled={isPending}>
             Submit
           </Button>
         </div>
-        \
       </form>
     </Form>
   );

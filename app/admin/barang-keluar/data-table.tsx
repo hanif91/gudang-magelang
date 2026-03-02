@@ -134,7 +134,7 @@ export function DataTable<TData extends { tanggal: string }, TValue>({
   const handleReset = () => {
     table.getColumn("nama_jenis_bk")?.setFilterValue("")
     table.getColumn("nama_asset_perpipaan")?.setFilterValue("")
-    table.getColumn("kodekeper")?.setFilterValue("")
+    table.getColumn("status")?.setFilterValue("")
   }
 
   return (
@@ -198,11 +198,11 @@ export function DataTable<TData extends { tanggal: string }, TValue>({
         <Combobox
           options={[
             { label: "Semua", value: "" },
-            { label: "Sudah Diverifikasi", value: "sudah" },
+            { label: "Terverifikasi", value: "sudah" },
             { label: "Belum Diverifikasi", value: "Belum Diverifikasi" },
           ]}
-          value={(table.getColumn("kodekeper")?.getFilterValue() as string) ?? ""}
-          onChange={(value) => table.getColumn("kodekeper")?.setFilterValue(value)}
+          value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}
+          onChange={(value) => table.getColumn("status")?.setFilterValue(value)}
           placeholder="Filter Verifikasi"
         />
         <Button type="button" onClick={handleReset} variant={"secondary"}>Reset Filter</Button>

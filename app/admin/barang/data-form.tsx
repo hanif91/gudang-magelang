@@ -275,7 +275,20 @@ export default function BarangForm({ barang }: { barang?: any }) {
           <FormItem>
             <FormLabel>Minimal Stok</FormLabel>
             <FormControl>
-              <Input type="number" placeholder="Minimal Stok" {...field} />
+              <Input
+                type="number"
+                placeholder="Minimal Stok"
+                {...field}
+                value={field.value === 0 ? "" : field.value}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === "") {
+                    field.onChange(0);
+                    return;
+                  }
+                  field.onChange(Number(val));
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

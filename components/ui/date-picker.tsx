@@ -34,15 +34,14 @@ export function DatePickerWithRange({
   numberOfMonths = 1,
   disabled = false,
 }: DatePickerWithRangeProps) {
-  // Gunakan tanggal default jika tidak ada initialDateRange
-  const defaultDateRange: DateRange = {
-    from: new Date(),
-    to: addDays(new Date(), 7),
-  }
-
   const [date, setDate] = React.useState<DateRange | undefined>(
-    initialDateRange ?? defaultDateRange
+    initialDateRange
   )
+
+  // Sync state dengan prop jika berubah dari parent
+  React.useEffect(() => {
+    setDate(initialDateRange)
+  }, [initialDateRange])
 
   const handleDateChange = (dateRange: DateRange | undefined) => {
     setDate(dateRange)

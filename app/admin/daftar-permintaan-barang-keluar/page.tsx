@@ -23,7 +23,7 @@ const fetcher = (url: any) => AxiosClient.get(url).then(res => res.data)
 
 export default function DaftarPermintaanBarangKeluar() {
 	const [flagproses, setFlagproses] = useState("-1");
-	const { data, error, isLoading } = useSWR(`/api/gudang/dpbk?flagproses=${flagproses}`, fetcher)
+	const { data, error, isLoading } = useSWR(`/api/gudang/dpbk`, fetcher)
 	if (error) return (
 		<main className="flex flex-col gap-5 justify-center content-center p-5">
 			<Card className="w-full">
@@ -95,7 +95,7 @@ export default function DaftarPermintaanBarangKeluar() {
 					</Link>
 				</CardHeader>
 				<CardContent>
-					<DataTable columns={columns} data={data.data ?? []} />
+					<DataTable columns={columns} data={data.data ?? []} flagproses={flagproses} />
 				</CardContent>
 				<CardFooter></CardFooter>
 			</Card>

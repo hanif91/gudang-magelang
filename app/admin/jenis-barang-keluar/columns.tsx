@@ -7,6 +7,7 @@ import Actions from "./actions"
 // define data
 export type Jenis = {
   id: string,
+  nomor: string,
   nama: string,
   status: string,
   tanggal_masuk: Date
@@ -24,6 +25,12 @@ export const columns: ColumnDef<Jenis>[] = [
     accessorKey: "nama",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Nama Unit" />
+    ),
+  },
+  {
+    accessorKey: "nomor",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Nomor" />
     ),
   },
   {

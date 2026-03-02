@@ -52,7 +52,7 @@ export default function DataTabelFilter(props: Props) {
 					<Alert variant="destructive" className="mb-5">
 						<AlertCircle className="h-4 w-4" />
 						<AlertTitle>Error Fetching Data</AlertTitle>
-						<AlertDescription>{error?.message || "Terjadi kesalahan"}</AlertDescription>
+						<AlertDescription>{error}</AlertDescription>
 					</Alert>
 				</CardContent>
 				<CardFooter></CardFooter>

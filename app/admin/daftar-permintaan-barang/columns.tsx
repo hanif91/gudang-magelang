@@ -304,6 +304,7 @@ export interface Dpb {
 export interface Barang {
   id: number,
   nama_barang: string,
+  kodebarang: string,
   satuan_barang: string,
   qty: number,
   nama_jenis: string,

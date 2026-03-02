@@ -41,7 +41,7 @@ import {
 import { CardTitle } from "@/components/ui/card"
 
 
-export default function Actions({ id }: { id: string }) {
+export default function Actions({ id, onMutate }: { id: string, onMutate?: () => void }) {
   const router = useRouter()
   const { toast } = useToast()
   const [openDelete, setOpenDelete] = useState(false)
@@ -67,7 +67,11 @@ export default function Actions({ id }: { id: string }) {
           ),
         })
 
-        mutate('/api/gudang/pembelian')
+        if (onMutate) {
+          onMutate()
+        } else {
+          mutate('/api/gudang/pembelian')
+        }
       } else {
         toast({
           variant: "destructive",
