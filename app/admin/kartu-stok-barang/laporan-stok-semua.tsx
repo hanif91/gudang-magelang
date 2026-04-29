@@ -21,22 +21,23 @@ interface Props {
     filter: {
         start: Date;
         end: Date;
-        barang: string;
     },
     isTampilkan: boolean,
 }
 
 const fetcher = (url: string) => AxiosClient.get(url).then(res => res.data);
 
-export default function LapAduanReport(props: Props) {
-    const firstDay = format(props.filter.start, "yyyy-MM");
+export default function LapStokSemuaBarang(props: Props) {
+    const firstDay = format(props.filter.start, "yyyy-MM") + "-01";
     const fromTanggal = format(props.filter.start, "yyyyMM");
     const toTanggal = format(props.filter.end, "yyyyMM");
     const tahun = props.filter.start.getFullYear();
     const bulan = format(props.filter.start, "MMMM");
 
     const { data: response, isLoading, error } = useSWR(
-        `/api/gudang/kartu-stok-barang/${props.filter.barang}?firstDay=${firstDay}-01&fromTanggal=${fromTanggal}&toTanggal=${toTanggal}`,
+        props.isTampilkan
+            ? `/api/gudang/kartu-stok-barang?firstDay=${firstDay}&fromTanggal=${fromTanggal}&toTanggal=${toTanggal}`
+            : null,
         fetcher
     );
     const { data: formatLaporan, isLoading: formatLaporanLoading, error: formatLaporanError } = useSWR(
@@ -62,10 +63,10 @@ export default function LapAduanReport(props: Props) {
                 padding-right : 40px;
               }
     }`,
-    })
-    if (!props.isTampilkan) {
-        return null;
-    }
+    });
+
+    if (!props.isTampilkan) return null;
+
     if (error || formatLaporanError) {
         return (
             <Alert variant="destructive" className="mx-auto max-w-2xl">
@@ -91,69 +92,85 @@ export default function LapAduanReport(props: Props) {
     }).format(new Date());
 
     const ttdFilter = formatLaporan?.data?.paraf?.ttd?.filter((e: any) => e.is_id === true);
+    const allBarang: any[] = response?.data || [];
 
-    // The response is data[] array, for per-barang we use data[0]
-    const barangItem = response?.data?.[0];
-
-    // Build structured rows with merge info (same as semua barang)
+    // Build structured rows with merge info
     let sumQtyAwal = 0;
     let sumQtyMasuk = 0;
     let sumQtyKeluar = 0;
     let sumQtyAkhir = 0;
-
-    const groups = barangItem?.data || [];
-    let totalRowsForBarang = 0;
-    groups.forEach((group: any) => {
-        totalRowsForBarang += (group.data?.length || 0);
-    });
-
+    let barangNo = 0;
     const renderRows: any[] = [];
-    let isFirstRowOfBarang = true;
 
-    groups.forEach((group: any) => {
-        const items = group.data || [];
-        const groupRowCount = items.length;
+    allBarang.forEach((barangItem: any) => {
+        const groups = barangItem.data || [];
 
-        items.forEach((item: any, itemIndex: number) => {
-            const isFirstRowOfGroup = itemIndex === 0;
-
-            renderRows.push({
-                // Barang-level merge
-                isFirstRowOfBarang,
-                barangRowSpan: totalRowsForBarang,
-                kategoriJenis: `${barangItem.kategori || '-'} / ${barangItem.jenis || '-'}`,
-                namaBarang: barangItem.nama || '-',
-                satuan: barangItem.satuan || '-',
-                // Group-level merge
-                isFirstRowOfGroup,
-                groupRowSpan: groupRowCount,
-                groupTgl: group.tgl,
-                groupRef: group.ref,
-                // Item-level (no merge)
-                harga: item.harga,
-                qtyawal: item.qtyawal,
-                qtymasuk: item.qtymasuk,
-                qtykeluar: item.qtykeluar,
-                qtyakhir: item.qtyakhir,
-                keterangan: item.keterangan || '-',
-                ketFifo: item.ket_fifo || '-',
-            });
-
-            sumQtyAwal += Number(item.qtyawal || 0);
-            sumQtyMasuk += Number(item.qtymasuk || 0);
-            sumQtyKeluar += Number(item.qtykeluar || 0);
-
-            isFirstRowOfBarang = false;
+        // Calculate total rows for this barang (sum of all items across all groups)
+        let totalRowsForBarang = 0;
+        groups.forEach((group: any) => {
+            totalRowsForBarang += (group.data?.length || 0);
         });
-    });
 
-    // Last item's qtyakhir for sum
-    const lastGroup = groups[groups.length - 1];
-    if (lastGroup?.data?.length > 0) {
-        sumQtyAkhir = Number(lastGroup.data[lastGroup.data.length - 1].qtyakhir || 0);
-    }
+        if (totalRowsForBarang === 0) return;
+
+        barangNo++;
+        let isFirstRowOfBarang = true;
+
+        groups.forEach((group: any) => {
+            const items = group.data || [];
+            const groupRowCount = items.length;
+
+            items.forEach((item: any, itemIndex: number) => {
+                const isFirstRowOfGroup = itemIndex === 0;
+
+                renderRows.push({
+                    // Barang-level merge
+                    isFirstRowOfBarang,
+                    barangRowSpan: totalRowsForBarang,
+                    barangNo,
+                    kategoriJenis: `${barangItem.kategori || '-'} / ${barangItem.jenis || '-'}`,
+                    namaBarang: barangItem.nama || '-',
+                    satuan: barangItem.satuan || '-',
+                    // Group-level merge
+                    isFirstRowOfGroup,
+                    groupRowSpan: groupRowCount,
+                    groupTgl: group.tgl,
+                    groupRef: group.ref,
+                    // Item-level (no merge)
+                    harga: item.harga,
+                    qtyawal: item.qtyawal,
+                    qtymasuk: item.qtymasuk,
+                    qtykeluar: item.qtykeluar,
+                    qtypenye: item.qtypenye || '0',
+                    qtydist: item.qtydist || '0',
+                    qtyakhir: item.qtyakhir,
+                    keterangan: item.keterangan || '-',
+                    ketFifo: item.ket_fifo || '-',
+                });
+
+                isFirstRowOfBarang = false;
+            });
+        });
+
+        // Accumulate sums for footer
+        groups.forEach((group: any) => {
+            (group.data || []).forEach((item: any) => {
+                sumQtyAwal += Number(item.qtyawal || 0);
+                sumQtyMasuk += Number(item.qtymasuk || 0);
+                sumQtyKeluar += Number(item.qtykeluar || 0);
+            });
+        });
+
+        // Last item's qtyakhir for SISA STOCK AKHIR
+        const lastGroup = groups[groups.length - 1];
+        if (lastGroup?.data?.length > 0) {
+            sumQtyAkhir += Number(lastGroup.data[lastGroup.data.length - 1].qtyakhir || 0);
+        }
+    });
 
     const cellBorder = "border-[1px] border-solid border-black p-1 text-[11px]";
+    // Total columns: NO, Kategori/Jenis, Nama, SAT, TGL, NO.TRANS, HARGA, AWAL, MASUK, KELUAR, PENYE, DIST, AKHIR, KET, KET_FIFO = 15
+    const totalColumns = 13;
 
     return (
         <div className="w-full border-2 rounded-lg shadow-lg mt-24">
@@ -205,7 +222,7 @@ export default function LapAduanReport(props: Props) {
                                 {row.isFirstRowOfBarang && (
                                     <>
                                         <TableCell className={`${cellBorder} text-center align-top`} rowSpan={row.barangRowSpan}>
-                                            1
+                                            {row.barangNo}
                                         </TableCell>
                                         <TableCell className={`${cellBorder} text-center align-top`} rowSpan={row.barangRowSpan}>
                                             {row.kategoriJenis}
